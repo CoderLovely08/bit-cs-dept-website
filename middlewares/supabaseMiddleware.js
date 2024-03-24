@@ -57,7 +57,6 @@ export const supabaseGetFile = async (fileName) => {
       .from(process.env.SUPABASE_BUCKET_NAME) // Access the specified bucket
       .getPublicUrl(`files/${fileName}`); // Get public URL of the file
 
-    console.log(data);
     return {
       success: true,
       message: "File fetched",
