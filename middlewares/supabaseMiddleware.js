@@ -11,27 +11,37 @@ import { supabaseClient } from "../config/supabaseConfig.js"; // Import Supabase
  */
 export const supabaseUploadFile = async (fileBuffer, fileType) => {
   try {
+    const randomFileName = crypto.randomUUID();
     // Generate a random filename
-    const filePath = `files/${crypto.randomUUID()}`;
+    const filePath = `files/${randomFileName}`;
 
     // Upload file to Supabase Storage
     const { data, error } = await supabaseClient.storage
       .from(process.env.SUPABASE_BUCKET_NAME) // Access the specified bucket
-      .upload(`${filePath}`, fileBuffer, { // Upload the file
+      .upload(`${filePath}`, fileBuffer, {
+        // Upload the file
         contentType: fileType, // Specify content type of the file
       });
 
     // Check if upload was successful
     if (data) {
-      console.log(`Data: ${JSON.stringify(data)}`); // Log uploaded data
-      return data; // Return uploaded data
+      return {
+        success: true,
+        message: "File uploaded successfully",
+        fileName: randomFileName,
+      }; // Return uploaded data
     } else {
-      console.log(`Error: ${JSON.stringify(error)}`); // Log error if upload failed
-      return error; // Return error object
+      return {
+        success: false,
+        message: error.error,
+      };
     }
   } catch (error) {
     console.log(error); // Log any exception occurred during upload
-    return false; // Return false to indicate failure
+    return {
+      success: false,
+      message: error.message,
+    };
   }
 };
 
@@ -47,13 +57,17 @@ export const supabaseGetFile = async (fileName) => {
       .from(process.env.SUPABASE_BUCKET_NAME) // Access the specified bucket
       .getPublicUrl(`files/${fileName}`); // Get public URL of the file
 
-    res.json({
-      data, // Respond with the data (public URL)
-    });
+    console.log(data);
+    return {
+      success: true,
+      message: "File fetched",
+      publicUrl: data.publicUrl,
+    };
   } catch (error) {
     console.log(error); // Log any error occurred during file retrieval
-    res.json({
-      error, // Respond with the error
-    });
+    return {
+      success: true,
+      message: error.message,
+    };
   }
 };
