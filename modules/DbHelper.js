@@ -1,5 +1,16 @@
 import pool from "../config/dbConfig.js";
 
+// -------------------------------------------------
+//                Exam Paper Handlers
+// -------------------------------------------------
+/**
+ * Store paper details in the database.
+ * @param {string} type - The type of paper ("question", "model", or "sessional").
+ * @param {string} title - The title of the paper.
+ * @param {number} subjectId - The ID of the subject to which the paper belongs.
+ * @param {string} pdfSrc - The source link to the PDF file.
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
 export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
   try {
     const tableName =
@@ -36,6 +47,17 @@ export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
   }
 };
 
+// -------------------------------------------------
+//            Academic Calendar Handlers
+// -------------------------------------------------
+/**
+ * Store academic calendar details in the database.
+ * @param {string} title - The title of the academic calendar.
+ * @param {string} year - The academic year of the calendar.
+ * @param {number} yearId - The ID of the academic year.
+ * @param {string} pdfSrc - The source link to the PDF file.
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
 export const storeAcademicCalendarDetails = async (
   title,
   year,
@@ -70,6 +92,15 @@ export const storeAcademicCalendarDetails = async (
   }
 };
 
+// -------------------------------------------------
+//               Gallery Image Handlers
+// -------------------------------------------------
+/**
+ * Store a gallery image in the database.
+ * @param {string} title - The title of the gallery image.
+ * @param {string} imageSrc - The source link to the image.
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
 export const storeGalleryImage = async (title, imageSrc) => {
   try {
     const query = {
@@ -97,6 +128,16 @@ export const storeGalleryImage = async (title, imageSrc) => {
   }
 };
 
+// -------------------------------------------------
+//                Subject Handlers
+// -------------------------------------------------
+/**
+ * Store subject details in the database.
+ * @param {string} subjectName - The name of the subject.
+ * @param {string} subjectCode - The code of the subject.
+ * @param {number} semesterId - The ID of the semester to which the subject belongs.
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
 export const storeSubjectDetails = async (
   subjectName,
   subjectCode,
@@ -147,6 +188,12 @@ export const storeSubjectDetails = async (
 // -------------------------------------------------
 //                Notice Handlers
 // -------------------------------------------------
+/**
+ * Store notice details in the database.
+ * @param {string} title - The title of the notice.
+ * @param {string} pdfSrc - The source link to the PDF file.
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
 export const storeNoticeDetails = async (title, pdfSrc) => {
   try {
     const query = {
@@ -167,12 +214,16 @@ export const storeNoticeDetails = async (title, pdfSrc) => {
   }
 };
 
-export const deleteItem = async (
-  id,
-  tableName,
-  columnName,
-  typeName
-) => {
+
+/**
+ * Delete an item from the database table.
+ * @param {string | number} id - The identifier of the item to delete.
+ * @param {string} tableName - The name of the table from which to delete the item.
+ * @param {string} columnName - The name of the column used to identify the item.
+ * @param {string} typeName - The type of item being deleted (e.g., "user", "product", etc.).
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
+export const deleteItem = async (id, tableName, columnName, typeName) => {
   try {
     const query = {
       text: `DELETE FROM ${tableName} WHERE ${columnName} = $1`,
@@ -183,7 +234,7 @@ export const deleteItem = async (
     return {
       success: rowCount == 1,
       message:
-        rowCount == 1 ? `${typeName} Deleted` : `${typeName} details does not exists`,
+        rowCount == 1 ? `${typeName} Deleted` : `${typeName} details do not exist`,
     };
   } catch (error) {
     return {
