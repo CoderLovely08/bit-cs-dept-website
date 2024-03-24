@@ -346,6 +346,37 @@ export const handlePostAcademicCalendar = async (req, res) => {
   }
 };
 
+/**
+ * Type: POST
+ * Purpose: Route handler to add a new gallery image
+ */
+
+export const handleDeleteAcademicCalendar = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id || !validator.isNumeric(id)) {
+      return res.json({
+        success: false,
+        message: "Provide a valid item id",
+      });
+    }
+    
+    const tableName = "AcademicCalendarInfo";
+    const columnName = "calendar_id";
+    const typeName = "Academic Calendar";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 // -------------------------------------------------
 //            Gallery Image Handlers
 // -------------------------------------------------
