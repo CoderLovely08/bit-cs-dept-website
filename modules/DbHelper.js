@@ -143,3 +143,23 @@ export const storeSubjectDetails = async (
     };
   }
 };
+
+export const storeNoticeDetails = async (title, pdfSrc) => {
+  try {
+    const query = {
+      text: `INSERT INTO NoticeInfo(notice_title, pdf_link) VALUES ($1, $2)`,
+      values: [title, pdfSrc],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message: rowCount == 1 ? "Notice published" : "Unable to publish notice",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

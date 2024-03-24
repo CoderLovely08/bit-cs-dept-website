@@ -31,7 +31,7 @@ router
 router.route("/paper").post(upload.single("fileItem"), handlePostPaperDetails);
 
 // Route for posting notices
-router.route("/notice").post(handlePostNotice);
+router.route("/notice").post(upload.single("fileItem"), handlePostNotice);
 
 // Route for posting subjects
 router.route("/subject").post(handlePostSubject);

@@ -7,6 +7,7 @@ import {
 import {
   storeAcademicCalendarDetails,
   storeGalleryImage,
+  storeNoticeDetails,
   storePaperDetails,
   storeSubjectDetails,
 } from "../modules/DbHelper.js";
@@ -130,8 +131,47 @@ export const handlePostPaperDetails = async (req, res) => {
 // Handle POST request for posting notice
 export const handlePostNotice = async (req, res) => {
   try {
-    // Implement notice posting logic here
-    res.json({ success: true, message: "Notice posted successfully." });
+    const { title } = req.body;
+    if (!title || title.replace(/\s/g, "").trim().length < 6) {
+      return res.json({
+        success: false,
+        message: "Enter a valid notice title",
+      });
+    }
+
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
+      return res.json({
+        success: false,
+        message: "No PDF/Image document provided",
+      });
+    }
+
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload paper",
+      });
+    }
+
+    const pdfSrcData = await supabaseGetFile(result.fileName);
+    const pdfSrc = pdfSrcData?.publicUrl;
+    // If file uplaoded
+
+    const dbResult = await storeNoticeDetails(title, pdfSrc);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
   } catch (error) {
     // Handle errors if any
     res.status(500).json({ success: false, error: error.message });
