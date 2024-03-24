@@ -1,10 +1,18 @@
 import pool from "../config/dbConfig.js";
 
-export const storeQuestionPaperDetails = async (title, subjectId, pdfSrc) => {
+export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
   try {
+    const tableName =
+      type == "question"
+        ? "QuestionPaperInfo" // If type is "question", assign "QuestionPaperInfo"
+        : type == "model"
+        ? "ModelPaperInfo" // If type is "model", assign "ModelPaperInfo"
+        : "SessionalPaperInfo"; // If type is neither "question" nor "model", assign "SessionalPaperInfo"
+
+    console.log(tableName);
     const query = {
       text: `
-            INSERT INTO QuestionPaperInfo(
+            INSERT INTO ${tableName}(
                 paper_title,
                 subject_id,
                 pdf_link
@@ -17,8 +25,8 @@ export const storeQuestionPaperDetails = async (title, subjectId, pdfSrc) => {
       success: rowCount == 1,
       message:
         rowCount == 1
-          ? "Question Paper Uploaded"
-          : "Unable to upload question paper",
+          ? "Paper Details Uploaded"
+          : "Unable to upload paper details",
     };
   } catch (error) {
     return {

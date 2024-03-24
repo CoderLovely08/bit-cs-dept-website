@@ -4,12 +4,10 @@ import { Router } from "express"; // Import Express Router
 import {
     handleFetchFileUrl,
     handleFileUpload,
-    handlePostQuestionPaper,
-    handlePostModelPaper,
-    handlePostSessionalPaper,
     handlePostNotice,
     handlePostSubject,
-    handlePostAcademicCalendar
+    handlePostAcademicCalendar,
+    handlePostPaperDetails
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -29,13 +27,7 @@ router
     .get(handleFetchFileUrl); // GET request for fetching file URL
 
 // Route for uploading question papers
-router.route("/questionPaper").post(upload.single("fileItem"), handlePostQuestionPaper);
-
-// Route for uploading model papers
-router.route("/modelPaper").post(upload.single("fileItem"), handlePostModelPaper);
-
-// Route for uploading sessional papers
-router.route("/sessionalPaper").post(upload.single("fileItem"), handlePostSessionalPaper);
+router.route("/paper").post(upload.single("fileItem"), handlePostPaperDetails);
 
 // Route for posting notices
 router.route("/notice").post(handlePostNotice);

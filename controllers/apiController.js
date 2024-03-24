@@ -4,7 +4,7 @@ import {
   supabaseGetFile,
   supabaseUploadFile,
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
-import { storeQuestionPaperDetails } from "../modules/DbHelper.js";
+import { storePaperDetails } from "../modules/DbHelper.js";
 
 // Handle fetching file URL
 export const handleFetchFileUrl = async (req, res) => {
@@ -54,9 +54,16 @@ export const handleDeleteFile = async (req, res) => {
 };
 
 // Handle POST request for uploading question paper
-export const handlePostQuestionPaper = async (req, res) => {
+export const handlePostPaperDetails = async (req, res) => {
   try {
-    const { title, subjectId } = req.body;
+    const { paperType, title, subjectId } = req.body;
+
+    if (!paperType || !validator.isAlpha(paperType)) {
+      return res.json({
+        success: false,
+        message: "Provide a valid paper type",
+      });
+    }
 
     if (!title || !validator.isAlphanumeric(title.replace(" ", "").trim())) {
       return res.json({
@@ -98,36 +105,11 @@ export const handlePostQuestionPaper = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeQuestionPaperDetails(title, subjectId, pdfSrc);
+    const dbResult = await storePaperDetails(paperType, title, subjectId, pdfSrc);
 
     res.json({
       success: dbResult.success,
       message: dbResult.message,
-    });
-  } catch (error) {
-    // Handle errors if any
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-// Handle POST request for uploading model paper
-export const handlePostModelPaper = async (req, res) => {
-  try {
-    // Implement model paper upload logic here
-    res.json({ success: true, message: "Model paper uploaded successfully." });
-  } catch (error) {
-    // Handle errors if any
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-// Handle POST request for uploading sessional paper
-export const handlePostSessionalPaper = async (req, res) => {
-  try {
-    // Implement sessional paper upload logic here
-    res.json({
-      success: true,
-      message: "Sessional paper uploaded successfully.",
     });
   } catch (error) {
     // Handle errors if any
