@@ -307,10 +307,10 @@ export const handlePostSubject = async (req, res) => {
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
     const { title, year } = req.body;
-    if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
+    if (!title || !validator.isLength(title.replace(/\s/g, "").trim(), { min: 8 })) {
       return res.json({
         success: false,
-        message: "Enter a valid alphanumeric Academic Calendar title",
+        message: "Enter a valid and descriptive Academic Calendar title",
       });
     }
 

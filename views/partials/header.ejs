@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap 4 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="bg-blue-500 shadow-md py-2">
+        <nav class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex justify-between items-center gap-2">
+                    <img src="../images/bit-logo.png" alt="" class="h-16 w-auto bg-white rounded-full" >
+                    <h1 class="text-white text-2xl max-md:text-xl max-sm:text-md font-bold text-center">Department of Computer Engineering</h1>
+                    <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <ul id="menu" class="hidden md:flex flex-col md:flex-row items-center">
+                    <li class="mx-2"><a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded">HOME</a></li>
+                    <li class="mx-2"><a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded">ABOUT US</a>
+                    </li>
+                    <li class="mx-2"><a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded">CURRICULUM</a>
+                    </li>
+                    <li class="mx-2 group relative">
+                        <a href="#" class="text-white px-3 py-2 rounded">EXAMINATION</a>
+                        <ul class="absolute hidden group-hover:block bg-blue-500 rounded">
+                            <li><a href="#" class="block px-4 py-2 text-white hover:bg-blue-700">SEMESTER 1</a></li>
+                            <!-- Additional submenu items can be added here -->
+                        </ul>
+                    </li>
+                    <li class="mx-2"><a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded">NEWS LETTERS</a>
+                    </li>
+                    <li class="mx-2"><a href="#" class="text-white hover:bg-blue-700 px-3 py-2 rounded">CONTACT US</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>

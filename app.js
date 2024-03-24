@@ -15,8 +15,7 @@ app.set("view engine", "ejs");
 // Setup middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static('public'))
-
+app.use(express.static("public"));
 
 // app.use(cors());
 app.use(bodyParser.json());
@@ -27,20 +26,23 @@ const upload = multer({ storage: storage });
 // Import routers
 import apiRouter from "./routes/apiRoutes.js";
 import authRouter from "./routes/authRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
+import pageRouter from "./routes/pageRoutes.js";
 
 // Home route
 app.get("/", (req, res) => {
-    try {
-        res.render("index");
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    res.render("index");
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // API routes
 app.use("/api", apiRouter);
 app.use("/auth", authRouter);
-
+app.use("/admin", adminRouter);
+app.use("/page", pageRouter);
 
 // Middleware to handle 404 errors
 // app.use((req, res, next) => {
@@ -48,6 +50,6 @@ app.use("/auth", authRouter);
 // });
 
 app.listen(PORT || 3000, (err) => {
-    if (err) console.error(`Error running server: ${err}`);
-    console.log(`Server running on port ${PORT}`);
+  if (err) console.error(`Error running server: ${err}`);
+  console.log(`Server running on port ${PORT}`);
 });

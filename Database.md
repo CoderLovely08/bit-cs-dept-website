@@ -96,7 +96,13 @@ CREATE TABLE SyllabusInfo(
 	pdf_link VARCHAR NOT NULL,
 	semester_id INT,
 	FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id)
-)
+);
+
+CREATE TABLE FacultyInfo(
+	faculty_id SERIAL PRIMARY KEY,
+	faculty_name VARCHAR NOT NULL,
+	image_link VARCHAR NOT NULL
+);
 
 INSERT INTO SemesterInfo(semester_name) 
 VALUES 
