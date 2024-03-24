@@ -35,3 +35,35 @@ export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
     };
   }
 };
+
+export const storeAcademicCalendarDetails = async (
+  title,
+  semesterId,
+  pdfSrc
+) => {
+  try {
+    const query = {
+      text: `
+            INSERT INTO AcademicCalendarInfo(
+                calendar_title,
+                semester_id,
+                pdf_link
+            ) VALUES ($1, $2, $3)`,
+      values: [title, semesterId, pdfSrc],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Academic Calendar Details Uploaded"
+          : "Unable to upload Academic Calendar",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
