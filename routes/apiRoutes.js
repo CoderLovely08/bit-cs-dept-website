@@ -4,7 +4,6 @@ import { Router } from "express"; // Import Express Router
 import {
     handleFetchFileUrl,
     handleFileUpload,
-    handlePostAdminLogin,
     handlePostQuestionPaper,
     handlePostModelPaper,
     handlePostSessionalPaper,
@@ -22,9 +21,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Define routes
-
-// Route for admin login
-router.route("/login").post(handlePostAdminLogin);
 
 // Route for uploading and fetching files
 router

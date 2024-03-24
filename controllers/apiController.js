@@ -4,17 +4,6 @@ import {
   supabaseUploadFile,
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
 
-// Handle POST request for admin login
-export const handlePostAdminLogin = async (req, res) => {
-  try {
-    // Render index page
-    res.render("index");
-  } catch (error) {
-    // Send error response if an error occurs
-    res.send("error");
-  }
-};
-
 // Handle fetching file URL
 export const handleFetchFileUrl = async (req, res) => {
   try {
