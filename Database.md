@@ -11,6 +11,11 @@ CREATE TABLE AdminInfo(
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE YearInfo(
+    year_id SERIAL PRIMARY KEY,
+    year_name VARCHAR NOT NULL,
+);
+
 -- SemesterInfo
 CREATE TABLE SemesterInfo(
     semester_id SERIAL PRIMARY KEY,
@@ -48,9 +53,10 @@ CREATE TABLE NoticeInfo(
 CREATE TABLE AcademicCalendarInfo(
     calendar_id SERIAL PRIMARY KEY,
     calendar_title VARCHAR NOT NULL,
+    academic_year VARCHAR NOT NULL,
     pdf_link VARCHAR NOT NULL,
-    semester_id INT NOT NULL,
-    FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id),
+    year_id INT NOT NULL,
+    FOREIGN KEY (year_id) REFERENCES YearInfo(year_id),
     created_at TIMESTAMP DEFAULT NOW()
 );
 

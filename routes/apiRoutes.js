@@ -36,7 +36,7 @@ router.route("/notice").post(handlePostNotice);
 router.route("/subject").post(handlePostSubject);
 
 // Route for posting academic calendars
-router.route("/academicCalendar").post(handlePostAcademicCalendar);
+router.route("/academicCalendar").post(upload.single("fileItem"), handlePostAcademicCalendar);
 
 // Export the router
 export default router;

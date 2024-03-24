@@ -4,7 +4,10 @@ import {
   supabaseGetFile,
   supabaseUploadFile,
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
-import { storeAcademicCalendarDetails, storePaperDetails } from "../modules/DbHelper.js";
+import {
+  storeAcademicCalendarDetails,
+  storePaperDetails,
+} from "../modules/DbHelper.js";
 
 // Handle fetching file URL
 export const handleFetchFileUrl = async (req, res) => {
@@ -65,7 +68,7 @@ export const handlePostPaperDetails = async (req, res) => {
       });
     }
 
-    if (!title || !validator.isAlphanumeric(title.replace(" ", "").trim())) {
+    if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
         message: "Enter a valid question paper title",
@@ -105,7 +108,12 @@ export const handlePostPaperDetails = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storePaperDetails(paperType, title, subjectId, pdfSrc);
+    const dbResult = await storePaperDetails(
+      paperType,
+      title,
+      subjectId,
+      pdfSrc
+    );
 
     res.json({
       success: dbResult.success,
@@ -142,19 +150,25 @@ export const handlePostSubject = async (req, res) => {
 // Handle POST request for posting academic calendar
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
-    const { title, semesterId } = req.body;
-    console.log(req.body);
-    if (!title || !validator.isAlphanumeric(title.replace(" ", "").trim())) {
+    const { title, yearId, year, semesterId } = req.body;
+    if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
-        message: "Enter a valid Academic Calendar title",
+        message: "Enter a valid alphanumeric Academic Calendar title",
       });
     }
 
-    if (!subjectId || !validator.isNumeric(subjectId)) {
+    if (!year || !year.match(/^\d{4}\s*-\s*\d{4}$/)) {
       return res.json({
         success: false,
-        message: "Provide a valid Semester Detail",
+        message: "Enter a valid Academic Calendar year Ex: 2023 - 2024",
+      });
+    }
+
+    if (!yearId || !validator.isNumeric(yearId)) {
+      return res.json({
+        success: false,
+        message: "Select a valid Year",
       });
     }
 
@@ -184,7 +198,12 @@ export const handlePostAcademicCalendar = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeAcademicCalendarDetails(title, semesterId, pdfSrc);
+    const dbResult = await storeAcademicCalendarDetails(
+      title,
+      year,
+      yearId,
+      pdfSrc
+    );
 
     res.json({
       success: dbResult.success,
