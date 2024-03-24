@@ -55,15 +55,6 @@ export const handleFileUpload = async (req, res) => {
   }
 };
 
-// Handle file deletion (currently empty, to be implemented)
-export const handleDeleteFile = async (req, res) => {
-  try {
-    // To be implemented
-  } catch (error) {
-    // To be implemented
-  }
-};
-
 // -------------------------------------------------
 //            Question Paper Handlers
 // -------------------------------------------------
