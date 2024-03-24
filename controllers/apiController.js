@@ -7,6 +7,7 @@ import {
 import {
   deleteItem,
   storeAcademicCalendarDetails,
+  storeFacultyDetails,
   storeGalleryImage,
   storeNoticeDetails,
   storePaperDetails,
@@ -548,6 +549,83 @@ export const handleDeleteSyllabus = async (req, res) => {
     const tableName = "SyllabusInfo";
     const columnName = "syllabus_id";
     const typeName = "Syllabus";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const handlePostFaculty = async (req, res) => {
+  try {
+    const { name } = req.body;
+    // Check if name is valid or not
+    if (!name || !validator.isAlpha(name.replace(/\s/g, "").trim())) {
+      return res.json({
+        success: false,
+        message: "Name can only contain letters",
+      });
+    }
+
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
+      return res.json({
+        success: false,
+        message: "No PDF/Image document provided",
+      });
+    }
+
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload syllabus",
+      });
+    }
+
+    const imageSrcData = await supabaseGetFile(result.fileName);
+    const imageSrc = imageSrcData?.publicUrl;
+    // If file uplaoded
+
+    const dbResult = await storeFacultyDetails(name, imageSrc);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+export const handleDeleteFaculty = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id || !validator.isNumeric(id)) {
+      return res.json({
+        success: false,
+        message: "Provide a valid item id",
+      });
+    }
+
+    const tableName = "FacultyInfo";
+    const columnName = "faculty_id";
+    const typeName = "Faculty";
     const dbResult = await deleteItem(id, tableName, columnName, typeName);
 
     res.json({

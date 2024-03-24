@@ -264,4 +264,22 @@ export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
   }
 };
 
+export const storeFacultyDetails = async (name, imageSrc) => {
+  try {
+    const query = {
+      text: `INSERT INTO FacultyInfo(faculty_name, image_link) VALUES ($1, $2)`,
+      values: [name, imageSrc],
+    };
 
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message: rowCount == 1 ? "Faculty Added" : "Unable to add new faculty",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

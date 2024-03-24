@@ -15,6 +15,8 @@ import {
   handleDeletePaper,
   handleDeleteSyllabus,
   handlePostSyllabus,
+  handlePostFaculty,
+  handleDeleteFaculty,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -65,7 +67,9 @@ router
  * Route for posting subjects
  * POST request for posting subjects
  */
-router.route("/subject").post(verifyTokenMiddleware(["admin"]), handlePostSubject);
+router
+  .route("/subject")
+  .post(verifyTokenMiddleware(["admin"]), handlePostSubject);
 
 /**
  * Route for posting academic calendars
@@ -93,8 +97,7 @@ router
   )
   .delete(verifyTokenMiddleware(["admin"]), handleDeleteGalleryImage);
 
-
-  /**
+/**
  * Route for posting syllabus
  * POST request for posting syllabus, DELETE request for deleting syllabus
  */
@@ -107,7 +110,17 @@ router
   )
   .delete(verifyTokenMiddleware(["admin"]), handleDeleteSyllabus);
 
-
-
+/**
+ * Route for posting faculty
+ * POST request for posting new faculty, DELETE request for deleting faculty
+ */
+router
+  .route("/faculty")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostFaculty
+  )
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteFaculty);
 // Export the router
 export default router;
