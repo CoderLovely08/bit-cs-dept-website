@@ -90,6 +90,14 @@ CREATE TABLE SessionalPaperInfo(
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE SyllabusInfo(
+	syllabus_id SERIAL PRIMARY KEY,
+	syllabus_title VARCHAR NOT NULL,
+	pdf_link VARCHAR NOT NULL,
+	semester_id INT,
+	FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id)
+)
+
 INSERT INTO SemesterInfo(semester_name) 
 VALUES 
 ('First'),

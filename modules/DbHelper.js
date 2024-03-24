@@ -58,11 +58,7 @@ export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
  * @param {string} pdfSrc - The source link to the PDF file.
  * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
  */
-export const storeAcademicCalendarDetails = async (
-  title,
-  year,
-  pdfSrc
-) => {
+export const storeAcademicCalendarDetails = async (title, year, pdfSrc) => {
   try {
     const query = {
       text: `
@@ -212,7 +208,6 @@ export const storeNoticeDetails = async (title, pdfSrc) => {
   }
 };
 
-
 /**
  * Delete an item from the database table.
  * @param {string | number} id - The identifier of the item to delete.
@@ -232,7 +227,9 @@ export const deleteItem = async (id, tableName, columnName, typeName) => {
     return {
       success: rowCount == 1,
       message:
-        rowCount == 1 ? `${typeName} Deleted` : `${typeName} details do not exist`,
+        rowCount == 1
+          ? `${typeName} Deleted`
+          : `${typeName} details do not exist`,
     };
   } catch (error) {
     return {
@@ -241,3 +238,30 @@ export const deleteItem = async (id, tableName, columnName, typeName) => {
     };
   }
 };
+
+// -------------------------------------------------
+//              Syllabus Handlers
+// -------------------------------------------------
+
+export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
+  try {
+    const query = {
+      text: `INSERT INTO SyllabusInfo(syllabus_title, semester_id, pdf_link) VALUES ($1, $2, $3)`,
+      values: [title, semesterId, pdfSrc],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1 ? "Syllabus published" : "Unable to publish Syllabus",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+

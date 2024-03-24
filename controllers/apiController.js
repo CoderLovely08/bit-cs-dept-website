@@ -200,7 +200,7 @@ export const handlePostNotice = async (req, res) => {
     if (!result?.success) {
       return res.json({
         success: false,
-        message: "Unable to upload paper",
+        message: "Unable to upload document",
       });
     }
 
@@ -304,7 +304,7 @@ export const handlePostSubject = async (req, res) => {
  */
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
-    const { title, year, semesterId } = req.body;
+    const { title, year } = req.body;
     if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
@@ -345,11 +345,7 @@ export const handlePostAcademicCalendar = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeAcademicCalendarDetails(
-      title,
-      year,
-      pdfSrc
-    );
+    const dbResult = await storeAcademicCalendarDetails(title, year, pdfSrc);
 
     res.json({
       success: dbResult.success,
@@ -432,7 +428,7 @@ export const handlePostGalleryImage = async (req, res) => {
     if (!result?.success) {
       return res.json({
         success: false,
-        message: "Unable to upload paper",
+        message: "Unable to upload image",
       });
     }
 
@@ -461,6 +457,96 @@ export const handleDeleteGalleryImage = async (req, res) => {
     const tableName = "GalleryImages";
     const columnName = "image_id";
     const typeName = "Gallery Image";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// -------------------------------------------------
+//              Syllabus Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to add a new syallabus
+ */
+export const handlePostSyllabus = async (req, res) => {
+  try {
+    const { title, semesterId } = req.body;
+
+    // Check if title is valid or not
+    if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
+      return res.json({
+        success: false,
+        message: "Enter a valid alphanumeric Syllabus",
+      });
+    }
+
+    // Check if semesterId is provided and is a positive integer
+    if (!semesterId || !validator.isInt(String(semesterId), { min: 1 })) {
+      return res.status(400).json({
+        success: false,
+        message: "Select a valid semester",
+      });
+    }
+
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
+      return res.json({
+        success: false,
+        message: "No PDF/Image document provided",
+      });
+    }
+
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload syllabus",
+      });
+    }
+
+    const pdfSrcData = await supabaseGetFile(result.fileName);
+    const pdfSrc = pdfSrcData?.publicUrl;
+    // If file uplaoded
+
+    const dbResult = await storeSyllabusDetails(title, pdfSrc);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {}
+};
+
+export const handleDeleteSyllabus = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id || !validator.isNumeric(id)) {
+      return res.json({
+        success: false,
+        message: "Provide a valid item id",
+      });
+    }
+
+    const tableName = "SyllabusInfo";
+    const columnName = "syllabus_id";
+    const typeName = "Syllabus";
     const dbResult = await deleteItem(id, tableName, columnName, typeName);
 
     res.json({

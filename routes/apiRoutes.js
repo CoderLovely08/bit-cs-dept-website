@@ -13,6 +13,8 @@ import {
   handleDeleteGalleryImage,
   handleDeleteAcademicCalendar,
   handleDeletePaper,
+  handleDeleteSyllabus,
+  handlePostSyllabus,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -90,6 +92,22 @@ router
     handlePostGalleryImage
   )
   .delete(verifyTokenMiddleware(["admin"]), handleDeleteGalleryImage);
+
+
+  /**
+ * Route for posting syllabus
+ * POST request for posting syllabus, DELETE request for deleting syllabus
+ */
+router
+  .route("/syllabus")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostSyllabus
+  )
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteSyllabus);
+
+
 
 // Export the router
 export default router;
