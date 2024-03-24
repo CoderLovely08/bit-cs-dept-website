@@ -307,7 +307,10 @@ export const handlePostSubject = async (req, res) => {
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
     const { title, year } = req.body;
-    if (!title || !validator.isLength(title.replace(/\s/g, "").trim(), { min: 8 })) {
+    if (
+      !title ||
+      !validator.isLength(title.replace(/\s/g, "").trim(), { min: 8 })
+    ) {
       return res.json({
         success: false,
         message: "Enter a valid and descriptive Academic Calendar title",
@@ -563,12 +566,25 @@ export const handleDeleteSyllabus = async (req, res) => {
 
 export const handlePostFaculty = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, designation } = req.body;
     // Check if name is valid or not
-    if (!name || !validator.isAlpha(name.replace(/\s/g, "").trim())) {
+    if (
+      !name ||
+      !validator.isLength(name.replace(/\s/g, "").trim(), { min: 8 })
+    ) {
       return res.json({
         success: false,
-        message: "Name can only contain letters",
+        message: "Name can only contain letters with min 8 characters",
+      });
+    }
+
+    if (
+      !designation ||
+      !validator.isAlpha(designation.replace(/\s/g, "").trim())
+    ) {
+      return res.json({
+        success: false,
+        message: "Designation can only contain letters (A-Z)",
       });
     }
 
@@ -599,7 +615,7 @@ export const handlePostFaculty = async (req, res) => {
     const imageSrc = imageSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeFacultyDetails(name, imageSrc);
+    const dbResult = await storeFacultyDetails(name, designation, imageSrc);
 
     res.json({
       success: dbResult.success,
@@ -610,7 +626,6 @@ export const handlePostFaculty = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
 
 export const handleDeleteFaculty = async (req, res) => {
   try {

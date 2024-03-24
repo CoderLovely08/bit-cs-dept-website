@@ -28,11 +28,15 @@ import apiRouter from "./routes/apiRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
 import pageRouter from "./routes/pageRoutes.js";
+import { getAllTableData } from "./modules/pageModule.js";
 
 // Home route
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   try {
-    res.render("index");
+    const faculty = await getAllTableData("FacultyInfo", "faculty_id");
+    res.render("index", {
+      faculty,
+    });
   } catch (error) {
     console.error(error);
   }

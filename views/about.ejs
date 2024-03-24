@@ -1,0 +1,106 @@
+<%- include('partials/header') %>
+    <main class="container mx-auto px-4 py-8">
+
+        <section class="mb-8">
+            <div class="bg-white rounded-lg shadow p-4 mb-8">
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="las la-university text-blue-500 text-3xl"></i>
+                    <h2 class="text-xl font-bold">About the Department</h2>
+                </div>
+                <p>
+                    Established with the aim of molding future leaders in the tech realm, the Computer Engineering
+                    Department at our
+                    university stands as a beacon of excellence in engineering education. With a curriculum that
+                    balances
+                    theoretical knowledge and practical application, our department offers a diverse range of programs
+                    from
+                    undergraduate to doctoral studies. Our faculty comprises seasoned academics and industry veterans
+                    who bring a
+                    wealth of knowledge and experience to the classroom, ensuring our students are well-equipped to
+                    tackle the
+                    challenges of the ever-evolving tech landscape. We pride ourselves on a research-driven approach,
+                    with
+                    state-of-the-art labs and facilities that enable students and faculty to conduct cutting-edge
+                    research in areas
+                    like artificial intelligence, machine learning, cybersecurity, and software engineering.
+                </p>
+            </div>
+
+
+            <section class="mb-8 flex gap-2 max-sm:flex-col">
+                <!-- Vision Card -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="las la-eye text-blue-500 text-3xl"></i>
+                        <h2 class="text-xl font-bold">Vision</h2>
+                    </div>
+                    <p>
+                        To be recognized as a premier department providing excellent education
+                        in computer engineering, leading to well-qualified engineers who are
+                        innovative, entrepreneurial, and successful in advanced fields of
+                        engineering and research. To ensure sustainable human development that
+                        encourages a self-reliant and self-content society, and to promote
+                        activities related to community services and social welfare.
+                    </p>
+                </div>
+
+                <!-- Mission Card -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="las la-bullseye text-blue-500 text-3xl"></i>
+                        <h2 class="text-xl font-bold">Mission</h2>
+                    </div>
+                    <p>
+                        To impart high-quality education in computer engineering to produce
+                        competent professionals who are able to contribute effectively to the
+                        advancement of computer engineering and to fulfill the needs of the
+                        community. To impart state-of-the-art education and technical expertise
+                        to students and give necessary training to teachers to create a
+                        self-reliant society for the future
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-8 shadow border px-4 py-2 rounded-lg bg-white">
+                <h2 class="text-2xl font-bold text-gray-800 text-center">Our Faculty</h2>
+                <div class="container max-md:w-1/2 max-sm:w-full mx-auto px-4 py-8">
+                    <div class="flex gap-4 flex-wrap w-full justify-center">
+                        <% for( let i=0; i < faculty.length ; i++ ) { %>
+                            <div class="w-fit rounded-lg">
+                                <div
+                                    class="relative overflow-hidden shadow-lg rounded-lg hover:border hover:border-blue-500">
+                                    <div class="bg-blue-500 p-4 flex justify-center">
+                                        <img class="w-24 h-24 rounded-full object-contain border-4 border-white"
+                                            src="<%= faculty[i].image_link %>" alt="Faculty Name">
+                                    </div>
+                                    <div class="bg-white p-4">
+                                        <div class="text-xl font-bold text-black mb-2 text-center text-wrap	">
+                                            <%= faculty[i].faculty_name %>
+                                        </div>
+                                        <span>
+                                            <%= faculty[i].faculty_designation %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Events & Activities</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Event cards -->
+                    <!-- Repeat this structure for each event -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <img class="w-full h-48 object-cover" src="event-image-url" alt="Event Title" />
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold text-blue-500">Event Title</h3>
+                            <p class="mb-2">Short description or date of the event.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+    <%- include('partials/footer') %>

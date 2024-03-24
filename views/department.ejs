@@ -5,7 +5,7 @@
             <div class="container mx-auto px-4 py-4">
                 <nav class="text-blue-500">
                     <strong>On this page:</strong>
-                    <ol class="space-x-4">
+                    <ol class="ml-3">
                         <li><a href="#program-outcomes" class="hover:text-blue-700">1. Program Outcomes</a></li>
                         <li><a href="#program-educational-outcomes" class="hover:text-blue-700">2. Program Educational Outcomes</a>
                         </li>
@@ -26,7 +26,7 @@
                     , "Project Management: Use engineering management principles individually, as a team member or a leader to manage projects and effectively communicate about well-defined engineering activities."
                     , "Life-long learning: Ability to analyze individual needs and engage in updating in the context of technological changes."
                     ].forEach((po, index)=> { %>
-                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 hover:border-blue-500 border">
+                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 hover:border hover:border-blue-500">
                         <h3 class="text-lg text-blue-500 font-semibold">PO <%= index + 1 %>
                         </h3>
                         <p class="mt-2 text-gray-600">
@@ -43,7 +43,7 @@
                 <% ["Provide socially responsible, environment friendly solutions to Computer engineering related broad-based problems adapting professional ethics.", "Adapt state-of-the-art Computer engineering broad-based technologies to work in multidisciplinary work environments."
                     , "Solve broad-based problems individually and as a team member communicating effectively in the world of work."
                     ].forEach((peo, index)=> { %>
-                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 hover:border hover:border-blue-500">
                         <h3 class="text-lg text-blue-500 font-semibold">PEO <%= index + 1 %>
                         </h3>
                         <p class="mt-2 text-gray-600">
@@ -59,7 +59,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <% ["Computer Software and Hardware Usage: Use state-of-the-art technologies for operation and application of computer software and hardware.", "Computer Engineering Maintenance: Maintain computer engineering related software and hardware systems."
                     ].forEach((pso, index)=> { %>
-                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                    <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300 hover:border hover:border-blue-500">
                         <h3 class="text-lg text-blue-500 font-semibold">PSO <%= index + 1 %>
                         </h3>
                         <p class="mt-2 text-gray-600">
@@ -76,7 +76,7 @@
             <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Sample Calendar Entry -->
                 <% for( let i = 0; i < academicCalendars.length; i++ ) { %>
-                    <div class="bg-white shadow rounded-lg p-4 transition duration-300 hover:shadow-lg">
+                    <div class="bg-white shadow rounded-lg p-4 transition duration-300 hover:shadow-lg hover:border hover:border-blue-500">
                         <h3 class="text-md font-medium text-gray-900"><%= academicCalendars[i].calendar_title %></h3>
                         <p class="mt-1 text-sm text-gray-600">Download the academic calendar for the <%= academicCalendars[i].academic_year%> academic year.</p>
                         <a download target="_blank" href="<%= academicCalendars[i].pdf_link %>"

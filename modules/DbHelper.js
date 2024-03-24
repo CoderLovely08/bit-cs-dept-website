@@ -264,11 +264,11 @@ export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
   }
 };
 
-export const storeFacultyDetails = async (name, imageSrc) => {
+export const storeFacultyDetails = async (name, designation, imageSrc) => {
   try {
     const query = {
-      text: `INSERT INTO FacultyInfo(faculty_name, image_link) VALUES ($1, $2)`,
-      values: [name, imageSrc],
+      text: `INSERT INTO FacultyInfo(faculty_name, faculty_designation ,image_link) VALUES ($1, $2, $3)`,
+      values: [name, designation, imageSrc],
     };
 
     const { rowCount } = await pool.query(query);
