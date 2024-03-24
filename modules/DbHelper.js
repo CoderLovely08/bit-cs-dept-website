@@ -61,7 +61,6 @@ export const storePaperDetails = async (type, title, subjectId, pdfSrc) => {
 export const storeAcademicCalendarDetails = async (
   title,
   year,
-  yearId,
   pdfSrc
 ) => {
   try {
@@ -70,10 +69,9 @@ export const storeAcademicCalendarDetails = async (
             INSERT INTO AcademicCalendarInfo(
                 calendar_title,
                 academic_year,
-                year_id,
                 pdf_link
-            ) VALUES ($1, $2, $3, $4)`,
-      values: [title, year, yearId, pdfSrc],
+            ) VALUES ($1, $2, $3)`,
+      values: [title, year, pdfSrc],
     };
 
     const { rowCount } = await pool.query(query);

@@ -304,7 +304,7 @@ export const handlePostSubject = async (req, res) => {
  */
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
-    const { title, yearId, year, semesterId } = req.body;
+    const { title, year, semesterId } = req.body;
     if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
@@ -316,13 +316,6 @@ export const handlePostAcademicCalendar = async (req, res) => {
       return res.json({
         success: false,
         message: "Enter a valid Academic Calendar year Ex: 2023 - 2024",
-      });
-    }
-
-    if (!yearId || !validator.isNumeric(yearId)) {
-      return res.json({
-        success: false,
-        message: "Select a valid Year",
       });
     }
 
@@ -355,7 +348,6 @@ export const handlePostAcademicCalendar = async (req, res) => {
     const dbResult = await storeAcademicCalendarDetails(
       title,
       year,
-      yearId,
       pdfSrc
     );
 
