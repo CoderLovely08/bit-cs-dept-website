@@ -140,6 +140,38 @@ export const handlePostPaperDetails = async (req, res) => {
   }
 };
 
+/**
+ * Type: POST
+ * Purpose: Route handler for posting notice
+ */
+export const handleDeletePaper = async (req, res) => {
+  try {
+    const { id, paperType } = req.body;
+    const tableName =
+      paperType == "question"
+        ? "QuestionPaperInfo" // If type is "question", assign "QuestionPaperInfo"
+        : paperType == "model"
+        ? "ModelPaperInfo" // If type is "model", assign "ModelPaperInfo"
+        : "SessionalPaperInfo"; // If type is neither "question" nor "model", assign "SessionalPaperInfo"
+    const columnName = "paper_id";
+    const typeName =
+      paperType == "question"
+        ? "Question Paper"
+        : paperType == "model"
+        ? "Model Paper"
+        : "Sessional Paper";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 // -------------------------------------------------
 //              Noitce Handlers
 // -------------------------------------------------
@@ -361,7 +393,7 @@ export const handleDeleteAcademicCalendar = async (req, res) => {
         message: "Provide a valid item id",
       });
     }
-    
+
     const tableName = "AcademicCalendarInfo";
     const columnName = "calendar_id";
     const typeName = "Academic Calendar";

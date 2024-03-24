@@ -12,6 +12,7 @@ import {
   handleDeleteNotice,
   handleDeleteGalleryImage,
   handleDeleteAcademicCalendar,
+  handleDeletePaper,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -38,6 +39,9 @@ router
     verifyTokenMiddleware(["admin"]),
     upload.single("fileItem"),
     handlePostPaperDetails
+  )
+  .delete(verifyTokenMiddleware(["admin"]),
+    handleDeletePaper
   );
 
 // Route for posting notices
@@ -62,8 +66,8 @@ router
     verifyTokenMiddleware(["admin"]),
     upload.single("fileItem"),
     handlePostAcademicCalendar
-).delete(verifyTokenMiddleware(["admin"]),
-handleDeleteAcademicCalendar)
+  )
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteAcademicCalendar);
 
 router
   .route("/gallery")

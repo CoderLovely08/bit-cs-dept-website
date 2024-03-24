@@ -183,7 +183,7 @@ export const deleteItem = async (
     return {
       success: rowCount == 1,
       message:
-        rowCount == 1 ? `${typeName} Deleted` : `Unable to delete ${typeName}`,
+        rowCount == 1 ? `${typeName} Deleted` : `${typeName} details does not exists`,
     };
   } catch (error) {
     return {
