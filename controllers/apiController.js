@@ -6,6 +6,7 @@ import {
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
 import {
   storeAcademicCalendarDetails,
+  storeGalleryImage,
   storePaperDetails,
 } from "../modules/DbHelper.js";
 
@@ -204,6 +205,57 @@ export const handlePostAcademicCalendar = async (req, res) => {
       yearId,
       pdfSrc
     );
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const handlePostGalleryImage = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    if (!title || (title.replace(/\s/g, "").trim().length < 6)) {
+      console.log(title);
+      return res.json({
+        success: false,
+        message: "Enter a valid Image title with atleast 6 characters",
+      });
+    }
+
+    const validImageTypes = ["image/jpeg", "image/png"]; // List of valid image MIME types
+    const fileType = req?.file?.mimetype;
+
+    // Validate file type
+    if (!fileType || !validImageTypes.includes(fileType)) {
+      return res.json({
+        success: false,
+        message: "Only image files (JPEG, PNG) are allowed",
+      });
+    }
+
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload paper",
+      });
+    }
+
+    const imageSrcData = await supabaseGetFile(result.fileName);
+    const imageSrc = imageSrcData?.publicUrl;
+
+    const dbResult = await storeGalleryImage(title, imageSrc);
 
     res.json({
       success: dbResult.success,

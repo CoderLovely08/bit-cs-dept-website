@@ -69,3 +69,30 @@ export const storeAcademicCalendarDetails = async (
     };
   }
 };
+
+export const storeGalleryImage = async (title, imageSrc) => {
+  try {
+    const query = {
+      text: `
+            INSERT INTO GalleryImages(
+                image_title,
+                image_link
+            ) VALUES ($1, $2)`,
+      values: [title, imageSrc],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Gallery Image Uploaded"
+          : "Unable to upload gallery image",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
