@@ -11,6 +11,7 @@ import {
   storeNoticeDetails,
   storePaperDetails,
   storeSubjectDetails,
+  storeSyllabusDetails,
 } from "../modules/DbHelper.js";
 
 // -------------------------------------------------
@@ -485,7 +486,7 @@ export const handlePostSyllabus = async (req, res) => {
     if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
-        message: "Enter a valid alphanumeric Syllabus",
+        message: "Enter a valid alphanumeric Syllabus title",
       });
     }
 
@@ -524,7 +525,7 @@ export const handlePostSyllabus = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeSyllabusDetails(title, pdfSrc);
+    const dbResult = await storeSyllabusDetails(title, semesterId, pdfSrc);
 
     res.json({
       success: dbResult.success,
