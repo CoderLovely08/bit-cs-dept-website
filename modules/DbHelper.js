@@ -96,3 +96,50 @@ export const storeGalleryImage = async (title, imageSrc) => {
     };
   }
 };
+
+export const storeSubjectDetails = async (
+  subjectName,
+  subjectCode,
+  semesterId
+) => {
+  try {
+    const existsQuery = {
+      text: `SELECT subject_code FROM SubjectsInfo WHERE subject_code = $1`,
+      values: [subjectCode],
+    };
+
+    const subjectExists = await pool.query(existsQuery);
+
+    if (subjectExists.rowCount > 0) {
+      return {
+        success: false,
+        message: "Subject details already exists",
+      };
+    }
+
+    const query = {
+      text: `
+            INSERT INTO SubjectsInfo(
+                subject_name,
+                subject_code,
+                semester_id
+            ) VALUES ($1, $2, $3)
+            `,
+      values: [subjectName, subjectCode, semesterId],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Subject Details Added"
+          : "Unable to upload gallery image",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

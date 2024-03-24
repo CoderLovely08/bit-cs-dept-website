@@ -8,6 +8,7 @@ import {
   storeAcademicCalendarDetails,
   storeGalleryImage,
   storePaperDetails,
+  storeSubjectDetails,
 } from "../modules/DbHelper.js";
 
 // Handle fetching file URL
@@ -140,8 +141,42 @@ export const handlePostNotice = async (req, res) => {
 // Handle POST request for posting subject
 export const handlePostSubject = async (req, res) => {
   try {
-    // Implement subject posting logic here
-    res.json({ success: true, message: "Subject posted successfully." });
+    const { subjectName, subjectCode, semesterId } = req.body;
+
+    // Check if subjectName is provided and is a non-empty string
+    if (!subjectName || !validator.isLength(subjectName, { min: 1 })) {
+      return res.status(400).json({
+        success: false,
+        message: "Subject name must be provided and must be a non-empty string",
+      });
+    }
+
+    // Check if subjectCode is provided and is a non-empty string
+    if (!subjectCode || !validator.isLength(subjectCode, { min: 1 })) {
+      return res.status(400).json({
+        success: false,
+        message: "Subject code must be provided and must be a non-empty string",
+      });
+    }
+
+    // Check if semesterId is provided and is a positive integer
+    if (!semesterId || !validator.isInt(String(semesterId), { min: 1 })) {
+      return res.status(400).json({
+        success: false,
+        message: "Select a valid semester",
+      });
+    }
+
+    const dbResult = await storeSubjectDetails(
+      subjectName,
+      subjectCode,
+      semesterId
+    );
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
   } catch (error) {
     // Handle errors if any
     res.status(500).json({ success: false, error: error.message });
@@ -220,7 +255,7 @@ export const handlePostGalleryImage = async (req, res) => {
   try {
     const { title } = req.body;
 
-    if (!title || (title.replace(/\s/g, "").trim().length < 6)) {
+    if (!title || title.replace(/\s/g, "").trim().length < 6) {
       console.log(title);
       return res.json({
         success: false,
