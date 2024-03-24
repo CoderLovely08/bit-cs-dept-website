@@ -10,6 +10,7 @@ import {
   handlePostPaperDetails,
   handlePostGalleryImage,
   handleDeleteNotice,
+  handleDeleteGalleryImage,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -68,7 +69,8 @@ router
     verifyTokenMiddleware(["admin"]),
     upload.single("fileItem"),
     handlePostGalleryImage
-  );
+  )
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteGalleryImage);
 
 // Export the router
 export default router;

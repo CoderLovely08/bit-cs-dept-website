@@ -5,13 +5,17 @@ import {
   supabaseUploadFile,
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
 import {
-  deleteNotceDetails,
+  deleteItem,
   storeAcademicCalendarDetails,
   storeGalleryImage,
   storeNoticeDetails,
   storePaperDetails,
   storeSubjectDetails,
 } from "../modules/DbHelper.js";
+
+// -------------------------------------------------
+//                File Handlers
+// -------------------------------------------------
 
 // Handle fetching file URL
 export const handleFetchFileUrl = async (req, res) => {
@@ -60,7 +64,14 @@ export const handleDeleteFile = async (req, res) => {
   }
 };
 
-// Handle POST request for uploading question paper
+// -------------------------------------------------
+//            Question Paper Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler for uploading question paper
+ */
 export const handlePostPaperDetails = async (req, res) => {
   try {
     const { paperType, title, subjectId } = req.body;
@@ -129,7 +140,14 @@ export const handlePostPaperDetails = async (req, res) => {
   }
 };
 
-// Handle POST request for posting notice
+// -------------------------------------------------
+//              Noitce Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler for posting notice
+ */
 export const handlePostNotice = async (req, res) => {
   try {
     const { title } = req.body;
@@ -179,10 +197,17 @@ export const handlePostNotice = async (req, res) => {
   }
 };
 
+/**
+ * Type: DELETE
+ * Purpose: Route handler for deleting notice
+ */
 export const handleDeleteNotice = async (req, res) => {
   try {
     const { id } = req.body;
-    const dbResult = await deleteNotceDetails(id);
+    const tableName = "NoticeInfo";
+    const columnName = "notice_id";
+    const typeName = "Notice";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
 
     res.json({
       success: dbResult.success,
@@ -194,7 +219,14 @@ export const handleDeleteNotice = async (req, res) => {
   }
 };
 
-// Handle POST request for posting subject
+// -------------------------------------------------
+//            Subject Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler for adding new subject
+ */
 export const handlePostSubject = async (req, res) => {
   try {
     const { subjectName, subjectCode, semesterId } = req.body;
@@ -239,7 +271,14 @@ export const handlePostSubject = async (req, res) => {
   }
 };
 
-// Handle POST request for posting academic calendar
+// -------------------------------------------------
+//            Academic Calendar Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to posting academic calendar
+ */
 export const handlePostAcademicCalendar = async (req, res) => {
   try {
     const { title, yearId, year, semesterId } = req.body;
@@ -307,6 +346,14 @@ export const handlePostAcademicCalendar = async (req, res) => {
   }
 };
 
+// -------------------------------------------------
+//            Gallery Image Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to add a new gallery image
+ */
 export const handlePostGalleryImage = async (req, res) => {
   try {
     const { title } = req.body;
@@ -347,6 +394,28 @@ export const handlePostGalleryImage = async (req, res) => {
     const imageSrc = imageSrcData?.publicUrl;
 
     const dbResult = await storeGalleryImage(title, imageSrc);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+/**
+ * Type: DELETE
+ * Purpose: Route handler to delete a new gallery image
+ */
+export const handleDeleteGalleryImage = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const tableName = "GalleryImages";
+    const columnName = "image_id";
+    const typeName = "Gallery Image";
+    const dbResult = await deleteItem(id, tableName, columnName, typeName);
 
     res.json({
       success: dbResult.success,
