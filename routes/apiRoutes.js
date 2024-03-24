@@ -9,6 +9,7 @@ import {
   handlePostAcademicCalendar,
   handlePostPaperDetails,
   handlePostGalleryImage,
+  handleDeleteNotice,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -44,8 +45,8 @@ router
     verifyTokenMiddleware(["admin"]),
     upload.single("fileItem"),
     handlePostNotice
-  );
-// .delete(verifyTokenMiddleware(["admin"]), handleDeleteNotice);
+  )
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteNotice);
 
 // Route for posting subjects
 router

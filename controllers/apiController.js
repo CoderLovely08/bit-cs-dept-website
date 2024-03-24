@@ -5,6 +5,7 @@ import {
   supabaseUploadFile,
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
 import {
+  deleteNotceDetails,
   storeAcademicCalendarDetails,
   storeGalleryImage,
   storeNoticeDetails,
@@ -167,6 +168,21 @@ export const handlePostNotice = async (req, res) => {
     // If file uplaoded
 
     const dbResult = await storeNoticeDetails(title, pdfSrc);
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const handleDeleteNotice = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const dbResult = await deleteNotceDetails(id);
 
     res.json({
       success: dbResult.success,

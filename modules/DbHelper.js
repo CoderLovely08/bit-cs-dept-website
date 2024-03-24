@@ -163,3 +163,23 @@ export const storeNoticeDetails = async (title, pdfSrc) => {
     };
   }
 };
+
+export const deleteNotceDetails = async (id) => {
+  try {
+    const query = {
+      text: `DELETE FROM NoticeInfo WHERE notice_id = $1`,
+      values: [id],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message: rowCount == 1 ? "Notice Deleted" : "Unable to delete notice",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
