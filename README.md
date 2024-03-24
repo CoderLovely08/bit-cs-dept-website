@@ -2,7 +2,7 @@
 
 # BIT Computer Science & Engineering Department Website
 
-Welcome to the GitHub repository for the Computer Science & Engineering Department at [BIT](https://github.com/CoderLovely08/bit-cs-dept-website). This website is designed to provide comprehensive information about the department, its academic programs, faculty, and resources for students and staff.
+Welcome to the GitHub repository for the Computer Science & Engineering Department at [BIT](https://bit-cs-website-dc07eb80d5fb.herokuapp.com/). This website is designed to provide comprehensive information about the department, its academic programs, faculty, and resources for students and staff.
 
 ## Features
 
