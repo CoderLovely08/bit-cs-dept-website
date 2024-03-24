@@ -13,6 +13,7 @@ import {
 const router = Router(); // Create an instance of Express Router
 
 import multer from "multer"; // Import multer for file upload
+import { verifyTokenMiddleware } from "../middlewares/jwtMiddleware.js";
 
 // Configure multer storage to store files in memory
 const storage = multer.memoryStorage();
@@ -28,22 +29,45 @@ router
   .get(handleFetchFileUrl); // GET request for fetching file URL
 
 // Route for uploading question papers
-router.route("/paper").post(upload.single("fileItem"), handlePostPaperDetails);
+router
+  .route("/paper")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostPaperDetails
+  );
 
 // Route for posting notices
-router.route("/notice").post(upload.single("fileItem"), handlePostNotice);
+router
+  .route("/notice")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostNotice
+  );
+// .delete(verifyTokenMiddleware(["admin"]), handleDeleteNotice);
 
 // Route for posting subjects
-router.route("/subject").post(handlePostSubject);
+router
+  .route("/subject")
+  .post(verifyTokenMiddleware(["admin"]), handlePostSubject);
 
 // Route for posting academic calendars
 router
   .route("/academicCalendar")
-  .post(upload.single("fileItem"), handlePostAcademicCalendar);
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostAcademicCalendar
+  );
 
 router
   .route("/gallery")
-  .post(upload.single("fileItem"), handlePostGalleryImage);
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostGalleryImage
+  );
 
 // Export the router
 export default router;
