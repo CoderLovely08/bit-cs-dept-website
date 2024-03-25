@@ -259,7 +259,7 @@ export const handlePostSubject = async (req, res) => {
 
     // Check if subjectName is provided and is a non-empty string
     if (!subjectName || !validator.isLength(subjectName, { min: 1 })) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Subject name must be provided and must be a non-empty string",
       });
@@ -267,7 +267,7 @@ export const handlePostSubject = async (req, res) => {
 
     // Check if subjectCode is provided and is a non-empty string
     if (!subjectCode || !validator.isLength(subjectCode, { min: 1 })) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Subject code must be provided and must be a non-empty string",
       });
@@ -275,7 +275,7 @@ export const handlePostSubject = async (req, res) => {
 
     // Check if semesterId is provided and is a positive integer
     if (!semesterId || !validator.isInt(String(semesterId), { min: 1 })) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Select a valid semester",
       });
@@ -497,7 +497,7 @@ export const handlePostSyllabus = async (req, res) => {
 
     // Check if semesterId is provided and is a positive integer
     if (!semesterId || !validator.isInt(String(semesterId), { min: 1 })) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         message: "Select a valid semester",
       });

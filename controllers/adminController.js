@@ -32,10 +32,12 @@ export const handleViewAdminDashboard = async (req, res) => {
     });
 
     const faculty = await getAllTableData("FacultyInfo");
+    const syllabus = await getAllTableData("SyllabusInfo");
 
     res.render("admin/dashboard", {
       groupedSubjects,
-      faculty
+      faculty,
+      syllabus
     });
   } catch (error) {
     res.render("404");
