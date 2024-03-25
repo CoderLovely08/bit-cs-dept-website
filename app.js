@@ -34,8 +34,10 @@ import { getAllTableData } from "./modules/pageModule.js";
 app.get("/", async (req, res) => {
   try {
     const faculty = await getAllTableData("FacultyInfo", "faculty_id");
+    const events = await getAllTableData("EventsInfo");
     res.render("index", {
       faculty,
+      events
     });
   } catch (error) {
     console.error(error);

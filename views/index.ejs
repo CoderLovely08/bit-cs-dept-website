@@ -1,12 +1,12 @@
 <%- include('partials/header') %>
 
-<style>
-    .carousel {
-  margin: 0 auto;
-  width: 720px;
-  height: auto;
-}
-</style>
+    <style>
+        .carousel {
+            margin: 0 auto;
+            width: 720px;
+            height: auto;
+        }
+    </style>
     <div id="banner" class="">
         <div class="container">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -46,34 +46,37 @@
                         <span class="las la-pencil-ruler text-3xl text-blue-500"></span>
                         <div>
                             <div class="flex gap-2 items-center">
-                                
+
                                 <h3 class="font-bold text-xl">Innovative Curriculum</h3>
                             </div>
-                            <p class="text-gray-600">Our curriculum is designed to foster innovation, critical thinking, and
+                            <p class="text-gray-600">Our curriculum is designed to foster innovation, critical thinking,
+                                and
                                 hands-on experience with the latest technologies.</p>
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Card 2 -->
                 <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
                     <div class="flex items-center space-x-4 p-6">
                         <i class="las la-chalkboard-teacher text-blue-500 text-3xl"></i>
                         <div>
                             <h3 class="font-bold text-xl">Expert Faculty</h3>
-                            <p class="text-gray-600">Learn from leading experts in the field who bring real-world experience
+                            <p class="text-gray-600">Learn from leading experts in the field who bring real-world
+                                experience
                                 and cutting-edge research into the classroom.</p>
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Card 3 -->
                 <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
                     <div class="flex items-center space-x-4 p-6">
                         <i class="las la-laptop-code text-blue-500 text-3xl"></i>
                         <div>
                             <h3 class="font-bold text-xl">State-of-the-Art Facilities</h3>
-                            <p class="text-gray-600">Our department boasts advanced laboratories and facilities to ensure
+                            <p class="text-gray-600">Our department boasts advanced laboratories and facilities to
+                                ensure
                                 students have access to the best tools for learning and research.</p>
                         </div>
                     </div>
@@ -96,60 +99,43 @@
                             <div class="text-xl font-bold text-black mb-2 text-center text-wrap	">
                                 <%= faculty[i].faculty_name %>
                             </div>
-                            <span><%= faculty[i].faculty_designation %></span>
+                            <span>
+                                <%= faculty[i].faculty_designation %>
+                            </span>
                         </div>
                     </div>
                 </div>
-                <% } %>
+            <% } %>
         </div>
     </div>
 
     <div id="news" class="bg-blue-500 py-8">
         <div class="container mx-auto">
-            <h2 class="section-head text-white text-3xl font-bold mb-6 text-center">Recent News</h2>
+            <h2 class="section-head text-white text-3xl font-bold mb-6 text-center">Recent Events</h2>
             <div class="flex flex-wrap justify-center gap-4">
-                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="img1.jpg" alt="Teacher's Day">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2"><a href="#"
-                                class="text-blue-700 hover:text-blue-900">Teacher's Day</a></h3>
-                        <div class="text-sm text-blue-500 mb-4">September 05, 2023</div>
-                        <p class="text-gray-700">"Teachers plant the seeds of knowledge that grow forever."</p>
-                    </div>
-                </div>
-    
-                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="img2.jpg" alt="Farewell Day">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2"><a href="#"
-                                class="text-blue-700 hover:text-blue-900">Farewell Day</a></h3>
-                        <div class="text-sm text-blue-500 mb-4">February 24, 2024</div>
-                        <p class="text-gray-700">"Keep pushing yourself to achieve greatness."</p>
-                    </div>
-                </div>
-    
-                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="images/WOM.jpg" alt="Women's Day">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2"><a href="#" class="text-blue-700 hover:text-blue-900">Women's
-                                Day</a></h3>
-                        <div class="text-sm text-blue-500 mb-4">March 08, 2024</div>
-                        <p class="text-gray-700">"Women are the real architects of society."</p>
-                    </div>
-                </div>
-    
-                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="images/Aura.jpg" alt="Aura">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2"><a href="#"
-                                class="text-blue-700 hover:text-blue-900">Aura</a></h3>
-                        <div class="text-sm text-blue-500 mb-4">March 15, 2024</div>
-                        <p class="text-gray-700">"A goal without a plan is just a wish."</p>
-                    </div>
-                </div>
             </div>
+
+            <% for( let i=0; i < events.length; i++ ) { %>
+                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img class="w-full h-48 object-cover" src="<%= events[i].image_link %>" alt="Women's Day">
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold mb-2"><a href="#" class="text-blue-700 hover:text-blue-900">
+                                <%= events[i].event_title %>
+                            </a></h3>
+                        <div class="text-sm text-blue-500 mb-4">
+                            <%= new Date(events[i].event_date).toDateString() %>
+                        </div>
+                        <p class="text-gray-700">
+                            <%= events[i].event_description %>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+
+
         </div>
+    </div>
     </div>
 
 
-   <%- include('partials/footer') %>
+    <%- include('partials/footer') %>

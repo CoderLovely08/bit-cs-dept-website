@@ -108,6 +108,7 @@ CREATE TABLE EventsInfo(
 	event_id SERIAL, 
 	event_title VARCHAR NOT NULL, 
 	event_date timestamp NOT NULL,
+    image_link VARCHAR NOT NULL,
 	event_description VARCHAR NOT NULl,
 	created_at timestamp
 );

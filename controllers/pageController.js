@@ -1,5 +1,6 @@
 import {
   getAllAcademicCalendar,
+  getAllSyllabusInfo,
   getAllTableData,
 } from "../modules/pageModule.js";
 
@@ -27,7 +28,10 @@ export const handleViewAboutPage = async (req, res) => {
 
 export const handleViewCurriculumPage = async (req, res) => {
   try {
-    res.render("curriculum");
+    const syllabus = await getAllSyllabusInfo();
+    res.render("curriculum", {
+      syllabus,
+    });
   } catch (error) {
     res.render("404");
   }

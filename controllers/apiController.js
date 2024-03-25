@@ -7,6 +7,7 @@ import {
 import {
   deleteItem,
   storeAcademicCalendarDetails,
+  storeEventsDetails,
   storeFacultyDetails,
   storeGalleryImage,
   storeNoticeDetails,
@@ -649,6 +650,74 @@ export const handleDeleteFaculty = async (req, res) => {
     });
   } catch (error) {
     // Handle errors if any
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const handlePostEvents = async (req, res) => {
+  try {
+    const { title, description, date } = req.body;
+    // Check if name is valid or not
+    console.log(title, description, date);
+    if (
+      !title ||
+      !validator.isLength(title.replace(/\s/g, "").trim(), { min: 6 })
+    ) {
+      return res.json({
+        success: false,
+        message: "title can only contain letters with min 6 characters",
+      });
+    }
+
+    if (
+      !description ||
+      !validator.isAlpha(description.replace(/\s/g, "").trim())
+    ) {
+      return res.json({
+        success: false,
+        message: "Description can only contain letters (A-Z)",
+      });
+    }
+
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
+      return res.json({
+        success: false,
+        message: "No PDF/Image document provided",
+      });
+    }
+
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to post event details",
+      });
+    }
+
+    const imageSrcData = await supabaseGetFile(result.fileName);
+    const imageSrc = imageSrcData?.publicUrl;
+    // If file uplaoded
+
+    const dbResult = await storeEventsDetails(
+      title,
+      description,
+      imageSrc,
+      date
+    );
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };

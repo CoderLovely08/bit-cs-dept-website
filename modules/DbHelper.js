@@ -283,3 +283,38 @@ export const storeFacultyDetails = async (name, designation, imageSrc) => {
     };
   }
 };
+
+export const storeEventsDetails = async (
+  title,
+  description,
+  imageSrc,
+  date
+) => {
+  try {
+    const query = {
+      text: `
+      INSERT INTO EventsInfo(
+        event_title,
+        event_description,
+        image_link,
+        event_date
+      ) VALUES ($1, $2, $3, $4)`,
+      values: [title, description, imageSrc, date],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Event Details added successfully"
+          : "Unable to add event details",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
