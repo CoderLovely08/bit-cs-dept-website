@@ -165,7 +165,7 @@
             </div>
             <div class="md:flex md:items-start">
                 <div class="md:w-1/2 md:pr-4">
-                    <div class="flex gap-2 justify-center items-center">
+                    <div class="flex gap-2 justify-center items-center flex-wrap">
                         <% for( let i=0; i < syllabus.length; i++ ) { %>
                             <div class="bg-white hover:border hover:border-blue-500 rounded-lg shadow overflow-hidden w-fit">
                                 <div class="p-2">
@@ -230,10 +230,53 @@
             </div>
             <div class="md:flex md:items-start">
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Existing Syllabus cards -->
+                    <div class="flex gap-2 justify-center items-center flex-wrap">
+                        <!-- Sample Calendar Entry -->
+                        <% for( let i=0; i < calendar.length; i++ ) { %>
+                            <div
+                                class="bg-white shadow rounded-lg p-4 transition duration-300 hover:shadow-lg hover:border hover:border-blue-500 max-w-64">
+                                <h3 class="text-md font-medium text-gray-900">
+                                    <%= calendar[i].calendar_title %>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-600"><%=
+                                        calendar[i].academic_year%> academic year.</p>
+                                <a download target="_blank" href="<%= calendar[i].pdf_link %>"
+                                    class="mt-2 inline-block bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">View</a>
+                            </div>
+                            <% } %>
+                    </div>
                 </div>
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Form -->
+                    <!-- Form to Add Academic Calendar -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="academic-calendar-form">
+                            <div class="flex justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Title</label>
+                                    <input type="text" id="title" name="title"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter title" />
+                                </div>
+                                
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="year">Session</label>
+                                    <input type="text" id="year" name="year"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="EX: 2023 - 2024" />
+                                </div>
+                                
+                            </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="pdfFile">PDF File</label>
+                                    <input type="file" id="pdfFile" name="fileItem" accept="application/pdf"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            <!-- Add other form fields here -->
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                                Academic Calendar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,5 +423,36 @@
                     }
                 });
             });
+            
+             // Function to handle form submission
+            $('#academic-calendar-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                if (!confirmOption) return;
+
+                // Get form data
+                const formData = new FormData(this);
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/academicCalendar', // Replace with your actual endpoint URL
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // Don't set content type (let jQuery handle it automatically)
+                    processData: false, // Don't process data (let jQuery handle it automatically)
+                    success: function (data) {
+                        alert(data.message)
+                        if (data.success) location.reload();
+                        console.log('Syllabus added successfully:', data);
+                        // Optionally, you can perform additional actions like displaying a success message or redirecting the user
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding syllabus:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+
         });
     </script>
