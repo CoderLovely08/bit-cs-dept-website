@@ -34,12 +34,14 @@ export const handleViewAdminDashboard = async (req, res) => {
     const faculty = await getAllTableData("FacultyInfo");
     const syllabus = await getAllTableData("SyllabusInfo");
     const calendar = await getAllTableData("AcademicCalendarInfo");
+    const photos = await getAllTableData("GalleryImages");
 
     res.render("admin/dashboard", {
       groupedSubjects,
       faculty,
       syllabus,
-      calendar
+      calendar,
+      photos
     });
   } catch (error) {
     res.render("404");

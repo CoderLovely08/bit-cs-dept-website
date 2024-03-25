@@ -303,15 +303,49 @@
             </div>
             <div class="md:flex md:items-start">
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Existing Syllabus cards -->
+                    <!-- Gallery Cards -->
+                    <div class="flex gap-2 justify-center items-center flex-wrap">
+                        <% for( let i=0; i < photos.length; i++ ) { %>
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-36">
+                                <img src="<%= photos[i].image_link %>" alt="Image" class="w-full h-36 object-contain rounded-md" />
+                                <div class="p-1 border rounded">
+                                    <h2 class="text-lg font-semibold text-gray-800">
+                                        <%= photos[i].image_title %>
+                                    </h2>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                            <!-- End Gallery Cards -->
                 </div>
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Form -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="gallery-form" class=" md:flex-row md:items-center md:justify-between">
+                            <div class="flex gap-2 justify-between">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="imageName">Image Title</label>
+                                    <input type="text" id="imageName" name="title"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter image name" />
+                                </div>
+                                <div class="flex gap-2 justify-between">
+                                    <div class="mb-4 flex-grow">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload Image</label>
+                                        <input type="file" id="facultyImage" name="fileItem" accept="image/*"
+                                            class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                                Image</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Photo Gallery -->
+        <!-- Examination Gallery -->
         <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                 <h2 class="text-3xl font-bold text-blue-500">Examination</h2>
@@ -449,6 +483,37 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error adding syllabus:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+             
+            
+            // Function to handle form submission
+            $('#gallery-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                if (!confirmOption) return;
+
+                // Get form data
+                const formData = new FormData(this);
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/gallery', // Replace with your actual endpoint URL
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // Don't set content type (let jQuery handle it automatically)
+                    processData: false, // Don't process data (let jQuery handle it automatically)
+                    success: function (data) {
+                        alert(data.message)
+                        if (data.success) location.reload();
+                        console.log('Gallery image added successfully:', data);
+                        // Optionally, you can perform additional actions like displaying a success message or redirecting the user
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding gallery image:', error);
                         // Optionally, you can display an error message to the user
                     }
                 });
