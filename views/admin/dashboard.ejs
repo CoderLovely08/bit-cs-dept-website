@@ -352,10 +352,175 @@
             </div>
             <div class="md:flex md:items-start">
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Existing Syllabus cards -->
+                    <div>
+                        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                            <h2 class="text-3xl font-bold text-blue-500">
+                                End Semester Question Papers
+                            </h2>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center flex-wrap">
+                            <!-- Repeat for each end-semester paper -->
+                        
+                            <!-- Loop through each semester in the grouped data -->
+                            <% groupedQuestionData.forEach((subjects, semesterId)=> { %>
+                                <div class="bg-white rounded-lg shadow p-1 hover:shadow-lg transition-shadow max-w-72 mb-4">
+                                    <!-- Display semester name -->
+                                    <h3 class="text-lg font-bold text-gray-800">
+                                        Semester <%= semesterId %>
+                                    </h3>
+                        
+                                    <!-- Loop through each subject in the semester -->
+                                    <ol class="ml-4">
+                                        <% Object.values(subjects).forEach(subject=> { %>
+                                            <!-- Display subject name -->
+                                            <li class="font-medium text-gray-800">
+                                                - <%= subject.subjectName %> (<%= subject.subjectCode %>)
+                                            </li>
+                        
+                                            <!-- Loop through each paper in the subject -->
+                                            <ul class="ml-4">
+                                                <% subject.papers.forEach(paper=> { %>
+                                                    <!-- Display paper title and download link -->
+                                                    <li class="text-gray-600 my-1">
+                                                        - <a href="<%= paper.pdfLink %>"
+                                                                class="underline inline-block text-blue text-sm px-2 py-1 rounded ml-2"><%= paper.paperTitle %> </a>
+                                                    </li>
+                                                    <% }) %>
+                                            </ul>
+                                            <% }) %>
+                                    </ol>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                            <h2 class="text-3xl font-bold text-blue-500">Model Answer Papers</h2>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center flex-wrap ">
+                            <!-- Repeat for each model answer paper -->
+                            <!-- Loop through each semester in the grouped data -->
+                            <% groupedModelData.forEach((subjects, semesterId)=> { %>
+                                <div class="w-fit bg-white rounded-lg shadow p-1 hover:shadow-lg transition-shadow max-w-72 mb-4">
+                                    <!-- Display semester name -->
+                                    <h3 class="text-lg font-bold text-gray-800">
+                                        Semester <%= semesterId %>
+                                    </h3>
+                        
+                                    <!-- Loop through each subject in the semester -->
+                                    <ol class="ml-4">
+                                        <% Object.values(subjects).forEach(subject=> { %>
+                                            <!-- Display subject name -->
+                                            <li class="font-medium text-gray-800">
+                                                - <%= subject.subjectName %> (<%= subject.subjectCode %>)
+                                            </li>
+                        
+                                            <!-- Loop through each paper in the subject -->
+                                            <ul class="ml-4">
+                                                <% subject.papers.forEach(paper=> { %>
+                                                    <!-- Display paper title and download link -->
+                                                    <li class="text-gray-600 my-1">
+                                                        - <a href="<%= paper.pdfLink %>"
+                                                                class="underline inline-block text-blue text-sm px-1 py-1 rounded ml-2"><%= paper.paperTitle %> </a>
+                                                    </li>
+                                                    <% }) %>
+                                            </ul>
+                                            <% }) %>
+                                    </ol>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                            <h2 class="text-3xl font-bold text-blue-500">Sessional Papers</h2>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center flex-wrap">
+                            <!-- Repeat for each sessional paper -->
+                            <!-- Loop through each semester in the grouped data -->
+                            <% groupedSessionalData.forEach((subjects, semesterId)=> { %>
+                                <div class="bg-white rounded-lg shadow p-1 hover:shadow-lg transition-shadow max-w-72 mb-4">
+                                    <!-- Display semester name -->
+                                    <h3 class="text-lg font-bold text-gray-800">
+                                        Semester <%= semesterId %>
+                                    </h3>
+                        
+                                    <!-- Loop through each subject in the semester -->
+                                    <ol class="ml-4">
+                                        <% Object.values(subjects).forEach(subject=> { %>
+                                            <!-- Display subject name -->
+                                            <li class="font-medium text-gray-800">
+                                                - <%= subject.subjectName %> (<%= subject.subjectCode %>)
+                                            </li>
+                        
+                                            <!-- Loop through each paper in the subject -->
+                                            <ul class="ml-4">
+                                                <% subject.papers.forEach(paper=> { %>
+                                                    <!-- Display paper title and download link -->
+                                                    <li class="text-gray-600 my-1">
+                                                        - <a href="<%= paper.pdfLink %>"
+                                                                class="underline inline-block text-blue text-sm px-2 py-1 rounded ml-2"><%= paper.paperTitle %> </a>
+                                                    </li>
+                                                    <% }) %>
+                                            </ul>
+                                            <% }) %>
+                                    </ol>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
                 </div>
                 <div class="md:w-1/2 md:pr-4">
-                    <!-- Form -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="paeprs-form" class=" md:flex-row md:items-center md:justify-between">
+                            <div class="flex gap-2 justify-between">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Title">Paper Title</label>
+                                    <input type="text" id="Title" name="title" required
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="EX: MAD Summer 2023" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="paperType">Type</label>
+                                    <select id="paperType" name="paperType"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500" required>
+                                        <option value="" selected disabled>Select Type</option>
+                                        <option value="question">End Sem Question Paper</option>
+                                        <option value="model">Model Answer</option>
+                                        <option value="sessional">Sessional</option>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="flex gap-2 justify-between">
+                                <!-- Subjects dropdown -->
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="subject">Subject</label>
+                                    <select id="subjectId" name="subjectId"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500" required>
+                                        <option value="" selected disabled>Select Subject</option>
+                                        
+                                        <% for( let i = 0; i < subjects.length; i++ ) { %>
+                                            <option value="<%= subjects[i].subject_id %>"><%= subjects[i].subject_code %>: <%= subjects[i].subject_name %></option>
+                                        <% } %>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+                                <div class="flex gap-2 justify-between">
+                                    <div class="mb-4 flex-grow">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="pdfFile">PDF File</label>
+                                        <input type="file" id="pdfFile" name="fileItem" accept="application/pdf"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            required />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit"
+                                class="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Paper</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -502,6 +667,36 @@
                 // Make AJAX request
                 $.ajax({
                     url: '/api/gallery', // Replace with your actual endpoint URL
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // Don't set content type (let jQuery handle it automatically)
+                    processData: false, // Don't process data (let jQuery handle it automatically)
+                    success: function (data) {
+                        alert(data.message)
+                        if (data.success) location.reload();
+                        console.log('Gallery image added successfully:', data);
+                        // Optionally, you can perform additional actions like displaying a success message or redirecting the user
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding gallery image:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+            
+            // Function to handle form submission
+            $('#paeprs-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                if (!confirmOption) return;
+
+                // Get form data
+                const formData = new FormData(this);
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/paper', // Replace with your actual endpoint URL
                     type: 'POST',
                     data: formData,
                     contentType: false, // Don't set content type (let jQuery handle it automatically)
