@@ -104,6 +104,14 @@ CREATE TABLE FacultyInfo(
 	image_link VARCHAR NOT NULL
 );
 
+CREATE TABLE EventsInfo(
+	event_id SERIAL, 
+	event_title VARCHAR NOT NULL, 
+	event_date timestamp NOT NULL,
+	event_description VARCHAR NOT NULl,
+	created_at timestamp
+);
+
 INSERT INTO SemesterInfo(semester_name) 
 VALUES 
 ('First'),

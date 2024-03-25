@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<main class="container mx-auto py-12">
+  <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+    <h2 class="text-3xl font-bold text-blue-500">
+      Photo Gallery
+    </h2>
+  </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+  >
+    <!-- Gallery Cards -->
+    <% for( let i = 0; i < images.length; i++ ) { %>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="<%= images[i].image_link %>" alt="Image" class="w-full h-48 object-cover" />
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-800"><%= images[i].image_title %></h2>
+            </div>
+        </div>
+    <% } %>
+    <!-- End Gallery Cards -->
+  </div>
+</main>
+<%- include('partials/footer') %>

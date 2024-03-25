@@ -40,3 +40,14 @@ export const handleViewExaminationPage = async (req, res) => {
     res.render("404");
   }
 };
+
+export const handleViewGalleryPage = async (req, res) => {
+  try {
+    const images = await getAllTableData("GalleryImages");
+    res.render("gallery", {
+      images,
+    });
+  } catch (error) {
+    res.render("404");
+  }
+};
