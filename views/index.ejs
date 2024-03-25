@@ -6,22 +6,35 @@
             width: 720px;
             height: auto;
         }
+        #scrollmenu::-webkit-scrollbar {
+          height: 7px;
+          color: rgb(0, 119, 255);
+        }
+        #scrollmenu::-webkit-scrollbar-track{
+          background-color: #ffffff;
+          width: 2px;
+          border-radius: 12px;
+        }
+        #scrollmenu::-webkit-scrollbar-thumb{
+          background-color: #ffffff;
+          border-radius: 4px;
+        }
     </style>
     <div id="banner" class="">
         <div class="container">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="images/slide1.jpg" class="img-thumbnail img-fluid d-block w-auto" alt="...">
+                        <img src="images/slide1.jpg" class="img-thumbnail img-fluid" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/slide2.jpg" class="img-thumbnail img-fluid d-block w-auto" alt="...">
+                        <img src="images/slide2.jpg" class="img-thumbnail img-fluid" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/slide3.jpg" class="img-thumbnail img-fluid d-block w-auto" alt="...">
+                        <img src="images/slide3.jpg" class="img-thumbnail img-fluid" alt="...">
                     </div>
                     <div class="carousel-item">
-                        <img src="images/slide4.jpg" class="img-thumbnail img-fluid d-block w-auto" alt="...">
+                        <img src="images/slide4.jpg" class="img-thumbnail img-fluid" alt="...">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -114,23 +127,24 @@
             <h2 class="section-head text-white text-3xl font-bold mb-6 text-center">Recent Events</h2>
             <div class="flex flex-wrap justify-center gap-4">
             </div>
-
-            <% for( let i=0; i < events.length; i++ ) { %>
-                <div class="max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img class="w-full h-48 object-cover" src="<%= events[i].image_link %>" alt="Women's Day">
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold mb-2"><a href="#" class="text-blue-700 hover:text-blue-900">
-                                <%= events[i].event_title %>
-                            </a></h3>
-                        <div class="text-sm text-blue-500 mb-4">
-                            <%= new Date(events[i].event_date).toDateString() %>
+            <div id="scrollmenu" class="flex-row flex gap-4 overflow-x-scroll">
+                <% for( let i=0; i < events.length; i++ ) { %>
+                    <div class="min-w-80 max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img class="w-full h-48 object-cover" src="<%= events[i].image_link %>" alt="Women's Day">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold mb-2"><a href="#" class="text-blue-700 hover:text-blue-900">
+                                    <%= events[i].event_title %>
+                                </a></h3>
+                            <div class="text-sm text-blue-500 mb-4">
+                                <%= new Date(events[i].event_date).toDateString() %>
+                            </div>
+                            <p class="text-gray-700">
+                                <%= events[i].event_description %>
+                            </p>
                         </div>
-                        <p class="text-gray-700">
-                            <%= events[i].event_description %>
-                        </p>
                     </div>
-                </div>
-            <% } %>
+                <% } %>
+            </div>
 
 
         </div>
