@@ -31,8 +31,11 @@ export const handleViewAdminDashboard = async (req, res) => {
       }
     });
 
+    const faculty = await getAllTableData("FacultyInfo");
+
     res.render("admin/dashboard", {
       groupedSubjects,
+      faculty
     });
   } catch (error) {
     res.render("404");

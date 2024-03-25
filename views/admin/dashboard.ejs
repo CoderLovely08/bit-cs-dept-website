@@ -11,7 +11,7 @@
                     <!-- Content -->
                     <details>
                         <summary>View All</summary>
-                    <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-2 flex-wrap justify-center">
+                        <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-2 flex-wrap justify-center">
                             <% Array.from(groupedSubjects).forEach(([semesterId, subjectsMap])=> { %>
                                 <div class="bg-white rounded-lg shadow-md w-fit max-w-64 mb-4">
                                     <h2 class="bg-blue-500 text-xl rounded-t-lg font-bold text-white p-2 mb-2">
@@ -21,15 +21,15 @@
                                         <ul>
                                             <% Object.values(subjectsMap).forEach(subject=> { %>
                                                 <li class="text-gray-600 mb-2">
-                                                   - <%= subject.subjectName %> - <%= subject.subjectCode %>
+                                                    - <%= subject.subjectName %> - <%= subject.subjectCode %>
                                                 </li>
-                                            <% }); %>
+                                                <% }); %>
                                         </ul>
                                     </div>
                                 </div>
                                 <% }); %>
-                            </div>
-                        </details>
+                        </div>
+                    </details>
                 </div>
                 <div class="md:w-1/2 md:pl-4">
                     <!-- Form -->
@@ -78,12 +78,72 @@
             </div>
         </div>
 
-        <!-- Faculty -->
+        <!-- Faculty Management -->
         <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                 <h2 class="text-3xl font-bold text-blue-500">Faculty Management</h2>
             </div>
+
+            <div class="md:flex md:items-start">
+                <!-- Faculty Cards -->
+                <div class="md:w-1/2 md:pr-4 flex flex-wrap justify-center items-center">
+                    <% for( let i=0; i < faculty.length ; i++ ) { %>
+                        <div class="w-fit rounded-lg m-2 ">
+                            <div
+                                class="flex max-w-64 relative overflow-hidden shadow-lg rounded-lg hover:border hover:border-blue-500">
+                                <div class="bg-blue-500 p-2 flex justify-center items-center">
+                                    <img class="w-16 h-16 rounded-full object-contain border-4 border-white"
+                                        src="<%= faculty[i].image_link %>" alt="Faculty Name">
+                                </div>
+                                <div class="bg-white p-2 flex flex-col items-center">
+                                    <div class="text-lg font-bold text-black mb-2 text-center text-wrap	">
+                                        <%= faculty[i].faculty_name %>
+                                    </div>
+                                    <span>
+                                        <%= faculty[i].faculty_designation %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div class="md:w-1/2 md:pr-4">
+                    <!-- Form for Adding Faculty -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="faculty-form" class=" md:flex-row md:items-center md:justify-between">
+                            <div class="flex gap-2 justify-between">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyName">Faculty Name</label>
+                                    <input type="text" id="facultyName" name="name"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter faculty name" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="designation">Designation</label>
+                                    <input type="text" id="designation" name="designation"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter designation" />
+                                </div>
+                            </div>
+                            <div class="flex gap-2 justify-between">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload Image</label>
+                                    <input type="file" id="facultyImage" name="fileItem" accept="image/*"
+                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                                Faculty</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
+
+
 
         <!-- Events -->
         <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
@@ -158,6 +218,38 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('Error adding subject:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+
+
+            // Faculty form
+
+             $('#faculty-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                 if (!confirmOption) return;
+
+                // Get form data
+                const formData = new FormData(this);
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/faculty', // Replace with your actual endpoint URL
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // Don't set content type (let jQuery handle it automatically)
+                    processData: false, // Don't process data (let jQuery handle it automatically)
+                    success: function (data) {
+                        alert(data.message)
+                        if(data.success) location.reload();
+                        console.log('Faculty added successfully:', data);
+                        // Optionally, you can perform additional actions like displaying a success message or redirecting the user
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding faculty:', error);
                         // Optionally, you can display an error message to the user
                     }
                 });
