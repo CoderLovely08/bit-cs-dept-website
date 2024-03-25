@@ -1,6 +1,6 @@
 export const handleViewAdminLogin = async (req, res) => {
   try {
-    res.render("404");
+    res.render("admin/login");
   } catch (error) {
     res.render("404");
   }
