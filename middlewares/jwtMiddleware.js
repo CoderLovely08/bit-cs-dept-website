@@ -32,7 +32,7 @@ export const verifyTokenMiddleware = (requiredRole) => (req, res, next) => {
     req.headers.authorization || req.query.token || req.cookies.token;
 
   if (!token) {
-    if (methodType == "GET") return res.status(401).render("403");
+    if (methodType == "GET") return res.status(401).redirect("/admin/login");
     else
       return res.status(401).json({
         succes: false,
@@ -48,7 +48,7 @@ export const verifyTokenMiddleware = (requiredRole) => (req, res, next) => {
     req.user = decoded;
 
     if (!requiredRole.includes(req.user.role)) {
-      if (methodType == "GET") return res.status(403).render("403");
+      if (methodType == "GET") return res.status(403).redirect("/admin/login");
       else
         return res.status(403).json({
           succes: false,

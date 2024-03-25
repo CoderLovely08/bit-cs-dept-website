@@ -407,7 +407,7 @@ export const handlePostGalleryImage = async (req, res) => {
     const { title } = req.body;
 
     if (!title || title.replace(/\s/g, "").trim().length < 6) {
-      console.log(title);
+
       return res.json({
         success: false,
         message: "Enter a valid Image title with atleast 6 characters",
@@ -658,7 +658,7 @@ export const handlePostEvents = async (req, res) => {
   try {
     const { title, description, date } = req.body;
     // Check if name is valid or not
-    console.log(title, description, date);
+
     if (
       !title ||
       !validator.isLength(title.replace(/\s/g, "").trim(), { min: 6 })

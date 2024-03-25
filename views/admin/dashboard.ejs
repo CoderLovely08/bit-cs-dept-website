@@ -1,3 +1,166 @@
-<%- include('../partials/header') %>
-<main></main>
-<%- include('../partials/footer') %>
+<%- include('navbar') %>
+
+    <main class="container mx-auto mt-8">
+        <!-- Subjects -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Subjects Management</h2>
+            </div>
+            <div class="md:flex md:items-start">
+                <div class="md:w-1/2 md:pr-4">
+                    <!-- Content -->
+                    <details>
+                        <summary>View All</summary>
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-2 flex-wrap justify-center">
+                            <% Array.from(groupedSubjects).forEach(([semesterId, subjectsMap])=> { %>
+                                <div class="bg-white rounded-lg shadow-md w-fit max-w-64 mb-4">
+                                    <h2 class="bg-blue-500 text-xl rounded-t-lg font-bold text-white p-2 mb-2">
+                                        Semester <%= semesterId %>
+                                    </h2>
+                                    <div class="p-2">
+                                        <ul>
+                                            <% Object.values(subjectsMap).forEach(subject=> { %>
+                                                <li class="text-gray-600 mb-2">
+                                                   - <%= subject.subjectName %> - <%= subject.subjectCode %>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <% }); %>
+                            </div>
+                        </details>
+                </div>
+                <div class="md:w-1/2 md:pl-4">
+                    <!-- Form -->
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="subject-form">
+                            <div class="mb-4">
+                                <div class="flex gap-2 justify-between">
+                                    <div class="w-full">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                            for="subjectName">Subject Name</label>
+                                        <input type="text" id="subjectName" name="subjectName"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            placeholder="Enter subject name" />
+                                    </div>
+                                    <div class="w-full">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                            for="subjectCode">Subject Code</label>
+                                        <input type="text" id="subjectCode" name="subjectCode"
+                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            placeholder="Enter subject code" />
+                                    </div>
+                                </div>
+                                <div class="mb-4 w-full">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="semesterId">Select
+                                        Semester</label>
+                                    <select id="semesterId" name="semesterId"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500">
+                                        <option value="" selected hidden disabled>Select semester</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+                                <!-- Add other form fields here -->
+                                <button type="submit"
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Add Subject
+                                </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Faculty Management</h2>
+            </div>
+        </div>
+
+        <!-- Events -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Event Management</h2>
+            </div>
+        </div>
+
+        <!-- Syllabus -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Syllabus Management</h2>
+            </div>
+        </div>
+
+        <!-- Academic Calendars -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Academic Calendar</h2>
+            </div>
+        </div>
+
+        <!-- Lab Manual -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Lab Manuals</h2>
+            </div>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Photo Gallery</h2>
+            </div>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Examination</h2>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        $(document).ready(function () {
+            // Function to handle form submission
+            $('#subject-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                if (!confirmOption) return;
+
+                // Get form data
+                const formData = {
+                    subjectName: $('#subjectName').val(),
+                    subjectCode: $('#subjectCode').val(),
+                    semesterId: $('#semesterId').val()
+                };
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/subject',
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.success) {
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding subject:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+        });
+    </script>
