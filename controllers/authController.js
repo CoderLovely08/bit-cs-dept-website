@@ -57,3 +57,19 @@ export const handleAdminLogin = async (req, res) => {
         });
     }
 };
+
+export const handleAdminLogout = async (req, res) => {
+    try {
+        res.clearCookie("token");
+        return res.json({
+            success: true,
+            message: "Logout successful",
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            data: [],
+        });
+    }
+};

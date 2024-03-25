@@ -34,8 +34,30 @@
                     </button>
                 </div>
                 <ul class="hidden md:flex flex-col md:flex-row items-center">
-                    <li class="mx-2"><a href="/admin/logout" class="bg-white text-blue-500 hover:bg-gray-900 px-3 py-2 rounded">Logout</a></li>
+                    <li class="mx-2"><a id="logout-btn" href="#" class="bg-white text-blue-500 hover:bg-gray-900 px-3 py-2 rounded">Logout</a></li>
                 </ul>
             </div>
         </nav>
     </header>
+
+    <script>
+        $(document).ready(function() {
+            // Logout button
+            $("#logout-btn").on("click", function () {
+                let confirmOption = confirm("Are you sure to logout?");
+                if (!confirmOption) return;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/auth/admin/logout",
+                    success: function (response) {
+                        if (response.success) alert(response.message);
+                        window.location.href = "/";
+                    },
+                    error: function (error) {
+                        alert(error);
+                    },
+                });
+            });
+        })
+    </script>
