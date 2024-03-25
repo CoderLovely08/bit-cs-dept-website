@@ -59,3 +59,20 @@ export const getAllSyllabusInfo = async () => {
     return [];
   }
 };
+
+export const getAllPaperDetails = async (tableName) => {
+  try {
+    const query = {
+      text: `
+      SELECT * FROM ${tableName} ti
+      JOIN SubjectsInfo si 
+        ON si.subject_id = ti.subject_id
+      `,
+    };
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (error) {
+    console.log(`Error in getAllPaperDetails() call: ${error}`);
+    return [];
+  }
+};
