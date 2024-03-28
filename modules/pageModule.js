@@ -91,6 +91,7 @@ export const getAllLabManuals = async () => {
       FROM LabManualsinfo lmi
       JOIN SubjectsInfo si
       	ON lmi.subject_id = si.subject_id
+      ORDER BY lmi.semester_id
       `,
     };
     const { rows } = await pool.query(query);

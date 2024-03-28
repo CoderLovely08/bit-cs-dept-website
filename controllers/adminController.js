@@ -23,9 +23,10 @@ export const handleViewAdminDashboard = async (req, res) => {
       getAllTableData("SubjectsInfo", "semester_id"),
       getAllLabManuals()
     ]);
-    
+
     const [faculty, syllabus, calendar, photos, question, model, sessional, events, subjects, manuals] = results;
 
+    // Process and group subjects
     const groupedSubjects = new Map();
 
     subjects.forEach((subject) => {

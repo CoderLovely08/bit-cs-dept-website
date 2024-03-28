@@ -407,7 +407,7 @@
                                     </h2>
                                     <div class="p-2">
                                             <% Object.values(subjectsMap).forEach(subject=> { %>
-                                                <div class="bg-gray-100 rounded-lg p-2">
+                                                <div class="bg-gray-100 rounded-lg p-2 my-2">
                                                     <h4 class="font-bold text-gray-800">
                                                         <%= subject.subjectCode %> - <%= subject.subjectName %></h4>
                                                     <a target="_blank" href="<%= subject.pdfLink %>" class="text-blue-500 hover:text-blue-600">Link</a>
@@ -466,7 +466,6 @@
                                                 <%= subjects[i].subject_code %>: <%= subjects[i].subject_name %>
                                             </option>
                                             <% } %>
-                                                <!-- Add more options for other semesters -->
                                     </select>
                                 </div>
 

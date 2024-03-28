@@ -1,5 +1,6 @@
 import {
   getAllAcademicCalendar,
+  getAllLabManuals,
   getAllPaperDetails,
   getAllSyllabusInfo,
   getAllTableData,
@@ -29,10 +30,40 @@ export const handleViewAboutPage = async (req, res) => {
 
 export const handleViewCurriculumPage = async (req, res) => {
   try {
-    // const syllabus = await getAllSyllabusInfo();
-    const syllabus = await getAllTableData("SyllabusInfo", "semester_id");
+    const [syllabus, manuals] = await Promise.all([
+      getAllTableData("SyllabusInfo", "semester_id"),
+      getAllLabManuals(),
+    ]);
+
+    const groupedManuals = new Map();
+
+    manuals.forEach((subject) => {
+      const {
+        semester_id,
+        subject_id,
+        subject_name,
+        subject_code,
+        pdf_link_src,
+      } = subject;
+
+      // If the semester_id is not yet in the map, add it
+      if (!groupedManuals.has(semester_id)) {
+        groupedManuals.set(semester_id, {});
+      }
+
+      // If the subject_id is not yet in the semester object, add it
+      if (!groupedManuals.get(semester_id)[subject_id]) {
+        groupedManuals.get(semester_id)[subject_id] = {
+          subjectName: subject_name,
+          subjectCode: subject_code,
+          pdfLink: pdf_link_src,
+        };
+      }
+    });
+
     res.render("curriculum", {
       syllabus,
+      groupedManuals
     });
   } catch (error) {
     res.render("404");
@@ -41,9 +72,12 @@ export const handleViewCurriculumPage = async (req, res) => {
 
 export const handleViewExaminationPage = async (req, res) => {
   try {
-    const question = await getAllPaperDetails("QuestionPaperInfo");
-    const model = await getAllPaperDetails("ModelPaperInfo");
-    const sessional = await getAllPaperDetails("SessionalPaperInfo");
+    const [question, model, sessional] = await Promise.all([
+      getAllPaperDetails("QuestionPaperInfo"),
+      getAllPaperDetails("ModelPaperInfo"),
+      getAllPaperDetails("SessionalPaperInfo"),
+    ]);
+
     // Create an empty map to store the grouped data
     const groupedQuestionData = new Map();
 
