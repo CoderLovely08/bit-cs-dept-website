@@ -3,7 +3,7 @@ import pool from "../config/dbConfig.js";
 export const getAllFaculty = async () => {
   try {
     const query = {
-      text: `SELECT * FROM FacultyInfo`,
+      text: `SELECT * FROM FacultyInfo ORDER BY faculty_id`,
     };
     const { rows } = await pool.query(query);
     return rows;
@@ -16,7 +16,7 @@ export const getAllFaculty = async () => {
 export const getAllAcademicCalendar = async () => {
   try {
     const query = {
-      text: `SELECT * FROM AcademicCalendarInfo`,
+      text: `SELECT * FROM AcademicCalendarInfo ORDER BY calendar_id DESC`,
     };
 
     const { rows } = await pool.query(query);
@@ -27,11 +27,11 @@ export const getAllAcademicCalendar = async () => {
   }
 };
 
-export const getAllTableData = async (tableName, columnName) => {
+export const getAllTableData = async (tableName, columnName, order = "ASC") => {
   try {
     const query = {
       text: `SELECT * FROM ${tableName} ${
-        columnName ? `ORDER BY ${columnName}` : ""
+        columnName ? `ORDER BY ${columnName} ${order}` : ""
       }`,
     };
 

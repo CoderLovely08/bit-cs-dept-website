@@ -354,9 +354,9 @@
                 <div class="md:w-1/2 md:pr-4">
                     <div>
                         <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                            <h2 class="text-3xl font-bold text-blue-500">
+                            <h4 class="text-xl font-bold text-blue-500">
                                 End Semester Question Papers
-                            </h2>
+                            </h4>
                         </div>
                         <div class="flex gap-2 justify-center items-center flex-wrap">
                             <!-- Repeat for each end-semester paper -->
@@ -395,7 +395,7 @@
                     </div>
                     <div>
                         <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                            <h2 class="text-3xl font-bold text-blue-500">Model Answer Papers</h2>
+                            <h4 class="text-xl font-bold text-blue-500">Model Answer Papers</h4>
                         </div>
                         <div class="flex gap-2 justify-center items-center flex-wrap ">
                             <!-- Repeat for each model answer paper -->
@@ -433,7 +433,7 @@
                     </div>
                     <div>
                         <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                            <h2 class="text-3xl font-bold text-blue-500">Sessional Papers</h2>
+                            <h4 class="text-xl font-bold text-blue-500">Sessional Papers</h4>
                         </div>
                         <div class="flex gap-2 justify-center items-center flex-wrap">
                             <!-- Repeat for each sessional paper -->
@@ -712,6 +712,29 @@
                         // Optionally, you can display an error message to the user
                     }
                 });
+            });
+
+            // Select all input elements in forms and set them as required
+            $('form input').prop('required', true);
+
+            // Function to enable loading
+            function enableLoading() {
+                $('#loadingIndicator').removeClass('hidden');
+            }
+
+            // Function to disable loading
+            function disableLoading() {
+                $('#loadingIndicator').addClass('hidden');
+            }
+
+            // Global AJAX complete handler
+            $(document).ajaxStart(function () {
+                enableLoading();
+            });
+
+            // Global AJAX complete handler
+            $(document).ajaxComplete(function () {
+                disableLoading();
             });
 
         });

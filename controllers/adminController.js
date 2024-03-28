@@ -10,7 +10,7 @@ export const handleViewAdminLogin = async (req, res) => {
 
 export const handleViewAdminDashboard = async (req, res) => {
   try {
-    const subjects = await getAllTableData("SubjectsInfo");
+    const subjects = await getAllTableData("SubjectsInfo", "semester_id");
 
     const groupedSubjects = new Map();
 
@@ -32,8 +32,8 @@ export const handleViewAdminDashboard = async (req, res) => {
     });
 
     const faculty = await getAllTableData("FacultyInfo");
-    const syllabus = await getAllTableData("SyllabusInfo");
-    const calendar = await getAllTableData("AcademicCalendarInfo");
+    const syllabus = await getAllTableData("SyllabusInfo", "semester_id");
+    const calendar = await getAllTableData("AcademicCalendarInfo", "calendar_id", "DESC");
     const photos = await getAllTableData("GalleryImages");
 
     const question = await getAllPaperDetails("QuestionPaperInfo");

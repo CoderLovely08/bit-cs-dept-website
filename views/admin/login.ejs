@@ -91,8 +91,28 @@
                         }
                     }
                 })
-            })
-        })
+            });
+
+            // Function to enable loading
+            function enableLoading() {
+                $('#loadingIndicator').removeClass('hidden');
+            }
+
+            // Function to disable loading
+            function disableLoading() {
+                $('#loadingIndicator').addClass('hidden');
+            }
+
+            // Global AJAX complete handler
+            $(document).ajaxStart(function () {
+                enableLoading();
+            });
+
+            // Global AJAX complete handler
+            $(document).ajaxComplete(function () {
+                disableLoading();
+            });
+        });
     </script>
 
     <%- include('../partials/footer') %>

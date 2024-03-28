@@ -29,7 +29,8 @@ export const handleViewAboutPage = async (req, res) => {
 
 export const handleViewCurriculumPage = async (req, res) => {
   try {
-    const syllabus = await getAllSyllabusInfo();
+    // const syllabus = await getAllSyllabusInfo();
+    const syllabus = await getAllTableData("SyllabusInfo", "semester_id");
     res.render("curriculum", {
       syllabus,
     });
