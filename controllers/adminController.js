@@ -1,4 +1,4 @@
-import { getAllPaperDetails, getAllTableData } from "../modules/pageModule.js";
+import { getAllLabManuals, getAllPaperDetails, getAllTableData } from "../modules/pageModule.js";
 
 export const handleViewAdminLogin = async (req, res) => {
   try {
@@ -9,8 +9,22 @@ export const handleViewAdminLogin = async (req, res) => {
 };
 
 export const handleViewAdminDashboard = async (req, res) => {
-  try {
-    const subjects = await getAllTableData("SubjectsInfo", "semester_id");
+  try {   
+
+    const results = await Promise.all([
+      getAllTableData("FacultyInfo"),
+      getAllTableData("SyllabusInfo", "semester_id"),
+      getAllTableData("AcademicCalendarInfo", "calendar_id", "DESC"),
+      getAllTableData("GalleryImages", "image_id", "DESC"),
+      getAllPaperDetails("QuestionPaperInfo"),
+      getAllPaperDetails("ModelPaperInfo"),
+      getAllPaperDetails("SessionalPaperInfo"),
+      getAllTableData("EventsInfo", "event_id", "DESC"),
+      getAllTableData("SubjectsInfo", "semester_id"),
+      getAllLabManuals()
+    ]);
+    
+    const [faculty, syllabus, calendar, photos, question, model, sessional, events, subjects, manuals] = results;
 
     const groupedSubjects = new Map();
 
@@ -31,18 +45,6 @@ export const handleViewAdminDashboard = async (req, res) => {
       }
     });
 
-    const results = await Promise.all([
-      getAllTableData("FacultyInfo"),
-      getAllTableData("SyllabusInfo", "semester_id"),
-      getAllTableData("AcademicCalendarInfo", "calendar_id", "DESC"),
-      getAllTableData("GalleryImages", "image_id", "DESC"),
-      getAllPaperDetails("QuestionPaperInfo"),
-      getAllPaperDetails("ModelPaperInfo"),
-      getAllPaperDetails("SessionalPaperInfo"),
-      getAllTableData("EventsInfo", "event_id", "DESC")
-    ]);
-
-    const [faculty, syllabus, calendar, photos, question, model, sessional, events] = results;
     // Create an empty map to store the grouped data
     const groupedQuestionData = new Map();
 
@@ -146,6 +148,26 @@ export const handleViewAdminDashboard = async (req, res) => {
       });
     });
 
+    const groupedManuals = new Map();
+
+    manuals.forEach((subject) => {
+      const { semester_id, subject_id, subject_name, subject_code, pdf_link_src  } = subject;
+
+      // If the semester_id is not yet in the map, add it
+      if (!groupedManuals.has(semester_id)) {
+        groupedManuals.set(semester_id, {});
+      }
+
+      // If the subject_id is not yet in the semester object, add it
+      if (!groupedManuals.get(semester_id)[subject_id]) {
+        groupedManuals.get(semester_id)[subject_id] = {
+          subjectName: subject_name,
+          subjectCode: subject_code,
+          pdfLink: pdf_link_src
+        };
+      }
+    });
+
     res.render("admin/dashboard", {
       subjects,
       groupedSubjects,
@@ -156,7 +178,8 @@ export const handleViewAdminDashboard = async (req, res) => {
       groupedQuestionData,
       groupedModelData,
       groupedSessionalData,
-      events
+      events,
+      groupedManuals
     });
   } catch (error) {
     res.render("404");

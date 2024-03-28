@@ -76,3 +76,27 @@ export const getAllPaperDetails = async (tableName) => {
     return [];
   }
 };
+
+export const getAllLabManuals = async () => {
+  try {
+    const query = {
+      text: `
+      SELECT 
+      	lmi.manual_title,
+      	lmi.semester_id,
+      	lmi.pdf_link_src,
+      	si.subject_id,
+      	si.subject_name,
+      	si.subject_code	
+      FROM LabManualsinfo lmi
+      JOIN SubjectsInfo si
+      	ON lmi.subject_id = si.subject_id
+      `,
+    };
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (error) {
+    console.log(`Error in getAllPaperDetails() call: ${error}`);
+    return [];
+  }
+};

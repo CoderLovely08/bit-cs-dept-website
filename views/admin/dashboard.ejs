@@ -23,11 +23,11 @@
                                                 <li class="text-gray-600 mb-2">
                                                     - <%= subject.subjectName %> - <%= subject.subjectCode %>
                                                 </li>
-                                                <% }); %>
+                                            <% }); %>
                                         </ul>
                                     </div>
                                 </div>
-                                <% }); %>
+                            <% }); %>
                         </div>
                     </details>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
                         <form id="subject-form">
                             <div class="mb-4">
-                                <div class="flex gap-2 justify-between">
+                                <div class="flex gap-2 justify-between max-sm:flex-col">
                                     <div class="w-full">
                                         <label class="block text-gray-700 text-sm font-bold mb-2"
                                             for="subjectName">Subject Name</label>
@@ -79,7 +79,7 @@
         </div>
 
         <!-- Faculty Management -->
-        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+        <div class="    px-2 py-4 m-2 w-auto shadow rounded-md">
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                 <h2 class="text-3xl font-bold text-blue-500">Faculty Management</h2>
             </div>
@@ -112,7 +112,7 @@
                     <!-- Form for Adding Faculty -->
                     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
                         <form id="faculty-form" class=" md:flex-row md:items-center md:justify-between">
-                            <div class="flex gap-2 justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyName">Faculty Name</label>
                                     <input type="text" id="facultyName" name="name"
@@ -126,7 +126,7 @@
                                         placeholder="Enter designation" />
                                 </div>
                             </div>
-                            <div class="flex gap-2 justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload Image</label>
                                     <input type="file" id="facultyImage" name="fileItem" accept="image/*"
@@ -139,76 +139,6 @@
                         </form>
                     </div>
 
-                </div>
-            </div>
-        </div>
-
-        <!-- Events -->
-        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
-            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                <h2 class="text-3xl font-bold text-blue-500">Event Management</h2>
-            </div>
-            <div class="md:flex md:items-start">
-                <div class="flex gap-2 flex-wrap justify-center md:w-1/2 md:pr-4 pb-4">
-                    <% for( let i=0; i < events.length; i++ ) { %>
-                        <div class="w-64 bg-white rounded-lg shadow-lg overflow-hidden">
-                            <img class="w-full h-24 object-contain" src="<%= events[i].image_link %>" alt="Women's Day">
-                            <div class="p-2">
-                                <h3 class="text-xl font-semibold mb-1"><a href="#" class="text-blue-700 hover:text-blue-900">
-                                        <%= events[i].event_title %>
-                                    </a></h3>
-                                <div class="text-sm text-blue-500 mb-2">
-                                    <%= new Date(events[i].event_date).toDateString() %>
-                                </div>
-                                <p class="text-gray-700">
-                                    <%= events[i].event_description %>
-                                </p>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
-                <div class="md:w-1/2 md:pr-4">
-                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
-                        <form id="events-form" class="space-y-4">
-                            <!-- Title input -->
-                            <div class="flex max-sm:flex-col justify-between gap-2">
-                                <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Event Title</label>
-                                    <input type="text" id="title" name="title"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        placeholder="Enter event title" />
-                                </div>
-                                <!-- Date input -->
-                                <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">Event Date</label>
-                                    <input type="date" id="date" name="date"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                </div>
-                            </div>
-                    
-                            <div class="flex max-sm:flex-col justify-between gap-2">
-                                <!-- Description input -->
-                                <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Event Description</label>
-                                    <textarea id="description" name="description"
-                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        placeholder="Enter event description"></textarea>
-                                </div>
-                                <!-- Image input -->
-                                <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fileItem">Event Image</label>
-                                    <input type="file" id="fileItem" name="fileItem" accept="image/*"
-                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                </div>
-                            </div>
-                    
-                            <!-- Submit button -->
-                            <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Add Event
-                            </button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -336,21 +266,6 @@
             </div>
         </div>
 
-        <!-- Lab Manual -->
-        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
-            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                <h2 class="text-3xl font-bold text-blue-500">Lab Manuals</h2>
-            </div>
-            <div class="md:flex md:items-start">
-                <div class="md:w-1/2 md:pr-4">
-                    <!-- Existing Syllabus cards -->
-                </div>
-                <div class="md:w-1/2 md:pr-4">
-                    <!-- Form -->
-                </div>
-            </div>
-        </div>
-
         <!-- Photo Gallery -->
         <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
@@ -362,30 +277,33 @@
                     <div class="flex gap-2 justify-center items-center flex-wrap">
                         <% for( let i=0; i < photos.length; i++ ) { %>
                             <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-36">
-                                <img src="<%= photos[i].image_link %>" alt="Image" class="w-full h-36 object-contain rounded-md" />
+                                <img src="<%= photos[i].image_link %>" alt="Image"
+                                    class="w-full h-36 object-contain rounded-md" />
                                 <div class="p-1 border rounded">
                                     <h2 class="text-lg font-semibold text-gray-800">
                                         <%= photos[i].image_title %>
                                     </h2>
                                 </div>
                             </div>
-                        <% } %>
+                            <% } %>
                     </div>
-                            <!-- End Gallery Cards -->
+                    <!-- End Gallery Cards -->
                 </div>
                 <div class="md:w-1/2 md:pr-4">
                     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
                         <form id="gallery-form" class=" md:flex-row md:items-center md:justify-between">
-                            <div class="flex gap-2 justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="imageName">Image Title</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="imageName">Image
+                                        Title</label>
                                     <input type="text" id="imageName" name="title"
                                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder="Enter image name" />
                                 </div>
-                                <div class="flex gap-2 justify-between">
+                                <div class="flex gap-2 justify-between max-sm:flex-col">
                                     <div class="mb-4 flex-grow">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload Image</label>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload
+                                            Image</label>
                                         <input type="file" id="facultyImage" name="fileItem" accept="image/*"
                                             class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                     </div>
@@ -394,6 +312,169 @@
                             <button type="submit"
                                 class="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
                                 Image</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Event Management</h2>
+            </div>
+            <div class="md:flex md:items-start">
+                <div class="flex gap-2 flex-wrap justify-center md:w-1/2 md:pr-4 pb-4">
+                    <% for( let i=0; i < events.length; i++ ) { %>
+                        <div class="w-64 bg-white rounded-lg shadow-lg overflow-hidden">
+                            <img class="w-full h-24 object-contain" src="<%= events[i].image_link %>" alt="Women's Day">
+                            <div class="p-2">
+                                <h3 class="text-xl font-semibold mb-1"><a href="#" class="text-blue-700 hover:text-blue-900">
+                                        <%= events[i].event_title %>
+                                    </a></h3>
+                                <div class="text-sm text-blue-500 mb-2">
+                                    <%= new Date(events[i].event_date).toDateString() %>
+                                </div>
+                                <p class="text-gray-700">
+                                    <%= events[i].event_description %>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+                </div>
+                <div class="md:w-1/2 md:pr-4">
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="events-form" class="space-y-4">
+                            <!-- Title input -->
+                            <div class="flex max-sm:flex-col justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Event Title</label>
+                                    <input type="text" id="title" name="title"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter event title" />
+                                </div>
+                                <!-- Date input -->
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">Event Date</label>
+                                    <input type="date" id="date" name="date"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            </div>
+        
+                            <div class="flex max-sm:flex-col justify-between gap-2">
+                                <!-- Description input -->
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Event
+                                        Description</label>
+                                    <textarea id="description" name="description"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter event description"></textarea>
+                                </div>
+                                <!-- Image input -->
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fileItem">Event Image</label>
+                                    <input type="file" id="fileItem" name="fileItem" accept="image/*"
+                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            </div>
+        
+                            <!-- Submit button -->
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Add Event
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lab Manual -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Lab Manuals</h2>
+            </div>
+            <div class="md:flex md:items-start">
+                <div class="md:w-1/2 md:pr-4">
+                    <!-- Content -->
+                    <details>
+                        <summary>View All</summary>
+                        <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-2 flex-wrap justify-center">
+                            <% Array.from(groupedManuals).forEach(([semesterId, subjectsMap])=> { %>
+                                <div class="bg-white rounded-lg shadow-md w-fit max-w-64 mb-4">
+                                    <h2 class="bg-blue-500 text-xl rounded-t-lg font-bold text-white p-2 mb-2">
+                                        Semester <%= semesterId %>
+                                    </h2>
+                                    <div class="p-2">
+                                            <% Object.values(subjectsMap).forEach(subject=> { %>
+                                                <div class="bg-gray-100 rounded-lg p-2">
+                                                    <h4 class="font-bold text-gray-800">
+                                                        <%= subject.subjectCode %> - <%= subject.subjectName %></h4>
+                                                    <a target="_blank" href="<%= subject.pdfLink %>" class="text-blue-500 hover:text-blue-600">Link</a>
+                                                </div>
+                                            <% }); %>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-1/2 md:pr-4">
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="manuals-form" class=" md:flex-row md:items-center md:justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lab-manual-title">Manual Title</label>
+                                    <input type="text" id="lab-manual-title" name="title" required
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="EX: MAD Lab Manual" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lab-manual-link">Pdf link</label>
+                                    <input type="text" id="lab-manual-link" name="link" required
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Paste drive folder link here" />
+                                </div>                
+                            </div>
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
+                                <!-- Semester Dropdown -->
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lab-manual-semester">Semester</label>
+                                    <select id="lab-manual-semester" name="semesterId"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500">
+                                        <option value="" selected disabled>Select semester</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+
+                                <!-- Subjects dropdown -->
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lab-manual-subject">Subject</label>
+                                    <select id="lab-manual-subject" name="subjectId"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500"
+                                        required>
+                                        <option value="" selected disabled>Select Subject</option>
+                
+                                        <% for( let i=0; i < subjects.length; i++ ) { %>
+                                            <option value="<%= subjects[i].subject_id %>">
+                                                <%= subjects[i].subject_code %>: <%= subjects[i].subject_name %>
+                                            </option>
+                                            <% } %>
+                                                <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+
+                            </div>
+                
+                            <button type="submit"
+                                class="flex-grow bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
+                                Manual</button>
                         </form>
                     </div>
                 </div>
@@ -528,7 +609,7 @@
                 <div class="md:w-1/2 md:pr-4">
                     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
                         <form id="paeprs-form" class=" md:flex-row md:items-center md:justify-between">
-                            <div class="flex gap-2 justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Title">Paper Title</label>
                                     <input type="text" id="Title" name="title" required
@@ -548,7 +629,7 @@
                                 </div>
 
                             </div>
-                            <div class="flex gap-2 justify-between">
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <!-- Subjects dropdown -->
                                 <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="subject">Subject</label>
@@ -562,7 +643,7 @@
                                         <!-- Add more options for other semesters -->
                                     </select>
                                 </div>
-                                <div class="flex gap-2 justify-between">
+                                <div class="flex gap-2 justify-between max-sm:flex-col">
                                     <div class="mb-4 flex-grow">
                                         <label class="block text-gray-700 text-sm font-bold mb-2" for="pdfFile">PDF File</label>
                                         <input type="file" id="pdfFile" name="fileItem" accept="application/pdf"
@@ -704,8 +785,7 @@
                     }
                 });
             });
-             
-            
+                       
             // Function to handle form submission
             $('#gallery-form').submit(function (event) {
                 event.preventDefault(); // Prevent default form submission
@@ -792,6 +872,38 @@
                     }
                 });
             });
+
+            // Function to handle lab manual form submission
+            $('#manuals-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure to submit?");
+                if (!confirmOption) return;
+
+                // Get form data
+                const formData = {
+                    title: $('#lab-manual-title').val(),
+                    link: $('#lab-manual-link').val(),
+                    semesterId: $('#lab-manual-semester').val(),
+                    subjectId: $('#lab-manual-subject').val(),
+                };
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/manual',
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.success) location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding subject:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+
 
             // Select all input elements in forms and set them as required
             $('form input').prop('required', true);
