@@ -18,6 +18,7 @@ import {
   handlePostFaculty,
   handleDeleteFaculty,
   handlePostEvents,
+  handlePostLabManual,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -124,9 +125,9 @@ router
   )
   .delete(verifyTokenMiddleware(["admin"]), handleDeleteFaculty);
 
-  /**
+/**
  * Route for posting events
- * POST request for posting new events, DELETE request for deleting events
+ * POST request for posting new events
  */
 router
   .route("/events")
@@ -134,7 +135,17 @@ router
     verifyTokenMiddleware(["admin"]),
     upload.single("fileItem"),
     handlePostEvents
-  )
-  // .delete(verifyTokenMiddleware(["admin"]), handleDeleteEvents);
+  );
+/**
+ * Route for posting lab manuals
+ * POST request for posting new lab manual
+ */
+router
+  .route("/manual")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.single("fileItem"),
+    handlePostLabManual
+  );
 // Export the router
 export default router;

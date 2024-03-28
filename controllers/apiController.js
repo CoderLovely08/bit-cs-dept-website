@@ -10,6 +10,7 @@ import {
   storeEventsDetails,
   storeFacultyDetails,
   storeGalleryImage,
+  storeLabManualDetails,
   storeNoticeDetails,
   storePaperDetails,
   storeSubjectDetails,
@@ -407,7 +408,6 @@ export const handlePostGalleryImage = async (req, res) => {
     const { title } = req.body;
 
     if (!title || title.replace(/\s/g, "").trim().length < 6) {
-
       return res.json({
         success: false,
         message: "Enter a valid Image title with atleast 6 characters",
@@ -735,6 +735,45 @@ export const handlePostEvents = async (req, res) => {
       description,
       imageSrc,
       date
+    );
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// -------------------------------------------------
+//              Lab Manual Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to posting a new lab manual
+ */
+export const handlePostLabManual = async (req, res) => {
+  try {
+    const { title, link, subjectId, semesterId } = req.body;
+    // Check if name is valid or not
+
+    if (
+      !title ||
+      !validator.isLength(title.replace(/\s/g, "").trim(), { min: 6 })
+    ) {
+      return res.json({
+        success: false,
+        message: "title can only contain letters with min 6 characters",
+      });
+    }
+
+    const dbResult = await storeLabManualDetails(
+      title,
+      link,
+      semesterId,
+      subjectId
     );
 
     res.json({

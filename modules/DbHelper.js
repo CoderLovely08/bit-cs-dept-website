@@ -318,3 +318,54 @@ export const storeEventsDetails = async (
   }
 };
 
+export const storeLabManualDetails = async (
+  title,
+  link,
+  semesterId,
+  subjectId
+) => {
+  try {
+    const checkQuery = {
+      text: `
+      SELECT manual_id FROM LabManualsInfo WHERE semester_id = $1 AND subject_id = $2
+      `,
+      values: [semesterId, subjectId],
+    };
+
+    const checkQueryResult = await pool.query(checkQuery);
+
+    if (checkQueryResult.rowCount > 0) {
+      return {
+        success: false,
+        message:
+          "Lab Manual for the selected semester and subject combination already exists",
+      };
+    }
+
+    const query = {
+      text: `
+        INSERT INTO LabManualsInfo(
+          manual_title,
+          semester_id,
+          subject_id,
+          pdf_link_src
+        ) VALUES ($1, $2, $3, $4)
+      `,
+      values: [title, semesterId, subjectId, link],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Lab Manual added successfully"
+          : "Unable to add Lab Manual",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
