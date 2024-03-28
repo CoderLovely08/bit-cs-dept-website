@@ -94,7 +94,7 @@ CREATE TABLE SyllabusInfo(
 	syllabus_id SERIAL PRIMARY KEY,
 	syllabus_title VARCHAR NOT NULL,
 	pdf_link VARCHAR NOT NULL,
-	semester_id INT,
+	semester_id INT NOT NULL,
 	FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id)
 );
 
@@ -111,6 +111,16 @@ CREATE TABLE EventsInfo(
     image_link VARCHAR NOT NULL,
 	event_description VARCHAR NOT NULl,
 	created_at timestamp
+);
+
+CREATE TABLE LabManualsInfo(
+    manual_id SERIAL PRIMARY KEY,
+    manual_title VARCHAR NOT NULL,
+    semester_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    pdf_link_src VARCHAR NOT NULL,
+    FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id),
+    FOREIGN KEY (subject_id) REFERENCES SubjectsInfo(subject_id)
 );
 
 INSERT INTO SemesterInfo(semester_name) 

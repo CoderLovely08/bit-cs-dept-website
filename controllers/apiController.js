@@ -539,6 +539,10 @@ export const handlePostSyllabus = async (req, res) => {
   } catch (error) {}
 };
 
+/**
+ * Type: DELETE
+ * Purpose: Route handler to delete a syallabus record
+ */
 export const handleDeleteSyllabus = async (req, res) => {
   try {
     const { id } = req.body;
@@ -565,6 +569,14 @@ export const handleDeleteSyllabus = async (req, res) => {
   }
 };
 
+// -------------------------------------------------
+//              Faculty Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to posting a new faculty
+ */
 export const handlePostFaculty = async (req, res) => {
   try {
     const { name, designation } = req.body;
@@ -628,6 +640,10 @@ export const handlePostFaculty = async (req, res) => {
   }
 };
 
+/**
+ * Type: DELETE
+ * Purpose: Route handler to deleting a faculty
+ */
 export const handleDeleteFaculty = async (req, res) => {
   try {
     const { id } = req.body;
@@ -654,6 +670,14 @@ export const handleDeleteFaculty = async (req, res) => {
   }
 };
 
+// -------------------------------------------------
+//              Event/Notice Handlers
+// -------------------------------------------------
+
+/**
+ * Type: POST
+ * Purpose: Route handler to posting a new event
+ */
 export const handlePostEvents = async (req, res) => {
   try {
     const { title, description, date } = req.body;
@@ -671,7 +695,7 @@ export const handlePostEvents = async (req, res) => {
 
     if (
       !description ||
-      !validator.isAlpha(description.replace(/\s/g, "").trim())
+      !validator.isAscii(description.replace(/\s/g, "").trim())
     ) {
       return res.json({
         success: false,
@@ -685,7 +709,7 @@ export const handlePostEvents = async (req, res) => {
     if (!req?.file?.buffer) {
       return res.json({
         success: false,
-        message: "No PDF/Image document provided",
+        message: "No Image document provided",
       });
     }
 

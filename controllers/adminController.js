@@ -31,14 +31,18 @@ export const handleViewAdminDashboard = async (req, res) => {
       }
     });
 
-    const faculty = await getAllTableData("FacultyInfo");
-    const syllabus = await getAllTableData("SyllabusInfo", "semester_id");
-    const calendar = await getAllTableData("AcademicCalendarInfo", "calendar_id", "DESC");
-    const photos = await getAllTableData("GalleryImages");
+    const results = await Promise.all([
+      getAllTableData("FacultyInfo"),
+      getAllTableData("SyllabusInfo", "semester_id"),
+      getAllTableData("AcademicCalendarInfo", "calendar_id", "DESC"),
+      getAllTableData("GalleryImages", "image_id", "DESC"),
+      getAllPaperDetails("QuestionPaperInfo"),
+      getAllPaperDetails("ModelPaperInfo"),
+      getAllPaperDetails("SessionalPaperInfo"),
+      getAllTableData("EventsInfo", "event_id", "DESC")
+    ]);
 
-    const question = await getAllPaperDetails("QuestionPaperInfo");
-    const model = await getAllPaperDetails("ModelPaperInfo");
-    const sessional = await getAllPaperDetails("SessionalPaperInfo");
+    const [faculty, syllabus, calendar, photos, question, model, sessional, events] = results;
     // Create an empty map to store the grouped data
     const groupedQuestionData = new Map();
 
@@ -152,6 +156,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       groupedQuestionData,
       groupedModelData,
       groupedSessionalData,
+      events
     });
   } catch (error) {
     res.render("404");
