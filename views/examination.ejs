@@ -55,12 +55,12 @@
           <ul class="ml-4">
             <% subject.papers.forEach(paper=> { %>
             <!-- Display paper title and download link -->
-            <li class="text-gray-600 my-1">
-              - <%= paper.paperTitle %>
+            <li class="text-gray-600 my-2 flex justify-between w-full bg-gray-100 shadow-sm rounded p-1">
+              <span>- <%= paper.paperTitle %></span>
               <a
                 href="<%= paper.pdfLink %>"
-                class="inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2"
-                >Download Paper</a
+                class="h-fit inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2"
+                >Download</a
               >
             </li>
             <% }) %>
@@ -98,11 +98,10 @@
               <ul class="ml-4">
                 <% subject.papers.forEach(paper=> { %>
                   <!-- Display paper title and download link -->
-                  <li class="text-gray-600 my-1">
-                    - <%= paper.paperTitle %>
+                  <li class="text-gray-600 my-2 flex justify-between w-full bg-gray-100 shadow-sm rounded p-1">
+                    <span>- <%= paper.paperTitle %></span>
                       <a href="<%= paper.pdfLink %>"
-                        class="inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2">Download
-                        Paper</a>
+                        class="h-fit inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2">Download</a>
                   </li>
                   <% }) %>
               </ul>
@@ -142,11 +141,10 @@
               <ul class="ml-4">
                 <% subject.papers.forEach(paper=> { %>
                   <!-- Display paper title and download link -->
-                  <li class="text-gray-600 my-1">
-                    - <%= paper.paperTitle %>
+                  <li class="text-gray-600 my-2 flex justify-between w-full bg-gray-100 shadow-sm rounded p-1">
+                    <span>- <%= paper.paperTitle %></span>
                       <a href="<%= paper.pdfLink %>"
-                        class="inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2">Download
-                        Paper</a>
+                        class="h-fit inline-block bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600 ml-2">Download</a>
                   </li>
                   <% }) %>
               </ul>

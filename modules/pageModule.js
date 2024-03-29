@@ -67,6 +67,7 @@ export const getAllPaperDetails = async (tableName) => {
       SELECT * FROM ${tableName} ti
       JOIN SubjectsInfo si 
         ON si.subject_id = ti.subject_id
+      ORDER BY semester_id
       `,
     };
     const { rows } = await pool.query(query);
