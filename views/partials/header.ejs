@@ -53,7 +53,7 @@
           </div>
           <ul
             id="menu"
-            class="hidden flex flex-col md:flex-row items-center h-0 duration-300"
+            class="max-md:hidden flex flex-col md:flex-row items-center h-0 duration-300"
           >
             <li class="mx-2">
               <a href="/" class="text-white hover:bg-blue-700 px-3 py-2 rounded"
@@ -116,7 +116,7 @@
     <script>
       $(document).ready(function () {
         $("#menu-toggle").click(function () {
-          $("#menu").toggleClass("hidden");
+          $("#menu").toggleClass("max-md:hidden");
           $("#menu").toggleClass("h-0");
         });
       });
