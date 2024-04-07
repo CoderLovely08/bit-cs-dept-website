@@ -22,8 +22,8 @@
                                             <% Object.values(subjectsMap).forEach(subject=> { %>
                                                 <li class="text-gray-600 mb-2 relative px-2 py-1 border shadow rounded">
                                                     - <%= subject.subjectName %> - <%= subject.subjectCode %>
-                                                    <button data-table="SubjectsInfo" data-delete-id="<%= 1 %>" type="button"
-                                                        class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                                    <button data-table="SubjectsInfo" data-column="subject_id" data-type="Subject Information" data-delete-id="<%= subject.subjectId %>" type="button"
+                                                        class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                                         <i class="las la-times"></i>
                                                     </button>
                                                 </li>
@@ -108,8 +108,8 @@
                                     </span>
                                 </div>
                             </div>
-                            <button data-table="FacultyInfo" data-delete-id="<%= faculty[i].faculty_id %>" type="button"
-                                class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                            <button data-table="FacultyInfo" data-column="faculty_id" data-type="Faculty Information" data-delete-id="<%= faculty[i].faculty_id %>" type="button"
+                                class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                 <i class="las la-times"></i>
                             </button>
                         </div>
@@ -173,8 +173,8 @@
                                             class="inline-block mt-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
                                     </div>
                                 </div>
-                                <button data-table="SyllabusInfo" data-delete-id="<%= syllabus[i].semester_id %>" type="button"
-                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                <button data-table="SyllabusInfo" data-column="syllabus_id" data-type="Syllabus Information" data-delete-id="<%= syllabus[i].syllabus_id %>" type="button"
+                                    class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                     <i class="las la-times"></i>
                                 </button>
                             </div>
@@ -243,8 +243,8 @@
                                     <a download target="_blank" href="<%= calendar[i].pdf_link %>"
                                         class="mt-2 inline-block bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">View</a>
                                 </div>
-                                <button data-table="AcademicCalendarInfo" data-delete-id="<%= calendar[i].calendar_id %>" type="button"
-                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                <button data-table="AcademicCalendarInfo" data-column="calendar_id" data-type="Academic Calendar Information" data-delete-id="<%= calendar[i].calendar_id %>" type="button"
+                                    class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                     <i class="las la-times"></i>
                                 </button>
                             </div>
@@ -306,8 +306,8 @@
                                         </h2>
                                     </div>
                                 </div>
-                                <button data-table="GalleryImageInfo" data-delete-id="<%= photos[i].image_id %>" type="button"
-                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                <button data-table="GalleryImages" data-column="image_id" data-type="Gallery image" data-delete-id="<%= photos[i].image_id %>" type="button"
+                                    class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                     <i class="las la-times"></i>
                                 </button>
                             </div>
@@ -437,8 +437,8 @@
                                                     <h4 class="font-bold text-gray-800">
                                                         <%= subject.subjectCode %> - <%= subject.subjectName %></h4>
                                                     <a target="_blank" href="<%= subject.pdfLink %>" class="text-blue-500 hover:text-blue-600">Link</a>
-                                                    <button data-table="LabManualInfo" data-delete-id="<%= subject.manualId %>" type="button"
-                                                        class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                                    <button data-table="LabManualsInfo" data-column="manual_id" data-type="Lab Manual"data-delete-id="<%= subject.manualId %>" type="button"
+                                                        class="delete-item-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
                                                         <i class="las la-times"></i>
                                                     </button>
                                                 </div>
@@ -933,6 +933,42 @@
                 });
             });
 
+            // Function to handle delete items
+            $(document).on('click', '.delete-item-btn', function() {
+                event.preventDefault();
+
+                const deleteId = $(this).data('delete-id');
+                const tableName = $(this).data('table');
+                const columnName = $(this).data('column');
+                const typeName = $(this).data('type');
+
+                alert(`Deleting ${deleteId} from ${tableName} of ${columnName} as ${typeName}`);
+
+                let confirmOption = confirm("Are you sure to delete the selected item?");
+                if(!confirmOption) return;
+
+                // Make AJAX request
+                $.ajax({
+                    url: '/api/delete',
+                    type: 'DELETE',
+                    data: {
+                        deleteId,
+                        tableName,
+                        columnName,
+                        typeName
+                    },
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.success) location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error processing your request, try again later");
+                        console.error('Error adding subject:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+                return
+            })
 
             // Select all input elements in forms and set them as required
             $('form input').prop('required', true);

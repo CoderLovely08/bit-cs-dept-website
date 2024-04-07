@@ -19,6 +19,7 @@ import {
   handleDeleteFaculty,
   handlePostEvents,
   handlePostLabManual,
+  handleDeleteItem,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -147,5 +148,9 @@ router
     upload.single("fileItem"),
     handlePostLabManual
   );
+
+router
+  .route("/delete")
+  .delete(verifyTokenMiddleware(["admin"]), handleDeleteItem);
 // Export the router
 export default router;

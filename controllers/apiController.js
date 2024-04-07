@@ -784,3 +784,18 @@ export const handlePostLabManual = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+export const handleDeleteItem = async (req, res) => {
+  try {
+    const { deleteId, tableName, columnName, typeName } = req.body;
+
+    const dbResult = await deleteItem(deleteId, tableName, columnName, typeName);
+
+    return res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
