@@ -101,7 +101,9 @@ CREATE TABLE SyllabusInfo(
 CREATE TABLE FacultyInfo(
 	faculty_id SERIAL PRIMARY KEY,
 	faculty_name VARCHAR NOT NULL,
-	image_link VARCHAR NOT NULL
+	image_link VARCHAR NOT NULL,
+    experience INT NOT NULL DEFAULT 0,
+    description VARCHAR,
 );
 
 CREATE TABLE EventsInfo(
@@ -121,6 +123,33 @@ CREATE TABLE LabManualsInfo(
     pdf_link_src VARCHAR NOT NULL,
     FOREIGN KEY (semester_id) REFERENCES SemesterInfo(semester_id),
     FOREIGN KEY (subject_id) REFERENCES SubjectsInfo(subject_id)
+);
+
+CREATE TABLE StudentInfo(
+	student_id SERIAL PRIMARY KEY,
+	student_email VARCHAR UNIQUE NOT NULL,
+	student_password VARCHAR NOT NULL,
+	semester_id INT REFERENCES SemesterInfo(semester_id)
+);
+
+CREATE TABLE PaidEventsInfo(
+	event_id SERIAL PRIMARY KEY,
+	event_title VARCHAR NOT NULL, 
+	event_date timestamp NOT NULL,
+    image_link VARCHAR NOT NULL,
+	event_description VARCHAR NOT NULl,
+	amount INT NOT NULL DEFAULT 0,
+	qr_link VARCHAR NOT NULL,
+	collection_amount INT NOT NULL,
+	created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE TransactionsInfo(
+	transaction_id SERIAL PRIMARY KEY,
+	transaction_amount INT NOT NULL DEFAULT 0,
+	event_id INT REFERENCES PaidEventsInfo(event_id),
+	student_id INT REFERENCES StudentInfo(student_id),
+	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 INSERT INTO SemesterInfo(semester_name) 

@@ -579,7 +579,7 @@ export const handleDeleteSyllabus = async (req, res) => {
  */
 export const handlePostFaculty = async (req, res) => {
   try {
-    const { name, designation } = req.body;
+    const { name, designation, experience, description } = req.body;
     // Check if name is valid or not
     if (
       !name ||
@@ -628,7 +628,7 @@ export const handlePostFaculty = async (req, res) => {
     const imageSrc = imageSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeFacultyDetails(name, designation, imageSrc);
+    const dbResult = await storeFacultyDetails(name, designation, imageSrc, experience, description);
 
     res.json({
       success: dbResult.success,

@@ -264,11 +264,11 @@ export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
   }
 };
 
-export const storeFacultyDetails = async (name, designation, imageSrc) => {
+export const storeFacultyDetails = async (name, designation, imageSrc, experience, description) => {
   try {
     const query = {
-      text: `INSERT INTO FacultyInfo(faculty_name, faculty_designation ,image_link) VALUES ($1, $2, $3)`,
-      values: [name, designation, imageSrc],
+      text: `INSERT INTO FacultyInfo(faculty_name, faculty_designation ,image_link, experience, description) VALUES ($1, $2, $3, $4, 45)`,
+      values: [name, designation, imageSrc, experience, description],
     };
 
     const { rowCount } = await pool.query(query);
@@ -366,6 +366,28 @@ export const storeLabManualDetails = async (
     return {
       success: false,
       message: error.message,
+    };
+  }
+};
+
+
+export const getAllSemesters = async () => {
+  try {
+    const query = {
+      text: `SELECT * FROM SemesterInfo`,
+    };
+
+    const { rows } = await pool.query(query);
+    return {
+      success: true,
+      message: "Data fetched",
+      data: rows,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+      data: [],
     };
   }
 };

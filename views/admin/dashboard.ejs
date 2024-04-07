@@ -136,6 +136,20 @@
                             </div>
                             <div class="flex gap-2 justify-between max-sm:flex-col">
                                 <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="experience">Experience</label>
+                                    <input type="number" id="experience" name="name"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter experience in years" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Faculty about</label>
+                                    <input type="text" id="description" name="description"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter about information" />
+                                </div>
+                            </div>
+                            <div class="flex gap-2 justify-between max-sm:flex-col">
+                                <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="facultyImage">Upload Image</label>
                                     <input type="file" id="facultyImage" name="fileItem" accept="image/*"
                                         class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
@@ -941,8 +955,6 @@
                 const tableName = $(this).data('table');
                 const columnName = $(this).data('column');
                 const typeName = $(this).data('type');
-
-                alert(`Deleting ${deleteId} from ${tableName} of ${columnName} as ${typeName}`);
 
                 let confirmOption = confirm("Are you sure to delete the selected item?");
                 if(!confirmOption) return;

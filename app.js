@@ -33,14 +33,16 @@ import { getAllTableData } from "./modules/pageModule.js";
 // Home route
 app.get("/", async (req, res) => {
   try {
+    if (req.cookies?.token) res.locals.name = "Student";
+
     const faculty = await getAllTableData("FacultyInfo", "faculty_id");
     const events = await getAllTableData("EventsInfo");
     res.render("index", {
       faculty,
-      events
+      events,
     });
   } catch (error) {
-    console.error(error);
+    res.render("404");
   }
 });
 

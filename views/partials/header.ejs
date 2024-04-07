@@ -22,7 +22,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.1/tailwindcss.js"></script>
 
-
     <style>
       html {
         scroll-behavior: smooth;
@@ -100,6 +99,22 @@
                 >EXAMINATION</a
               >
             </li>
+            <li class="mx-2">
+              <% if (locals?.name) { %>
+              <a
+                id="logout-btn"
+                href="#"
+                class="text-white hover:bg-blue-700 px-3 py-2 rounded"
+                >Logout</a
+              >
+              <% } else { %>
+              <a
+                href="/page/login"
+                class="text-white hover:bg-blue-700 px-3 py-2 rounded"
+                >Login</a
+              >
+              <% } %>
+            </li>
           </ul>
         </div>
       </nav>
@@ -120,6 +135,24 @@
         $("#menu-toggle").click(function () {
           $("#menu").toggleClass("max-md:hidden");
           $("#menu").toggleClass("h-0");
+        });
+
+        // Logout button
+        $("#logout-btn").on("click", function () {
+          let confirmOption = confirm("Are you sure to logout?");
+          if (!confirmOption) return;
+
+          $.ajax({
+            type: "POST",
+            url: "/auth/logout",
+            success: function (response) {
+              if (response.success) alert(response.message);
+              window.location.href = "/";
+            },
+            error: function (error) {
+              alert(error);
+            },
+          });
         });
       });
     </script>

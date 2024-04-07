@@ -4,11 +4,13 @@ import "dotenv/config";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 export const genereateToken = async (userObject) => {
   try {
+
     const payload = {
       userId: userObject.userId, // Example: user ID
       username: userObject.username, // Example: username
       role: userObject.role,
     };
+
     // Generate a token using jwt.sign()
     const token = jwt.sign(payload, TOKEN_SECRET, { expiresIn: "1h" }); // Change 'your_secret_key' to your actual secret key
 
@@ -32,7 +34,7 @@ export const verifyTokenMiddleware = (requiredRole) => (req, res, next) => {
     req.headers.authorization || req.query.token || req.cookies.token;
 
   if (!token) {
-    if (methodType == "GET") return res.status(401).redirect("/admin/login");
+    if (methodType == "GET") return res.status(401).redirect("/page/login");
     else
       return res.status(401).json({
         succes: false,
@@ -48,7 +50,7 @@ export const verifyTokenMiddleware = (requiredRole) => (req, res, next) => {
     req.user = decoded;
 
     if (!requiredRole.includes(req.user.role)) {
-      if (methodType == "GET") return res.status(403).redirect("/admin/login");
+      if (methodType == "GET") return res.status(403).redirect("/page/login");
       else
         return res.status(403).json({
           succes: false,
@@ -58,6 +60,39 @@ export const verifyTokenMiddleware = (requiredRole) => (req, res, next) => {
 
     // Call next to move to the next middleware or route handler
     next();
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res
+      .status(401)
+      .json({ success: false, message: "Token verification failed" });
+  }
+};
+
+
+export const isLoggedIn = async (req, res, next) => {
+  // Get the token from the request headers, query parameters, or cookies
+  const token =
+    req.headers.authorization || req.query.token || req.cookies.token;
+
+  if (!token) {
+    // User is not logged in, move to the next middleware or route handler
+    return next();
+  }
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, TOKEN_SECRET);
+
+    // Set req.user to the decoded payload
+    req.user = decoded;
+
+    // Redirect to appropriate home page based on user's role
+    if (req.user.role === "student") {
+      return res.redirect("/");
+    }
+
+    // Unknown role, return an error response
+    return res.status(403).render("403");
   } catch (error) {
     console.error("Error verifying token:", error);
     return res

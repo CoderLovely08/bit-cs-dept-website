@@ -1,3 +1,4 @@
+import { getAllSemesters } from "../modules/DbHelper.js";
 import {
   getAllAcademicCalendar,
   getAllLabManuals,
@@ -197,6 +198,28 @@ export const handleViewGalleryPage = async (req, res) => {
     res.render("gallery", {
       images,
     });
+  } catch (error) {
+    res.render("404");
+  }
+};
+
+
+export const handleViewStudentRegister = async (req, res) => {
+  try {
+    const [semesterData] = await Promise.all([
+      getAllSemesters(),
+    ]);
+    res.render("student/register", {
+      dropdownOptions: {semesterData },
+    });
+  } catch (error) {
+    res.render("404");
+  }
+};
+
+export const handleViewStudentLogin = async (req, res) => {
+  try {
+    res.render("student/login");
   } catch (error) {
     res.render("404");
   }
