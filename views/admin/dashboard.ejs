@@ -13,15 +13,19 @@
                         <summary>View All</summary>
                         <div class="bg-white rounded-lg shadow-md p-4 mb-4 flex gap-2 flex-wrap justify-center">
                             <% Array.from(groupedSubjects).forEach(([semesterId, subjectsMap])=> { %>
-                                <div class="bg-white rounded-lg shadow-md w-fit max-w-64 mb-4">
+                                <div class="bg-white rounded-lg shadow-md w-fit max-w-64 mb-4 ">
                                     <h2 class="bg-blue-500 text-xl rounded-t-lg font-bold text-white p-2 mb-2">
                                         Semester <%= semesterId %>
                                     </h2>
                                     <div class="p-2">
                                         <ul>
                                             <% Object.values(subjectsMap).forEach(subject=> { %>
-                                                <li class="text-gray-600 mb-2">
+                                                <li class="text-gray-600 mb-2 relative px-2 py-1 border shadow rounded">
                                                     - <%= subject.subjectName %> - <%= subject.subjectCode %>
+                                                    <button data-table="SubjectsInfo" data-delete-id="<%= 1 %>" type="button"
+                                                        class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                                        <i class="las la-times"></i>
+                                                    </button>
                                                 </li>
                                             <% }); %>
                                         </ul>
@@ -88,7 +92,7 @@
                 <!-- Faculty Cards -->
                 <div class="md:w-1/2 md:pr-4 flex flex-wrap justify-center items-center">
                     <% for( let i=0; i < faculty.length ; i++ ) { %>
-                        <div class="w-fit rounded-lg m-2 ">
+                        <div class="w-fit rounded-lg m-2 relative">
                             <div
                                 class="flex max-w-64 relative overflow-hidden shadow-lg rounded-lg hover:border hover:border-blue-500">
                                 <div class="bg-blue-500 p-2 flex justify-center items-center">
@@ -104,6 +108,10 @@
                                     </span>
                                 </div>
                             </div>
+                            <button data-table="FacultyInfo" data-delete-id="<%= faculty[i].faculty_id %>" type="button"
+                                class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                <i class="las la-times"></i>
+                            </button>
                         </div>
                         <% } %>
                 </div>
@@ -152,17 +160,23 @@
                 <div class="md:w-1/2 md:pr-4">
                     <div class="flex gap-2 justify-center items-center flex-wrap">
                         <% for( let i=0; i < syllabus.length; i++ ) { %>
-                            <div class="bg-white hover:border hover:border-blue-500 rounded-lg shadow overflow-hidden w-fit">
-                                <div class="p-2">
-                                    <h3 class="text-lg font-bold text-gray-800">
-                                        Sem - <%= syllabus[i].semester_id %>
-                                    </h3>
-                                    <p class="text-gray-600">
-                                        <%= syllabus[i].syllabus_title %>
-                                    </p>
-                                    <a target="_blank" href="<%= syllabus[i].pdf_link %>"
-                                        class="inline-block mt-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
+                            <div class="relative">
+                                <div class="bg-white hover:border hover:border-blue-500 rounded-lg shadow overflow-hidden w-fit relative">
+                                    <div class="p-2">
+                                        <h3 class="text-lg font-bold text-gray-800">
+                                            Sem - <%= syllabus[i].semester_id %>
+                                        </h3>
+                                        <p class="text-gray-600">
+                                            <%= syllabus[i].syllabus_title %>
+                                        </p>
+                                        <a target="_blank" href="<%= syllabus[i].pdf_link %>"
+                                            class="inline-block mt-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
+                                    </div>
                                 </div>
+                                <button data-table="SyllabusInfo" data-delete-id="<%= syllabus[i].semester_id %>" type="button"
+                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                    <i class="las la-times"></i>
+                                </button>
                             </div>
                         <% } %>
                     </div>
@@ -218,17 +232,23 @@
                     <div class="flex gap-2 justify-center items-center flex-wrap">
                         <!-- Sample Calendar Entry -->
                         <% for( let i=0; i < calendar.length; i++ ) { %>
-                            <div
-                                class="bg-white shadow rounded-lg p-4 transition duration-300 hover:shadow-lg hover:border hover:border-blue-500 max-w-64">
-                                <h3 class="text-md font-medium text-gray-900">
-                                    <%= calendar[i].calendar_title %>
-                                </h3>
-                                <p class="mt-1 text-sm text-gray-600"><%=
-                                        calendar[i].academic_year%> academic year.</p>
-                                <a download target="_blank" href="<%= calendar[i].pdf_link %>"
-                                    class="mt-2 inline-block bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">View</a>
+                            <div class="relative">
+                                <div
+                                    class="bg-white shadow rounded-lg p-4 transition duration-300 hover:shadow-lg hover:border hover:border-blue-500 max-w-64">
+                                    <h3 class="text-md font-medium text-gray-900">
+                                        <%= calendar[i].calendar_title %>
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-600"><%=
+                                            calendar[i].academic_year%> academic year.</p>
+                                    <a download target="_blank" href="<%= calendar[i].pdf_link %>"
+                                        class="mt-2 inline-block bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">View</a>
+                                </div>
+                                <button data-table="AcademicCalendarInfo" data-delete-id="<%= calendar[i].calendar_id %>" type="button"
+                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                    <i class="las la-times"></i>
+                                </button>
                             </div>
-                            <% } %>
+                        <% } %>
                     </div>
                 </div>
                 <div class="md:w-1/2 md:pr-4">
@@ -276,16 +296,22 @@
                     <!-- Gallery Cards -->
                     <div class="flex gap-2 justify-center items-center flex-wrap">
                         <% for( let i=0; i < photos.length; i++ ) { %>
-                            <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-36">
-                                <img src="<%= photos[i].image_link %>" alt="Image"
-                                    class="w-full h-36 object-contain rounded-md" />
-                                <div class="p-1 border rounded">
-                                    <h2 class="text-lg font-semibold text-gray-800">
-                                        <%= photos[i].image_title %>
-                                    </h2>
+                            <div class="relative">
+                                <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-36">
+                                    <img src="<%= photos[i].image_link %>" alt="Image"
+                                        class="w-full h-36 object-contain rounded-md" />
+                                    <div class="p-1 border rounded">
+                                        <h2 class="text-lg font-semibold text-gray-800">
+                                            <%= photos[i].image_title %>
+                                        </h2>
+                                    </div>
                                 </div>
+                                <button data-table="GalleryImageInfo" data-delete-id="<%= photos[i].image_id %>" type="button"
+                                    class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                    <i class="las la-times"></i>
+                                </button>
                             </div>
-                            <% } %>
+                        <% } %>
                     </div>
                     <!-- End Gallery Cards -->
                 </div>
@@ -407,10 +433,14 @@
                                     </h2>
                                     <div class="p-2">
                                             <% Object.values(subjectsMap).forEach(subject=> { %>
-                                                <div class="bg-gray-100 rounded-lg p-2 my-2">
+                                                <div class="bg-gray-100 rounded-lg p-2 my-2 px-2 py-1 border rounded shadow relative">
                                                     <h4 class="font-bold text-gray-800">
                                                         <%= subject.subjectCode %> - <%= subject.subjectName %></h4>
                                                     <a target="_blank" href="<%= subject.pdfLink %>" class="text-blue-500 hover:text-blue-600">Link</a>
+                                                    <button data-table="LabManualInfo" data-delete-id="<%= subject.manualId %>" type="button"
+                                                        class="delete-skill-btn absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-6 h-6 rounded-full flex justify-center items-center hover:bg-red-700">
+                                                        <i class="las la-times"></i>
+                                                    </button>
                                                 </div>
                                             <% }); %>
                                     </div>

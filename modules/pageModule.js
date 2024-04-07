@@ -83,6 +83,7 @@ export const getAllLabManuals = async () => {
     const query = {
       text: `
       SELECT 
+        lmi.manual_id,
       	lmi.manual_title,
       	lmi.semester_id,
       	lmi.pdf_link_src,

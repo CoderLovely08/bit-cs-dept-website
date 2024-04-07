@@ -29,6 +29,7 @@ export const handleViewAdminDashboard = async (req, res) => {
     // Process and group subjects
     const groupedSubjects = new Map();
 
+    // Subjects data
     subjects.forEach((subject) => {
       const { semester_id, subject_id, subject_name, subject_code } = subject;
 
@@ -40,6 +41,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       // If the subject_id is not yet in the semester object, add it
       if (!groupedSubjects.get(semester_id)[subject_id]) {
         groupedSubjects.get(semester_id)[subject_id] = {
+          subjectId: subject_id,
           subjectName: subject_name,
           subjectCode: subject_code,
         };
@@ -58,6 +60,7 @@ export const handleViewAdminDashboard = async (req, res) => {
         subject_code,
         paper_title,
         pdf_link,
+        paper_id,
       } = item;
 
       // If the semester_id is not yet in the map, add it
@@ -68,6 +71,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       // If the subject_id is not yet in the semester object, add it
       if (!groupedQuestionData.get(semester_id)[subject_id]) {
         groupedQuestionData.get(semester_id)[subject_id] = {
+          subjectId: subject_id,
           subjectName: subject_name,
           subjectCode: subject_code,
           papers: [],
@@ -76,6 +80,7 @@ export const handleViewAdminDashboard = async (req, res) => {
 
       // Add the paper to the subject
       groupedQuestionData.get(semester_id)[subject_id].papers.push({
+        paperId: paper_id,
         paperTitle: paper_title,
         pdfLink: pdf_link,
       });
@@ -102,6 +107,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       // If the subject_id is not yet in the semester object, add it
       if (!groupedModelData.get(semester_id)[subject_id]) {
         groupedModelData.get(semester_id)[subject_id] = {
+          subjectId: subject_id,
           subjectName: subject_name,
           subjectCode: subject_code,
           papers: [],
@@ -152,7 +158,7 @@ export const handleViewAdminDashboard = async (req, res) => {
     const groupedManuals = new Map();
 
     manuals.forEach((subject) => {
-      const { semester_id, subject_id, subject_name, subject_code, pdf_link_src  } = subject;
+      const { semester_id, subject_id, subject_name, subject_code, pdf_link_src, manual_id  } = subject;
 
       // If the semester_id is not yet in the map, add it
       if (!groupedManuals.has(semester_id)) {
@@ -162,6 +168,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       // If the subject_id is not yet in the semester object, add it
       if (!groupedManuals.get(semester_id)[subject_id]) {
         groupedManuals.get(semester_id)[subject_id] = {
+          manualId: manual_id,
           subjectName: subject_name,
           subjectCode: subject_code,
           pdfLink: pdf_link_src
