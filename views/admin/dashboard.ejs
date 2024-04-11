@@ -358,6 +358,105 @@
             </div>
         </div>
 
+        <!-- Paid Events -->
+        <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                <h2 class="text-3xl font-bold text-blue-500">Paid Event Management</h2>
+            </div>
+            <div class="md:flex md:items-start">
+                <div class="flex gap-2 flex-wrap justify-center md:w-1/2 md:pr-4 pb-4">
+                    <% for( let i=0; i < paidEvents.length; i++ ) { %>
+                        <div class="w-64 bg-white rounded-lg shadow-lg overflow-hidden m-2">
+                            <img class="w-full h-40 object-cover" src="<%= paidEvents[i].image_link %>"
+                                alt="<%= paidEvents[i].event_title %>">
+                            <div class="p-4">
+                                <h3 class="text-xl font-semibold mb-2">
+                                    <a href="#" class="text-blue-700 hover:text-blue-900">
+                                        <%= paidEvents[i].event_title %>
+                                    </a>
+                                </h3>
+                                <div class="text-sm text-blue-500 mb-2">
+                                    <%= new Date(paidEvents[i].event_date).toDateString() %>
+                                </div>
+                                <p class="text-gray-700 mb-4">
+                                    <%= paidEvents[i].event_description %>
+                                </p>
+                                <div class="text-lg text-green-600 font-bold mb-2">
+                                    ₹<%= paidEvents[i].amount %>
+                                </div>
+                                <div class="mb-4">
+                                    <img src="<%= paidEvents[i].qr_link %>" alt="QR Code" class="w-24 h-24 mx-auto">
+                                    <p class="text-center text-xs text-gray-500 mt-2">Payment QR</p>
+                                </div>
+                                <div class="text-md text-gray-800 font-semibold mb-2">
+                                    Total Collected: ₹<%= paidEvents[i].collection_amount %>
+                                </div>
+                                <div class="text-center">
+                                    <button onclick="location.href='/payment-history/<%= paidEvents[i].id %>'"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                        View Payment History
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+
+                </div>
+                <div class="md:w-1/2 md:pr-4">
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                        <form id="paid-events-form" class="space-y-4">
+                            <div class="flex max-sm:flex-col justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="title">Event Title</label>
+                                    <input type="text" id="title" name="title"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter event title" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="date">Event Date</label>
+                                    <input type="date" id="date" name="date"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            </div>
+                            <div class="flex max-sm:flex-col justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="description">Event
+                                        Description</label>
+                                    <textarea id="description" name="description"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter event description"></textarea>
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="amount">Event Amount</label>
+                                    <input type="number" id="amount" name="amount"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Enter event amount per student" />
+                                </div>
+                            </div>
+                            <div class="flex max-sm:flex-col justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="qrCode">Payment QR
+                                        Code</label>
+                                    <input type="file" id="qrCode" name="qrCode" accept="image/*"
+                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fileItem">Event Image</label>
+                                    <input type="file" id="fileItem" name="fileItem" accept="image/*"
+                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Add Paid Event
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Events -->
         <div class="px-2 py-4 m-2 w-auto shadow rounded-md">
             <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
@@ -380,7 +479,7 @@
                                 </p>
                             </div>
                         </div>
-                        <% } %>
+                    <% } %>
                 </div>
                 <div class="md:w-1/2 md:pr-4">
                     <div class="bg-white rounded-lg shadow-md p-4 mb-4">
@@ -742,7 +841,6 @@
 
 
             // Faculty form
-
              $('#faculty-form').submit(function (event) {
                 event.preventDefault(); // Prevent default form submission
 
@@ -887,6 +985,32 @@
                 });
             });
             
+            // Function to handle paid events form submission
+            $('#paid-events-form').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                let confirmOption = confirm("Are you sure you want to submit this paid event?");
+                if (!confirmOption) return;
+
+                const formData = new FormData(this);
+
+                // Make AJAX request for paid events
+                $.ajax({
+                    url: '/api/paid-events', // Adjust the endpoint URL for paid events
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.message)
+                        if (data.success) location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding paid events data:', error);
+                    }
+                });
+            });
+
             // Function to handle form submission
             $('#paeprs-form').submit(function (event) {
                 event.preventDefault(); // Prevent default form submission

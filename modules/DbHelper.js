@@ -318,6 +318,45 @@ export const storeEventsDetails = async (
   }
 };
 
+export const storePaidEventsDetails = async (
+  title,
+  description,
+  date,
+  amount,
+  eventImageUrl,
+  qrCodeImageUrl
+) => {
+  try {
+    const query = {
+      text: `
+      INSERT INTO PaidEventsInfo(
+        event_title,
+        event_description,
+        event_date,
+        amount,
+        image_link,
+        qr_link
+      ) VALUES ($1, $2, $3, $4, $5, $6)`,
+      values: [title, description, date, amount, eventImageUrl, qrCodeImageUrl],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount === 1,
+      message: rowCount === 1
+        ? "Paid Event Details added successfully"
+        : "Unable to add paid event details",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+
+
 export const storeLabManualDetails = async (
   title,
   link,

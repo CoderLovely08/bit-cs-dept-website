@@ -20,6 +20,7 @@ import {
   handlePostEvents,
   handlePostLabManual,
   handleDeleteItem,
+  handlePostPaidEvents,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -137,7 +138,23 @@ router
     upload.single("fileItem"),
     handlePostEvents
   );
-/**
+
+  /**
+ * Route for posting events
+ * POST request for posting new events
+ */
+router
+  .route("/paid-events")
+  .post(
+    verifyTokenMiddleware(["admin"]),
+    upload.fields([
+      { name: 'fileItem', maxCount: 1 },
+      { name: 'qrCode', maxCount: 1 }
+    ]),
+    handlePostPaidEvents
+  );
+
+  /**
  * Route for posting lab manuals
  * POST request for posting new lab manual
  */

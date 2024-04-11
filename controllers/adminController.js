@@ -20,11 +20,12 @@ export const handleViewAdminDashboard = async (req, res) => {
       getAllPaperDetails("ModelPaperInfo"),
       getAllPaperDetails("SessionalPaperInfo"),
       getAllTableData("EventsInfo", "event_id", "DESC"),
+      getAllTableData("PaidEventsInfo", "event_id", "DESC"),
       getAllTableData("SubjectsInfo", "semester_id"),
       getAllLabManuals()
     ]);
 
-    const [faculty, syllabus, calendar, photos, question, model, sessional, events, subjects, manuals] = results;
+    const [faculty, syllabus, calendar, photos, question, model, sessional, events, paidEvents,subjects, manuals] = results;
 
     // Process and group subjects
     const groupedSubjects = new Map();
@@ -187,6 +188,7 @@ export const handleViewAdminDashboard = async (req, res) => {
       groupedModelData,
       groupedSessionalData,
       events,
+      paidEvents,
       groupedManuals
     });
   } catch (error) {

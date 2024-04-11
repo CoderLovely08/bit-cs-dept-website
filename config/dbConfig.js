@@ -18,6 +18,6 @@ const pool = new pg.Pool({
 
 pool.connect();
 
-console.log("Connected to Database");
+console.log(`Connected to ${process.env.DB_DATABASE} Database`);
 
 export default pool;

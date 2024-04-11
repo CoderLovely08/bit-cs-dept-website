@@ -12,6 +12,7 @@ import {
   storeGalleryImage,
   storeLabManualDetails,
   storeNoticeDetails,
+  storePaidEventsDetails,
   storePaperDetails,
   storeSubjectDetails,
   storeSyllabusDetails,
@@ -628,7 +629,13 @@ export const handlePostFaculty = async (req, res) => {
     const imageSrc = imageSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeFacultyDetails(name, designation, imageSrc, experience, description);
+    const dbResult = await storeFacultyDetails(
+      name,
+      designation,
+      imageSrc,
+      experience,
+      description
+    );
 
     res.json({
       success: dbResult.success,
@@ -746,6 +753,105 @@ export const handlePostEvents = async (req, res) => {
   }
 };
 
+/**
+ * Type: POST
+ * Purpose: Route handler to posting a new paid event
+ */
+export const handlePostPaidEvents = async (req, res) => {
+  try {
+    const { title, description, date, amount } = req.body;
+
+    // Validate title
+    if (!title || !validator.isLength(title.trim(), { min: 6 })) {
+      return res.json({
+        success: false,
+        message: "Title must have at least 6 characters",
+      });
+    }
+
+    // Validate description
+    if (!description || !validator.isAscii(description.trim())) {
+      return res.json({
+        success: false,
+        message: "Description can only contain ASCII characters",
+      });
+    }
+
+    // Validate amount
+    if (!amount || !validator.isInt(amount, { gt: 0 })) {
+      return res.json({
+        success: false,
+        message: "Amount should be a positive integer",
+      });
+    }
+
+    // Access the files from req.files
+    const eventImage = req.files.fileItem ? req.files.fileItem[0].buffer : null;
+    const qrCodeImage = req.files.qrCode ? req.files.qrCode[0].buffer : null;
+    console.log(eventImage, qrCodeImage);
+    if (!eventImage || !qrCodeImage) {
+      return res.json({
+        success: false,
+        message: "Both event image and QR code image are required",
+      });
+    }
+
+    // Example of uploading files to Supabase (or your chosen file storage)
+    // Upload event image
+    const eventImageResult = await supabaseUploadFile(eventImage, req.files.fileItem[0].mimetype);
+    if (!eventImageResult?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload event image",
+      });
+    }
+
+    // Upload QR code image
+    const qrCodeImageResult = await supabaseUploadFile(qrCodeImage, req.files.qrCode[0].mimetype);
+    if (!qrCodeImageResult?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload QR code image",
+      });
+    }
+
+    console.log(eventImageResult, qrCodeImageResult);
+
+    // Get public URLs for the uploaded files
+    const eventImageSrcData = await supabaseGetFile(eventImageResult.fileName);
+    const eventImageUrl = eventImageSrcData?.publicUrl;
+    
+    const qrCodeImageSrcData = await supabaseGetFile(qrCodeImageResult.fileName);
+    const qrCodeImageUrl = qrCodeImageSrcData?.publicUrl;
+
+
+    console.log(title,
+      description,
+      date,
+      amount,
+      eventImageUrl,
+      qrCodeImageUrl);
+
+    // Store event details in the database
+    const dbResult = await storePaidEventsDetails(
+      title,
+      description,
+      date,
+      amount,
+      eventImageUrl,
+      qrCodeImageUrl
+    );
+
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
 // -------------------------------------------------
 //              Lab Manual Handlers
 // -------------------------------------------------
@@ -789,7 +895,12 @@ export const handleDeleteItem = async (req, res) => {
   try {
     const { deleteId, tableName, columnName, typeName } = req.body;
 
-    const dbResult = await deleteItem(deleteId, tableName, columnName, typeName);
+    const dbResult = await deleteItem(
+      deleteId,
+      tableName,
+      columnName,
+      typeName
+    );
 
     return res.json({
       success: dbResult.success,
