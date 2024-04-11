@@ -3,6 +3,7 @@ import {
   handleViewAboutPage,
   handleViewCurriculumPage,
   handleViewDepartmentPage,
+  handleViewEventsPage,
   handleViewExaminationPage,
   handleViewGalleryPage,
   handleViewStudentLogin,
@@ -48,5 +49,8 @@ router
 router
   .route("/gallery")
   .get(verifyTokenMiddleware(["student"]), handleViewGalleryPage);
+router
+  .route("/events")
+  .get(verifyTokenMiddleware(["student"]), handleViewEventsPage);
 
 export default router;

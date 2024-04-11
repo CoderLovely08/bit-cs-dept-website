@@ -203,6 +203,19 @@ export const handleViewGalleryPage = async (req, res) => {
   }
 };
 
+export const handleViewEventsPage = async (req, res) => {
+  try {
+    const events = await getAllTableData("EventsInfo", "event_id", "DESC");
+    const paidEvents = await getAllTableData("PaidEventsInfo", "event_id", "DESC");
+    res.render("pages/events", {
+      events,
+      paidEvents
+    });
+  } catch (error) {
+    res.render("404");
+  }
+};
+
 
 export const handleViewStudentRegister = async (req, res) => {
   try {

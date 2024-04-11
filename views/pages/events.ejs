@@ -1,0 +1,155 @@
+<%- include('../partials/header') %>
+<main class="container mx-auto py-12">
+  <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+    <h2 class="text-3xl font-bold text-blue-500">Paid Events</h2>
+  </div>
+  <div class="flex flex-wrap justify-center items-center gap-8">
+    <!-- Paid Events card -->
+    <% for( let i=0; i < paidEvents.length; i++ ) { %>
+    <div
+      class="min-w-80 max-w-sm bg-white rounded-lg shadow-lg overflow-hidden"
+    >
+      <img
+        class="w-full h-48 object-cover"
+        src="<%= paidEvents[i].image_link %>"
+        alt="Women's Day"
+      />
+      <div class="p-4">
+        <h3 class="text-xl font-semibold mb-2">
+          <a href="#" class="text-blue-700 hover:text-blue-900">
+            <%= paidEvents[i].event_title %>
+          </a>
+        </h3>
+        <div class="text-sm text-blue-500 mb-4">
+          <%= new Date(paidEvents[i].event_date).toDateString() %>
+        </div>
+        <p class="text-gray-700"><%= paidEvents[i].event_description %></p>
+      </div>
+      <div class="flex justify-between items-center">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          View Details
+        </button>
+        <button
+          class="pay-btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          data-receiver-name="<%= paidEvents[i].receiver_name %>"
+          data-upi-id="<%= paidEvents[i].upi_id %>"
+          data-amount="<%= paidEvents[i].amount%>"
+        >
+          Pay
+        </button>
+      </div>
+    </div>
+    <% } %>
+    <!-- Paid Event Card ends -->
+  </div>
+
+  <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+    <h2 class="text-3xl font-bold text-blue-500">Events</h2>
+  </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+  >
+    <% for( let i=0; i < events.length; i++ ) { %>
+    <div
+      class="min-w-80 max-w-sm bg-white rounded-lg shadow-lg overflow-hidden"
+    >
+      <img
+        class="w-full h-48 object-cover"
+        src="<%= events[i].image_link %>"
+        alt="Women's Day"
+      />
+      <div class="p-4">
+        <h3 class="text-xl font-semibold mb-2">
+          <a href="#" class="text-blue-700 hover:text-blue-900">
+            <%= events[i].event_title %>
+          </a>
+        </h3>
+        <div class="text-sm text-blue-500 mb-4">
+          <%= new Date(events[i].event_date).toDateString() %>
+        </div>
+        <p class="text-gray-700"><%= events[i].event_description %></p>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</main>
+
+<div class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="myModal">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-500">
+                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="exampleModalLabel">Your Payment Code</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">
+                    Scan This Code Using Any UPI Supported App.
+                </p>
+            </div>
+            <div class="px-4 py-3 flex-col flex sm:px-6">
+                <canvas id="qrcode" class="qrcode"></canvas>
+                <div class="mt-3 text-left sm:mt-0 sm:ml-4">
+                    <h5 class="text-lg font-medium text-gray-900">Receiver Details</h5>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500"><strong>Receiver's Name: </strong><span id="recname"></span>
+                        </p>
+                        <p class="text-sm text-gray-500"><strong>Receiver's UPI ID: </strong><span id="recupi"></span>
+                        </p>
+                        <p class="text-sm text-gray-500"><strong>Amount: </strong><span id="recamt"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button type="button"
+                    class="btn-close px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white text-base font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.pay-btn', function () {
+            const receiverName = $(this).data('receiver-name');
+            const upiId = $(this).data('upi-id');
+            const amount = $(this).data('amount');
+
+            // Set receiver details in the modal
+            $('#recname').text(receiverName);
+            $('#recupi').text(upiId);
+            $('#recamt').text(`₹${amount}`);
+
+            // Generate the QR code
+            let qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = ""; // Clear the previous QR code
+            new QRious({
+                element: qrcodeContainer,
+                value: `upi://pay?cu=INR&pa=${upiId}&pn=${receiverName}&am=${amount}`,
+                size: 200 // Size of the QR code
+            });
+
+            // Show the modal
+            // Show the modal using Tailwind CSS utilities
+            document.getElementById('myModal').classList.remove('hidden');
+            document.getElementById('myModal').classList.add('flex');
+        });
+
+
+        $(document).on('click', '.btn-close', function () {
+            document.getElementById('myModal').classList.add('hidden');
+            document.getElementById('myModal').classList.remove('flex');
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %>

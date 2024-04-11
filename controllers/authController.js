@@ -164,7 +164,7 @@ export const handleStudentLogin = async (req, res) => {
                     token: token.token,
                 };
                 res.cookie("token", token?.token, {
-                    maxAge: 2 * 60 * 1000,
+                    maxAge: 2 * 600 * 1000,
                     httpOnly: true,
                     secure: process.env.NODE_ENV == "prod",
                 });
