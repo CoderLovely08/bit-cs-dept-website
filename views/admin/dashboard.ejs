@@ -183,6 +183,9 @@
                                         <p class="text-gray-600">
                                             <%= syllabus[i].syllabus_title %>
                                         </p>
+                                        <p class="text-gray-600">
+                                            <%= syllabus[i].scheme %> Scheme
+                                        </p>
                                         <a target="_blank" href="<%= syllabus[i].pdf_link %>"
                                             class="inline-block mt-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">View</a>
                                     </div>
@@ -212,19 +215,31 @@
                                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="semester">Semester</label>
-                                <select id="semester" name="semesterId"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500">
-                                    <option value="" selected disabled>Select semester</option>
-                                    <option value="1">Semester 1</option>
-                                    <option value="2">Semester 2</option>
-                                    <option value="3">Semester 3</option>
-                                    <option value="4">Semester 4</option>
-                                    <option value="5">Semester 5</option>
-                                    <option value="6">Semester 6</option>
-                                    <!-- Add more options for other semesters -->
-                                </select>
+                            <div class="flex justify-between gap-2">
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="semester">Semester</label>
+                                    <select id="semester" name="semesterId"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500">
+                                        <option value="" selected disabled>Select semester</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="scheme">Scheme</label>
+                                    <select id="scheme" name="scheme"
+                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 outline-blue-500">
+                                        <option value="" selected disabled>Select scheme</option>
+                                        <option value="I">I</option>
+                                        <option value="K">K</option>
+                                        <!-- Add more options for other semesters -->
+                                    </select>
+                                </div>
                             </div>
                             <!-- Add other form fields here -->
                             <button type="submit"

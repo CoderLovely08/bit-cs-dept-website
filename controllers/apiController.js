@@ -487,7 +487,7 @@ export const handleDeleteGalleryImage = async (req, res) => {
  */
 export const handlePostSyllabus = async (req, res) => {
   try {
-    const { title, semesterId } = req.body;
+    const { title, semesterId, scheme } = req.body;
 
     // Check if title is valid or not
     if (!title || !validator.isAlphanumeric(title.replace(/\s/g, "").trim())) {
@@ -532,7 +532,7 @@ export const handlePostSyllabus = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeSyllabusDetails(title, semesterId, pdfSrc);
+    const dbResult = await storeSyllabusDetails(title, semesterId, scheme, pdfSrc);
 
     res.json({
       success: dbResult.success,

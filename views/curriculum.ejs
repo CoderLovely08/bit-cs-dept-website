@@ -13,6 +13,16 @@
           </li>
         </ol>
       </nav>
+      <!-- Scheme Dropdown -->
+      <div class="mt-4">
+        <label for="scheme-select" class="block text-sm font-medium text-gray-700">Select Scheme:</label>
+        <select id="scheme-select"
+          class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <option value="">All Schemes</option>
+            <option value="I">I</option>
+            <option value="K">K</option>
+        </select>
+      </div>
     </div>
   </div>
   <section id="syllabus" class="mb-12 shadow px-4 py-6 rounded-lg border">
@@ -23,14 +33,14 @@
       <!-- Syllabus cards -->
       <!-- Repeat for each semester -->
       <% for( let i = 0; i < syllabus.length; i++ ) { %>
-      <div
-        class="bg-white hover:border hover:border-blue-500 rounded-lg shadow overflow-hidden"
-      >
+              <div class="bg-white hover:border hover:border-blue-500 rounded-lg shadow overflow-hidden syllabus-card"
+                data-scheme="<%= syllabus[i].scheme %>">
         <div class="p-4">
           <h3 class="text-xl font-bold text-gray-800">
             Semester <%= syllabus[i].semester_id %>
           </h3>
           <p class="text-gray-600"><%= syllabus[i].syllabus_title %></p>
+          <p class="text-gray-600"><%= syllabus[i].scheme %> Scheme</p>
           <a
             target="_blank"
             href="<%= syllabus[i].pdf_link %>"
@@ -75,5 +85,23 @@
     </div>
   </section>
 </main>
+
+<script>
+  $(document).ready(function () {
+    $('#scheme-select').change(function () {
+      const selectedScheme = $(this).val();
+
+      $('.syllabus-card').each(function () {
+        const cardScheme = $(this).data('scheme');
+
+        if (selectedScheme === '' || selectedScheme === cardScheme) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
+  });
+</script>
 
 <%- include('partials/footer') %>

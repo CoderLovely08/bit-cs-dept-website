@@ -243,11 +243,11 @@ export const deleteItem = async (id, tableName, columnName, typeName) => {
 //              Syllabus Handlers
 // -------------------------------------------------
 
-export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
+export const storeSyllabusDetails = async (title, semesterId, scheme, pdfSrc) => {
   try {
     const query = {
-      text: `INSERT INTO SyllabusInfo(syllabus_title, semester_id, pdf_link) VALUES ($1, $2, $3)`,
-      values: [title, semesterId, pdfSrc],
+      text: `INSERT INTO SyllabusInfo(syllabus_title, semester_id, pdf_link, scheme) VALUES ($1, $2, $3, $4)`,
+      values: [title, semesterId, pdfSrc, scheme],
     };
 
     const { rowCount } = await pool.query(query);
