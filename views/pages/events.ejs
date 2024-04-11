@@ -7,13 +7,15 @@
     <!-- Paid Events card -->
     <% for( let i=0; i < paidEvents.length; i++ ) { %>
     <div
-      class="min-w-80 max-w-sm bg-white rounded-lg shadow-lg overflow-hidden"
+      class="min-w-80 max-w-sm bg-white rounded-lg shadow-lg overflow-hidden my-2"
     >
-      <img
-        class="w-full h-48 object-cover"
-        src="<%= paidEvents[i].image_link %>"
-        alt="Women's Day"
-      />
+      <a target="_blank" href="<%= paidEvents[i].image_link %>">
+        <img
+          class="w-full h-48 object-cover"
+          src="<%= paidEvents[i].image_link %>"
+          alt="Women's Day"
+        />
+      </a>
       <div class="p-4">
         <h3 class="text-xl font-semibold mb-2">
           <a href="#" class="text-blue-700 hover:text-blue-900">
@@ -25,21 +27,25 @@
         </div>
         <p class="text-gray-700"><%= paidEvents[i].event_description %></p>
       </div>
-      <div class="flex justify-between items-center">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      <div class="flex gap-2 justify-between items-center px-2 py-1">
+        <% const payment = studentPayments.find(p => p.event_id ===
+        paidEvents[i].event_id); console.log(payment) %> <% if (payment.transaction_id) { %>
+        <span
+          class="text-center px-2 py-2 rounded shadow bg-green-500 text-white w-full font-bold"
         >
-          View Details
-        </button>
+          Paid on <%= new Date(payment.created_at).toDateString() %>
+        </span>
+        <% } else { %>
         <button
-          class="pay-btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          class="pay-btn w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           data-event-id="<%= paidEvents[i].event_id %>"
           data-receiver-name="<%= paidEvents[i].receiver_name %>"
           data-upi-id="<%= paidEvents[i].upi_id %>"
-          data-amount="<%= paidEvents[i].amount%>"
+          data-amount="<%= paidEvents[i].amount %>"
         >
           Pay
         </button>
+        <% } %>
       </div>
     </div>
     <% } %>

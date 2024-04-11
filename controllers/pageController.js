@@ -1,4 +1,4 @@
-import { getAllSemesters } from "../modules/DbHelper.js";
+import { chekPaymentStatus, getAllSemesters } from "../modules/DbHelper.js";
 import {
   getAllAcademicCalendar,
   getAllLabManuals,
@@ -211,9 +211,13 @@ export const handleViewEventsPage = async (req, res) => {
       "event_id",
       "DESC"
     );
+
+    const studentPayments = await chekPaymentStatus(req.user.userId);
+    
     res.render("pages/events", {
       events,
       paidEvents,
+      studentPayments,
     });
   } catch (error) {
     res.render("404");

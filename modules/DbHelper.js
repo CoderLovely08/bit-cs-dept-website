@@ -264,7 +264,13 @@ export const storeSyllabusDetails = async (title, semesterId, pdfSrc) => {
   }
 };
 
-export const storeFacultyDetails = async (name, designation, imageSrc, experience, description) => {
+export const storeFacultyDetails = async (
+  name,
+  designation,
+  imageSrc,
+  experience,
+  description
+) => {
   try {
     const query = {
       text: `INSERT INTO FacultyInfo(faculty_name, faculty_designation ,image_link, experience, description) VALUES ($1, $2, $3, $4, 45)`,
@@ -324,7 +330,8 @@ export const storePaidEventsDetails = async (
   date,
   amount,
   eventImageUrl,
-  qrCodeImageUrl
+  receiverName,
+  upiId
 ) => {
   try {
     const query = {
@@ -335,17 +342,27 @@ export const storePaidEventsDetails = async (
         event_date,
         amount,
         image_link,
-        qr_link
-      ) VALUES ($1, $2, $3, $4, $5, $6)`,
-      values: [title, description, date, amount, eventImageUrl, qrCodeImageUrl],
+        receiver_name,
+        upi_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      values: [
+        title,
+        description,
+        date,
+        amount,
+        eventImageUrl,
+        receiverName,
+        upiId,
+      ],
     };
 
     const { rowCount } = await pool.query(query);
     return {
       success: rowCount === 1,
-      message: rowCount === 1
-        ? "Paid Event Details added successfully"
-        : "Unable to add paid event details",
+      message:
+        rowCount === 1
+          ? "Paid Event Details added successfully"
+          : "Unable to add paid event details",
     };
   } catch (error) {
     return {
@@ -354,8 +371,6 @@ export const storePaidEventsDetails = async (
     };
   }
 };
-
-
 
 export const storeLabManualDetails = async (
   title,
@@ -409,7 +424,6 @@ export const storeLabManualDetails = async (
   }
 };
 
-
 export const getAllSemesters = async () => {
   try {
     const query = {
@@ -447,6 +461,74 @@ export const postPaidEvents = async (studentId, imageLink, eventId) => {
           ? "Your payment details have been added successfully"
           : "Unable to add payment details",
     };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+export const getPaidEventsTransactionsById = async (eventId) => {
+  try {
+    const query = {
+      text: `
+        SELECT
+        	ti.student_id,
+        	si.student_name,
+        	si.semester_id,
+        	si.student_email,
+        	ti.transaction_id,
+        	ti.created_at,
+        	ti.image_link,
+        	ti.event_id
+        FROM StudentInfo si
+        JOIN TransactionsInfo ti
+        	ON ti.student_id = si.student_id
+        WHERE event_id = $1
+      `,
+      values: [eventId],
+    };
+
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+export const getPaidEventById = async (eventId) => {
+  try {
+    const query = {
+      text: `SELECT * FROM PaidEventsInfo WHERE event_id = $1`,
+      values: [eventId],
+    };
+    const { rows } = await pool.query(query);
+    return rows;
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+export const chekPaymentStatus = async (studentId) => {
+  try {
+    const query = {
+      text: `
+      SELECT pei.event_id, ti.transaction_id, ti.created_at
+      FROM PaidEventsInfo pei
+      LEFT JOIN TransactionsInfo ti
+        ON pei.event_id = ti.event_id
+        AND ti.student_id = $1`,
+      values: [studentId],
+    };
+    const { rows } = await pool.query(query);
+    return rows;
   } catch (error) {
     return {
       success: false,

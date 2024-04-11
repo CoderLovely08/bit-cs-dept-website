@@ -148,10 +148,7 @@ router
   .route("/paid-events")
   .post(
     verifyTokenMiddleware(["admin"]),
-    upload.fields([
-      { name: 'fileItem', maxCount: 1 },
-      { name: 'qrCode', maxCount: 1 }
-    ]),
+    upload.single("fileItem"),
     handlePostPaidEvents
   );
 

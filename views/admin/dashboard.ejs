@@ -378,21 +378,18 @@
                                 <div class="text-sm text-blue-500 mb-2">
                                     <%= new Date(paidEvents[i].event_date).toDateString() %>
                                 </div>
-                                <p class="text-gray-700 mb-4">
+                                <p class="text-gray-700 mb-2">
                                     <%= paidEvents[i].event_description %>
                                 </p>
-                                <div class="text-lg text-green-600 font-bold mb-2">
-                                    ₹<%= paidEvents[i].amount %>
+                                <div class="text-lg text-gray-800 font-bold mb-2">
+                                    <strong>Amount: </strong>₹<%= paidEvents[i].amount %>
                                 </div>
                                 <div class="mb-4">
-                                    <img src="<%= paidEvents[i].qr_link %>" alt="QR Code" class="w-24 h-24 mx-auto">
-                                    <p class="text-center text-xs text-gray-500 mt-2">Payment QR</p>
-                                </div>
-                                <div class="text-md text-gray-800 font-semibold mb-2">
-                                    Total Collected: ₹<%= paidEvents[i].collection_amount %>
+                                    <p class="text-center text-xs text-gray-500 mt-2">Receiver name: <strong><%= paidEvents[i].receiver_name %></strong></p>
+                                    <p class="text-center text-xs text-gray-500 mt-2">Receiver UPI ID: <strong><%= paidEvents[i].upi_id %></strong> </p>
                                 </div>
                                 <div class="text-center">
-                                    <button onclick="location.href='/payment-history/<%= paidEvents[i].id %>'"
+                                    <button onclick="location.href='/admin/paymentHistory/<%= paidEvents[i].event_id %>'"
                                         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         View Payment History
                                     </button>
@@ -436,11 +433,20 @@
                             </div>
                             <div class="flex max-sm:flex-col justify-between gap-2">
                                 <div class="mb-4 flex-grow">
-                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="qrCode">Payment QR
-                                        Code</label>
-                                    <input type="file" id="qrCode" name="qrCode" accept="image/*"
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="receiverName">Receiver's Name</label>
+                                    <input type="text" id="receiverName" name="receiverName"
+                                    placeholder="Enter receiver's name"
                                         class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                                 </div>
+                                <div class="mb-4 flex-grow">
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="upiId">Receiver's UPI Id</label>
+                                    <input type="text" id="upiId" name="upiId"
+                                    placeholder="Enter receiver's UPI Id"
+                                        class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                                </div>
+                                
+                            </div>
+                            <div class="flex max-sm:flex-col justify-between gap-2">
                                 <div class="mb-4 flex-grow">
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="fileItem">Event Image</label>
                                     <input type="file" id="fileItem" name="fileItem" accept="image/*"

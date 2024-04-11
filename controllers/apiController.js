@@ -760,7 +760,7 @@ export const handlePostEvents = async (req, res) => {
  */
 export const handlePostPaidEvents = async (req, res) => {
   try {
-    const { title, description, date, amount } = req.body;
+    const { title, description, date, amount, receiverName, upiId } = req.body;
 
     // Validate title
     if (!title || !validator.isLength(title.trim(), { min: 6 })) {
@@ -786,61 +786,47 @@ export const handlePostPaidEvents = async (req, res) => {
       });
     }
 
-    // Access the files from req.files
-    const eventImage = req.files.fileItem ? req.files.fileItem[0].buffer : null;
-    const qrCodeImage = req.files.qrCode ? req.files.qrCode[0].buffer : null;
-    console.log(eventImage, qrCodeImage);
-    if (!eventImage || !qrCodeImage) {
+    // Validate reciver's name
+    if (!receiverName || !validator.isAlpha(receiverName.replace(/\s/g, "").trim())) {
       return res.json({
         success: false,
-        message: "Both event image and QR code image are required",
+        message: "Receiver's name can only contain letters",
       });
     }
 
-    // Example of uploading files to Supabase (or your chosen file storage)
-    // Upload event image
-    const eventImageResult = await supabaseUploadFile(
-      eventImage,
-      req.files.fileItem[0].mimetype
-    );
-    if (!eventImageResult?.success) {
+    // Validate UPI ID
+    if (!upiId) {
       return res.json({
         success: false,
-        message: "Unable to upload event image",
+        message: "Invalid UPI ID",
       });
     }
 
-    // Upload QR code image
-    const qrCodeImageResult = await supabaseUploadFile(
-      qrCodeImage,
-      req.files.qrCode[0].mimetype
-    );
-    if (!qrCodeImageResult?.success) {
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
       return res.json({
         success: false,
-        message: "Unable to upload QR code image",
+        message: "No Image document provided",
       });
     }
 
-    console.log(eventImageResult, qrCodeImageResult);
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
 
-    // Get public URLs for the uploaded files
-    const eventImageSrcData = await supabaseGetFile(eventImageResult.fileName);
-    const eventImageUrl = eventImageSrcData?.publicUrl;
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to post event details",
+      });
+    }
 
-    const qrCodeImageSrcData = await supabaseGetFile(
-      qrCodeImageResult.fileName
-    );
-    const qrCodeImageUrl = qrCodeImageSrcData?.publicUrl;
-
-    console.log(
-      title,
-      description,
-      date,
-      amount,
-      eventImageUrl,
-      qrCodeImageUrl
-    );
+    const imageSrcData = await supabaseGetFile(result.fileName);
+    const imageSrc = imageSrcData?.publicUrl;
 
     // Store event details in the database
     const dbResult = await storePaidEventsDetails(
@@ -848,8 +834,9 @@ export const handlePostPaidEvents = async (req, res) => {
       description,
       date,
       amount,
-      eventImageUrl,
-      qrCodeImageUrl
+      imageSrc,
+      receiverName,
+      upiId
     );
 
     res.json({

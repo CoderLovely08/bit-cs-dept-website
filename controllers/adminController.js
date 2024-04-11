@@ -1,4 +1,9 @@
-import { getAllLabManuals, getAllPaperDetails, getAllTableData } from "../modules/pageModule.js";
+import { getPaidEventById, getPaidEventsTransactionsById } from "../modules/DbHelper.js";
+import {
+  getAllLabManuals,
+  getAllPaperDetails,
+  getAllTableData,
+} from "../modules/pageModule.js";
 
 export const handleViewAdminLogin = async (req, res) => {
   try {
@@ -9,8 +14,7 @@ export const handleViewAdminLogin = async (req, res) => {
 };
 
 export const handleViewAdminDashboard = async (req, res) => {
-  try {   
-
+  try {
     const results = await Promise.all([
       getAllTableData("FacultyInfo"),
       getAllTableData("SyllabusInfo", "semester_id"),
@@ -22,10 +26,22 @@ export const handleViewAdminDashboard = async (req, res) => {
       getAllTableData("EventsInfo", "event_id", "DESC"),
       getAllTableData("PaidEventsInfo", "event_id", "DESC"),
       getAllTableData("SubjectsInfo", "semester_id"),
-      getAllLabManuals()
+      getAllLabManuals(),
     ]);
 
-    const [faculty, syllabus, calendar, photos, question, model, sessional, events, paidEvents,subjects, manuals] = results;
+    const [
+      faculty,
+      syllabus,
+      calendar,
+      photos,
+      question,
+      model,
+      sessional,
+      events,
+      paidEvents,
+      subjects,
+      manuals,
+    ] = results;
 
     // Process and group subjects
     const groupedSubjects = new Map();
@@ -159,7 +175,14 @@ export const handleViewAdminDashboard = async (req, res) => {
     const groupedManuals = new Map();
 
     manuals.forEach((subject) => {
-      const { semester_id, subject_id, subject_name, subject_code, pdf_link_src, manual_id  } = subject;
+      const {
+        semester_id,
+        subject_id,
+        subject_name,
+        subject_code,
+        pdf_link_src,
+        manual_id,
+      } = subject;
 
       // If the semester_id is not yet in the map, add it
       if (!groupedManuals.has(semester_id)) {
@@ -172,7 +195,7 @@ export const handleViewAdminDashboard = async (req, res) => {
           manualId: manual_id,
           subjectName: subject_name,
           subjectCode: subject_code,
-          pdfLink: pdf_link_src
+          pdfLink: pdf_link_src,
         };
       }
     });
@@ -189,9 +212,29 @@ export const handleViewAdminDashboard = async (req, res) => {
       groupedSessionalData,
       events,
       paidEvents,
-      groupedManuals
+      groupedManuals,
     });
   } catch (error) {
+    res.render("404");
+  }
+};
+
+export const handleViewPaymentHistory = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+
+    const event = await getPaidEventById(eventId);
+    const transactions = await getPaidEventsTransactionsById(eventId);
+
+    const collectionAmount = transactions.length * event[0].amount;
+
+    return res.render("admin/paymentHistory", {
+      event: event[0],
+      transactions: transactions,
+      collectionAmount,
+    });
+  } catch (error) {
+    console.log(error);
     res.render("404");
   }
 };
