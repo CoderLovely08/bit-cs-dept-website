@@ -1,4 +1,7 @@
-import { getPaidEventById, getPaidEventsTransactionsById } from "../modules/DbHelper.js";
+import {
+  getPaidEventById,
+  getPaidEventsTransactionsById,
+} from "../modules/DbHelper.js";
 import {
   getAllLabManuals,
   getAllPaperDetails,
@@ -232,6 +235,23 @@ export const handleViewPaymentHistory = async (req, res) => {
       event: event[0],
       transactions: transactions,
       collectionAmount,
+    });
+  } catch (error) {
+    console.log(error);
+    res.render("404");
+  }
+};
+
+export const handleViewAdminQueriesPage = async (req, res) => {
+  try {
+    const contactQueries = await getAllTableData(
+      "ContactFormInfo",
+      "contact_id",
+      "DESC"
+    );
+
+    res.render("admin/queries", {
+      contactQueries,
     });
   } catch (error) {
     console.log(error);
