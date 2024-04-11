@@ -1,6 +1,7 @@
 import { Router } from "express"; // Import Express Router
 import {
   handleViewAboutPage,
+  handleViewContactPage,
   handleViewCurriculumPage,
   handleViewDepartmentPage,
   handleViewEventsPage,
@@ -18,6 +19,8 @@ const router = Router(); // Create an instance of Express Router
 router.route("/register").get(isLoggedIn, handleViewStudentRegister);
 
 router.route("/login").get(isLoggedIn, handleViewStudentLogin);
+
+router.route("/contact").get(handleViewContactPage);
 
 router.use(verifyTokenMiddleware(["student"]), (req, res, next) => {
   try {

@@ -213,7 +213,7 @@ export const handleViewEventsPage = async (req, res) => {
     );
 
     const studentPayments = await chekPaymentStatus(req.user.userId);
-    
+
     res.render("pages/events", {
       events,
       paidEvents,
@@ -238,6 +238,14 @@ export const handleViewStudentRegister = async (req, res) => {
 export const handleViewStudentLogin = async (req, res) => {
   try {
     res.render("student/login");
+  } catch (error) {
+    res.render("404");
+  }
+};
+
+export const handleViewContactPage = async (req, res) => {
+  try {
+    res.render("pages/contact");
   } catch (error) {
     res.render("404");
   }

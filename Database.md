@@ -152,6 +152,14 @@ CREATE TABLE TransactionsInfo(
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE ContactFormInfo (
+	contact_id SERIAL PRIMARY KEY,
+	contact_name VARCHAR,
+	contact_email VARCHAR,
+	contact_phone VARCHAR,
+	contact_message VARCHAR
+);
+
 INSERT INTO SemesterInfo(semester_name) 
 VALUES 
 ('First'),

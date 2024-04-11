@@ -22,6 +22,7 @@ import {
   handleDeleteItem,
   handlePostPaidEvents,
   handleUploadPaymentScreenshot,
+  handleContactFormSubmit,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -172,5 +173,7 @@ router
 router
   .route("/upload-payment-screenshot")
   .post(verifyTokenMiddleware(["student"]), upload.single("paymentScreenshot"), handleUploadPaymentScreenshot);
+
+router.route("/contact").post(handleContactFormSubmit)
 // Export the router
 export default router;

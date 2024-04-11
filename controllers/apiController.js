@@ -8,6 +8,7 @@ import {
   deleteItem,
   postPaidEvents,
   storeAcademicCalendarDetails,
+  storeContactFormDetails,
   storeEventsDetails,
   storeFacultyDetails,
   storeGalleryImage,
@@ -532,7 +533,12 @@ export const handlePostSyllabus = async (req, res) => {
     const pdfSrc = pdfSrcData?.publicUrl;
     // If file uplaoded
 
-    const dbResult = await storeSyllabusDetails(title, semesterId, scheme, pdfSrc);
+    const dbResult = await storeSyllabusDetails(
+      title,
+      semesterId,
+      scheme,
+      pdfSrc
+    );
 
     res.json({
       success: dbResult.success,
@@ -787,7 +793,10 @@ export const handlePostPaidEvents = async (req, res) => {
     }
 
     // Validate reciver's name
-    if (!receiverName || !validator.isAlpha(receiverName.replace(/\s/g, "").trim())) {
+    if (
+      !receiverName ||
+      !validator.isAlpha(receiverName.replace(/\s/g, "").trim())
+    ) {
       return res.json({
         success: false,
         message: "Receiver's name can only contain letters",
@@ -945,6 +954,51 @@ export const handleUploadPaymentScreenshot = async (req, res) => {
     const imageSrc = imageSrcData?.publicUrl;
 
     const dbResult = await postPaidEvents(userId, imageSrc, eventId);
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const handleContactFormSubmit = async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    // Validate name
+    if (
+      !name ||
+      !validator.isLength(name.replace(/\s/g, "").trim(), { min: 2 })
+    ) {
+      // Handle invalid name
+      return res.json({ success: false, error: "Invalid name" });
+    }
+
+    // Validate email
+    if (!email || !validator.isEmail(email.trim())) {
+      // Handle invalid email
+      return res.json({ success: false, error: "Invalid email" });
+    }
+
+    // Validate phone
+    if (!phone || !validator.isLength(phone.trim(), { min: 10 })) {
+      // Handle invalid phone
+      return res.json({ success: false, error: "Invalid phone" });
+    }
+
+    // Validate message
+    if (!message || !validator.isLength(message.trim(), { min: 1 })) {
+      // Handle invalid message
+      return res.json({ success: false, error: "Invalid message" });
+    }
+
+    const dbResult = await storeContactFormDetails(name, email, phone, message);
     res.json({
       success: dbResult.success,
       message: dbResult.message,

@@ -243,7 +243,12 @@ export const deleteItem = async (id, tableName, columnName, typeName) => {
 //              Syllabus Handlers
 // -------------------------------------------------
 
-export const storeSyllabusDetails = async (title, semesterId, scheme, pdfSrc) => {
+export const storeSyllabusDetails = async (
+  title,
+  semesterId,
+  scheme,
+  pdfSrc
+) => {
   try {
     const query = {
       text: `INSERT INTO SyllabusInfo(syllabus_title, semester_id, pdf_link, scheme) VALUES ($1, $2, $3, $4)`,
@@ -529,6 +534,41 @@ export const chekPaymentStatus = async (studentId) => {
     };
     const { rows } = await pool.query(query);
     return rows;
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};
+
+/**
+ * Store contact form details in the database.
+ * @param
+ * @returns {Promise<{success: boolean, message: string}>} An object indicating the success status and message.
+ */
+export const storeContactFormDetails = async (name, email, phone, message) => {
+  try {
+    const query = {
+      text: `
+        INSERT INTO ContactFormInfo(
+          contact_name,
+          contact_email,
+          contact_phone,
+          contact_message
+        ) VALUES ($1, $2, $3, $4)
+      `,
+      values: [name, email, phone, message],
+    };
+
+    const { rowCount } = await pool.query(query);
+    return {
+      success: rowCount == 1,
+      message:
+        rowCount == 1
+          ? "Contact form details stored"
+          : "Unable to store contact form details",
+    };
   } catch (error) {
     return {
       success: false,
