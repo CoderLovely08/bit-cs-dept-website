@@ -430,3 +430,27 @@ export const getAllSemesters = async () => {
     };
   }
 };
+
+export const postPaidEvents = async (studentId, imageLink, eventId) => {
+  try {
+    const query = {
+      text: `INSERT INTO TransactionsInfo (student_id, image_link, event_id) VALUES ($1, $2, $3)`,
+      values: [studentId, imageLink, eventId],
+    };
+
+    const { rowCount } = await pool.query(query);
+
+    return {
+      success: rowCount === 1,
+      message:
+        rowCount === 1
+          ? "Your payment details have been added successfully"
+          : "Unable to add payment details",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  }
+};

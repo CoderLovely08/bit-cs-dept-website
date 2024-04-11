@@ -21,6 +21,7 @@ import {
   handlePostLabManual,
   handleDeleteItem,
   handlePostPaidEvents,
+  handleUploadPaymentScreenshot,
 } from "../controllers/apiController.js"; // Import controller functions
 const router = Router(); // Create an instance of Express Router
 
@@ -169,5 +170,10 @@ router
 router
   .route("/delete")
   .delete(verifyTokenMiddleware(["admin"]), handleDeleteItem);
+
+
+router
+  .route("/upload-payment-screenshot")
+  .post(verifyTokenMiddleware(["student"]), upload.single("paymentScreenshot"), handleUploadPaymentScreenshot);
 // Export the router
 export default router;

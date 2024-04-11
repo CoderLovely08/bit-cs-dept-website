@@ -64,7 +64,7 @@ export const handleViewCurriculumPage = async (req, res) => {
 
     res.render("curriculum", {
       syllabus,
-      groupedManuals
+      groupedManuals,
     });
   } catch (error) {
     res.render("404");
@@ -206,24 +206,25 @@ export const handleViewGalleryPage = async (req, res) => {
 export const handleViewEventsPage = async (req, res) => {
   try {
     const events = await getAllTableData("EventsInfo", "event_id", "DESC");
-    const paidEvents = await getAllTableData("PaidEventsInfo", "event_id", "DESC");
+    const paidEvents = await getAllTableData(
+      "PaidEventsInfo",
+      "event_id",
+      "DESC"
+    );
     res.render("pages/events", {
       events,
-      paidEvents
+      paidEvents,
     });
   } catch (error) {
     res.render("404");
   }
 };
 
-
 export const handleViewStudentRegister = async (req, res) => {
   try {
-    const [semesterData] = await Promise.all([
-      getAllSemesters(),
-    ]);
+    const [semesterData] = await Promise.all([getAllSemesters()]);
     res.render("student/register", {
-      dropdownOptions: {semesterData },
+      dropdownOptions: { semesterData },
     });
   } catch (error) {
     res.render("404");

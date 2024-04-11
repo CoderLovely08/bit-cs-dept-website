@@ -6,6 +6,7 @@ import {
 } from "../middlewares/supabaseMiddleware.js"; // Import Supabase file operations middleware
 import {
   deleteItem,
+  postPaidEvents,
   storeAcademicCalendarDetails,
   storeEventsDetails,
   storeFacultyDetails,
@@ -798,7 +799,10 @@ export const handlePostPaidEvents = async (req, res) => {
 
     // Example of uploading files to Supabase (or your chosen file storage)
     // Upload event image
-    const eventImageResult = await supabaseUploadFile(eventImage, req.files.fileItem[0].mimetype);
+    const eventImageResult = await supabaseUploadFile(
+      eventImage,
+      req.files.fileItem[0].mimetype
+    );
     if (!eventImageResult?.success) {
       return res.json({
         success: false,
@@ -807,7 +811,10 @@ export const handlePostPaidEvents = async (req, res) => {
     }
 
     // Upload QR code image
-    const qrCodeImageResult = await supabaseUploadFile(qrCodeImage, req.files.qrCode[0].mimetype);
+    const qrCodeImageResult = await supabaseUploadFile(
+      qrCodeImage,
+      req.files.qrCode[0].mimetype
+    );
     if (!qrCodeImageResult?.success) {
       return res.json({
         success: false,
@@ -820,17 +827,20 @@ export const handlePostPaidEvents = async (req, res) => {
     // Get public URLs for the uploaded files
     const eventImageSrcData = await supabaseGetFile(eventImageResult.fileName);
     const eventImageUrl = eventImageSrcData?.publicUrl;
-    
-    const qrCodeImageSrcData = await supabaseGetFile(qrCodeImageResult.fileName);
+
+    const qrCodeImageSrcData = await supabaseGetFile(
+      qrCodeImageResult.fileName
+    );
     const qrCodeImageUrl = qrCodeImageSrcData?.publicUrl;
 
-
-    console.log(title,
+    console.log(
+      title,
       description,
       date,
       amount,
       eventImageUrl,
-      qrCodeImageUrl);
+      qrCodeImageUrl
+    );
 
     // Store event details in the database
     const dbResult = await storePaidEventsDetails(
@@ -850,7 +860,6 @@ export const handlePostPaidEvents = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
 
 // -------------------------------------------------
 //              Lab Manual Handlers
@@ -908,5 +917,56 @@ export const handleDeleteItem = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const handleUploadPaymentScreenshot = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { eventId } = req.body;
+
+    if (!eventId || !validator.isInt(eventId)) {
+      return res.json({
+        success: false,
+        message: "Event Id is missing",
+      });
+    }
+    // Extract file buffer and type from request
+    const fileBuffer = req.file.buffer;
+
+    if (!req?.file?.buffer) {
+      return res.json({
+        success: false,
+        message: "No screenshot provided",
+      });
+    }
+
+    const fileType = req.file.mimetype;
+    // Upload question paper file to Supabase
+    const result = await supabaseUploadFile(fileBuffer, fileType);
+    // Further processing can be added here
+
+    // If file upload failed
+    if (!result?.success) {
+      return res.json({
+        success: false,
+        message: "Unable to upload screenshot",
+      });
+    }
+
+    const imageSrcData = await supabaseGetFile(result.fileName);
+    const imageSrc = imageSrcData?.publicUrl;
+
+    const dbResult = await postPaidEvents(userId, imageSrc, eventId);
+    res.json({
+      success: dbResult.success,
+      message: dbResult.message,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
